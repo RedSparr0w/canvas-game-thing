@@ -1,6 +1,9 @@
+import { Settings } from './utilities/Settings';
+import { MAP_TILE_SIZE } from './GameConstants';
+
 export const canvas = document.querySelector('canvas');
 
-canvas.height = 600;
+canvas.height = Settings.map.height * MAP_TILE_SIZE + 120;
 // eslint-disable-next-line import/no-mutable-exports
 export let scale = window.innerHeight / canvas.height;
 canvas.width = Math.floor(window.innerWidth / scale);

@@ -1,13 +1,20 @@
 /* eslint-disable max-len */
 import PF from 'pathfinding';
 
-export const bestFirstFinder = new PF.BestFirstFinder();
-const height = 10;
+// Use a few path finders for some "randomness"
+export const PathFinders = [
+  new PF.AStarFinder(),
+  new PF.AStarFinder({
+    heuristic: PF.Heuristic.euclidean,
+    weight: 2,
+  }),
+  new PF.BestFirstFinder(),
+];
 export const Maps = {
   route1: {
     image: './assets/images/map/route1.png',
     image_top: './assets/images/map/route1_top.png',
-    height,
+    height: 10,
     width: 100,
     collisions: new PF.Grid([
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -38,5 +45,5 @@ export const Maps = {
 
 Object.assign(<any>window, {
   Maps,
-  bestFirstFinder,
+  PathFinders,
 });

@@ -4,7 +4,7 @@ import { Settings, fpsGraph } from './utilities/Settings';
 import { loadImage } from './utilities/Functions';
 import { PokemonList, Pokemon } from './pokemons/Pokemon';
 import Cursor from './Cursor';
-import { CURSOR_TILE_SIZE } from './GameConstants';
+import { MAP_TILE_SIZE, CURSOR_TILE_SIZE } from './GameConstants';
 
 const images = [];
 
@@ -36,9 +36,10 @@ window.onload = async () => {
       PokemonList.push(new Pokemon('Rattata', 19));
       return;
     }
-
-    dragStart = event.pageX;
-    drag = true;
+    if (inBounds(x, y, 0, 0, Settings.map.width * MAP_TILE_SIZE, Settings.map.height * MAP_TILE_SIZE)) {
+      dragStart = event.pageX;
+      drag = true;
+    }
   });
   document.addEventListener('mousemove', (event) => {
     const x = Math.floor(event.pageX / scale);

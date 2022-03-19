@@ -1,7 +1,8 @@
 import { loadImage } from '../utilities/Functions';
 import { Settings } from '../utilities/Settings';
+import Rand from '../utilities/Rand';
 import { canvas, context } from '../Canvas';
-import { bestFirstFinder } from '../Maps';
+import { PathFinders } from '../Maps';
 import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
 
 export enum PokemonDirection {
@@ -59,7 +60,7 @@ export class Pokemon {
     const distY = Math.abs(y - destY);
     if (distX + distY <= 1) return;
 
-    const paths = bestFirstFinder.findPath(x, y, destX, destY, Settings.map.collisions.clone());
+    const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, Settings.map.collisions.clone());
     this.paths.push(...paths.splice(1, 5));
 
     // If we aren't moving at all, set status to idle
