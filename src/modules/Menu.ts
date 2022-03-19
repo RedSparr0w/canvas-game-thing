@@ -6,8 +6,16 @@ export default class Menu {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static draw(delta: number) {
-    // Button
-    UI.drawButton(canvas.width / 2, canvas.height / 2, { position: ButtonPosition.center, style: ButtonStyle.outline, color: ButtonColor.blue });
-    UI.drawButton(canvas.width / 2 + 80, canvas.height / 2, { position: ButtonPosition.center, style: ButtonStyle.solid, color: ButtonColor.blue });
+    // Buttons
+    UI.drawButton(canvas.width / 2, canvas.height / 2, {
+      position: ButtonPosition.center,
+      style: ButtonStyle.outline,
+      color: ButtonColor.blue,
+    });
+    UI.drawButton(canvas.width / 2, canvas.height / 2 + 60, {
+      position: ButtonPosition.center,
+      style: ButtonStyle.solid,
+      color: ButtonColor.blue,
+    });
   }
 }
