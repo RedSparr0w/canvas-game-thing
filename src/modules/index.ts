@@ -1,9 +1,10 @@
 import './temporaryWindowInjection';
 import { scale, canvas, context } from './Canvas';
-import { Settings, Values, fpsGraph } from './utilities/Settings';
+import { Settings, fpsGraph } from './utilities/Settings';
 import { loadImage } from './utilities/Functions';
 import { PokemonList, Pokemon } from './pokemons/Pokemon';
 import Cursor from './Cursor';
+import { CURSOR_TILE_SIZE } from './GameConstants';
 
 const images = [];
 
@@ -99,7 +100,7 @@ window.onload = async () => {
     /*
     MOUSE
     */
-    context.drawImage(Cursor.image, Cursor.pointer.x, Cursor.pointer.y, Settings.cursor_size, Settings.cursor_size, Cursor.x - 10, Cursor.y - 20, Settings.cursor_size, Settings.cursor_size);
+    context.drawImage(Cursor.image, Cursor.pointer.x, Cursor.pointer.y, CURSOR_TILE_SIZE, CURSOR_TILE_SIZE, Cursor.x - 10, Cursor.y - 20, CURSOR_TILE_SIZE, CURSOR_TILE_SIZE);
   };
 
   // the last frame time
@@ -107,7 +108,7 @@ window.onload = async () => {
     fpsGraph.begin();
     const delta = time - frame;
     // skip the frame if the call is too early
-    if (delta < Values.mspf) {
+    if (delta < Settings.mspf) {
       requestAnimationFrame(update);
       return;
     }

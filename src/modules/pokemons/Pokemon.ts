@@ -2,8 +2,8 @@ import { loadImage } from '../utilities/Functions';
 import { Settings } from '../utilities/Settings';
 import { canvas, context } from '../Canvas';
 import { bestFirstFinder } from '../Maps';
+import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
 
-const pokemonTileSize = 64;
 export enum PokemonDirection {
   down = 0,
   left = 1,
@@ -45,8 +45,8 @@ export class Pokemon {
     const x = x_ ?? this.currentPosition.x;
     const y = y_ ?? this.currentPosition.y;
     return {
-      x: Math.floor((x + 0.5) * Settings.tile_size) - (pokemonTileSize * 0.5) - Settings.camera,
-      y: Math.floor((y - 0.4) * Settings.tile_size),
+      x: Math.floor((x + 0.5) * MAP_TILE_SIZE) - (POKEMON_TILE_SIZE * 0.5) - Settings.camera,
+      y: Math.floor((y - 0.4) * MAP_TILE_SIZE),
     };
   }
 
@@ -89,16 +89,16 @@ export class Pokemon {
       const timePassed = this.frame - this.startMovementFrame;
       const [newX, newY] = this.paths[0];
       if (this.currentPosition.x < newX) { // right
-        x += Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        x += Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
         this.direction = PokemonDirection.right;
       } else if (this.currentPosition.x > newX) { // left
-        x -= Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        x -= Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
         this.direction = PokemonDirection.left;
       } else if (this.currentPosition.y < newY) { // down
-        y += Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        y += Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
         this.direction = PokemonDirection.down;
       } else if (this.currentPosition.y > newY) { // up
-        y -= Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        y -= Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
         this.direction = PokemonDirection.up;
       }
 
@@ -114,10 +114,14 @@ export class Pokemon {
       }
     }
 
+    // Floor our values
+    x = Math.floor(x);
+    y = Math.floor(y);
+
     // If pokemon out of frame, we don't need to draw it
-    if (x + pokemonTileSize <= 0 && x >= canvas.width) return;
+    if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
     const column = this.action === PokemonAction.idle ? 0 : Math.floor(this.frame / 250) % 4;
-    context.drawImage(this.image, column * pokemonTileSize, this.direction * pokemonTileSize, pokemonTileSize, pokemonTileSize, Math.floor(x), Math.floor(y), pokemonTileSize, pokemonTileSize);
+    context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
   }
 }
 

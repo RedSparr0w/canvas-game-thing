@@ -1,16 +1,23 @@
+// TIME VALUES
 export const SECOND = 1000;
 export const MINUTE = SECOND * 60;
 export const HOUR = MINUTE * 60;
 export const DAY = HOUR * 24;
 export const WEEK = DAY * 7;
 
-// Ticks
+// TICKS
 export const SAVE_TICK = 10 * SECOND;
 
+// SPRITES
+export const MAP_TILE_SIZE = 48;
+export const POKEMON_TILE_SIZE = 64;
+export const CURSOR_TILE_SIZE = 32;
+
+// ROAMERS
 export const ROAMING_MIN_CHANCE = 8192;
 export const ROAMING_MAX_CHANCE = 4096;
 
-// Shinies
+// SHINY
 export const SHINY_CHANCE = 8192;
 
 /*
