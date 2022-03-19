@@ -2,23 +2,19 @@
 import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
-import Menu from './Menu';
+// import Menu from './Menu';
 import UI from './UI';
 import { fpsGraph, Settings } from './utilities/Settings';
 
 export default class App {
-  public static game: Game = new Game();
-  public static menu: Menu = new Menu();
-  public static cursor: Cursor = new Cursor();
-  public static ui: UI = new UI();
   // our standarad variables
   public static frame = 0;
 
   public static async load() {
-    await App.cursor.load();
-    await App.ui.load();
-    // await App.menu.load();
-    await App.game.load();
+    await Cursor.load();
+    await UI.load();
+    // await Menu.load();
+    await Game.load();
     // Start drawing to canvas
     requestAnimationFrame(App.draw);
   }
@@ -40,7 +36,7 @@ export default class App {
     App.drawFunction(delta);
 
     // Draw our cursor last so it is on top of everything
-    App.cursor.draw(delta);
+    Cursor.draw(delta);
 
     // Update last frame time
     App.frame = time;
@@ -50,5 +46,5 @@ export default class App {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static drawFunction = (delta: number) => App.game.draw(delta);
+  private static drawFunction = (delta: number) => Game.draw(delta);
 }

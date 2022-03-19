@@ -15,25 +15,25 @@ export const CursorStyle = {
 
 export default class Cursor {
   // Our cursor sprite sheet
-  public image = null;
-  public style = CursorStyle.pointer;
+  static image = null;
+  static style = CursorStyle.pointer;
   // Cursor positioning
-  public x = 0;
-  public y = 0;
+  static x = 0;
+  static y = 0;
   // Cursor types
 
-  public async load() {
+  static async load() {
     this.image = await loadImage('./assets/images/ui/cursor.png');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public draw(delta: number) {
+  static draw(delta: number) {
     // Draw the cursor on the screen
     context.drawImage(this.image, this.style.x, this.style.y, CURSOR_TILE_SIZE, CURSOR_TILE_SIZE, this.x - 10, this.y - 20, CURSOR_TILE_SIZE, CURSOR_TILE_SIZE);
   }
 
   // Returns if the cursor is over an object
-  public inBounds(minX, minY, width, height):boolean {
+  static inBounds(minX, minY, width, height):boolean {
     const maxX = minX + width;
     const maxY = minY + height;
     return this.x >= minX && this.x <= maxX && this.y >= minY && this.y <= maxY;
