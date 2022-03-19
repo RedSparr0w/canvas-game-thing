@@ -10,6 +10,7 @@ export const PathFinders = [
   }),
   new PF.BestFirstFinder(),
 ];
+
 export const Maps = {
   route1: {
     image: './assets/images/map/route1.png',
@@ -42,8 +43,3 @@ export const Maps = {
     },
   },
 };
-
-Object.assign(<any>window, {
-  Maps,
-  PathFinders,
-});
