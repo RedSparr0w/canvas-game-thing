@@ -1,7 +1,7 @@
 {
-  "name": "pokeclicker",
-  "version": "0.8.15",
-  "description": "PokéClicker repository",
+  "name": "canvas-game-thing",
+  "version": "0.0.1",
+  "description": "canvas-game-thing repository",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pokeclicker/pokeclicker.git"
+    "url": "git+https://github.com/redsparr0w/canvas-game-thing.git"
   },
   "babel": {
     "presets": [
@@ -24,19 +24,16 @@
   "author": "RedSparr0w",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pokeclicker/pokeclicker/issues"
+    "url": "https://github.com/redsparr0w/canvas-game-thing/issues"
   },
-  "homepage": "https://github.com/pokeclicker/pokeclicker#readme",
+  "homepage": "https://github.com/redsparr0w/canvas-game-thing#readme",
   "devDependencies": {
     "@tweakpane/core": "^1.0.8",
     "@types/gtag.js": "0.0.4",
-    "@types/jquery": "^3.5.2",
-    "@types/sortablejs": "^1.10.5",
-    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
-    "bootstrap-notify": "^3.1.3",
     "browser-sync": "^2.26.12",
     "cross-env": "^7.0.2",
     "del": "^5.1.0",
@@ -65,7 +62,6 @@
     "gulp-strip-debug": "^3.0.0",
     "gulp-typescript": "^5.0.1",
     "gulp-util": "^3.0.7",
-    "husky": "^4.3.0",
     "natives": "^1.1.6",
     "ts-loader": "^8.0.4",
     "typescript": "^3.7.4",
@@ -75,19 +71,9 @@
   },
   "dependencies": {
     "@tweakpane/plugin-essentials": "^0.1.4",
-    "@types/bootstrap": "^4.3.1",
-    "@types/bootstrap-notify": "^3.1.34",
-    "@types/intro.js": "^2.4.7",
-    "@types/knockout": "^3.4.66",
-    "@typescript-eslint/parser": "^3.6.1",
-    "bootstrap": "^4.5.3",
+    "@typescript-eslint/parser": "^4.0.0",
     "eslint": "^7.4.0",
-    "intro.js": "^2.9.3",
-    "jquery": "^3.5.1",
-    "knockout": "^3.5.1",
     "pathfinding": "^0.4.18",
-    "popper.js": "^1.16.0",
-    "sortablejs": "^1.10.2",
     "tweakpane": "^3.0.7"
   }
 }
