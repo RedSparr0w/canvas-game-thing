@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-cycle
+import App from './App';
 import { canvas, context } from './Canvas';
 import { Maps } from './Maps';
 import { PokemonList } from './pokemons/Pokemon';
@@ -31,6 +33,8 @@ export default class Game {
     */
     drawFrame(0, 480, canvas.width, 120);
     // Button
+    App.ui.drawButton(6, canvas.height - 114, 'blue');
+    App.ui.drawButton(56, canvas.height - 114, 'blue');
     // if (!inBounds(Cursor.x, Cursor.y, 84, canvas.height - images[2].height - 65, images[2].width, images[2].height)) {
     //   context.drawImage(images[2], 84, canvas.height - images[2].height - 65);
     // } else {

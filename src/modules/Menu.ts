@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-cycle
+import App from './App';
 import { loadImage } from './utilities/Functions';
 
 export default class Menu {

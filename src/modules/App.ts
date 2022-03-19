@@ -2,17 +2,20 @@ import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
 import Menu from './Menu';
+import UI from './UI';
 import { fpsGraph, Settings } from './utilities/Settings';
 
 export default class App {
   public static game: Game = new Game();
   public static menu: Menu = new Menu();
   public static cursor: Cursor = new Cursor();
+  public static ui: UI = new UI();
   // our standarad variables
   public static frame = 0;
 
   public static async load() {
     await App.cursor.load();
+    await App.ui.load();
     await App.menu.load();
     await App.game.load();
     // Start drawing to canvas
