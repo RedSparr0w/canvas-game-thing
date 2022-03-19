@@ -39,6 +39,13 @@ export default class UI {
     position = ButtonPosition.top_left,
     style = ButtonStyle.outline,
     color = ButtonColor.blue,
+    image = null,
+    image_settings = {
+      cropX: 0,
+      cropY: 0,
+      sizeX: 0,
+      sizeY: 0,
+    },
   }) {
     let x = posX;
     let y = posY;
@@ -80,5 +87,15 @@ export default class UI {
 
     context.drawImage(buttonImage, x, y);
     context.filter = 'none';
+
+    // Draw our text if we have some
+    if (image) {
+      const imgX = x+2;// + Math.floor(buttonImage.width / 2) - Math.floor(image_settings.sizeX / 2);
+      const imgY = y-3;// + Math.floor(buttonImage.height / 2) - Math.floor(image_settings.sizeY / 2);
+      // context.drawImage(image, imgX, imgY);
+      // context.fillStyle = '#222';
+      // context.fillRect(imgX, imgY, image_settings.sizeX, image_settings.sizeY);
+      context.drawImage(image, image_settings.cropX, image_settings.cropY, image_settings.sizeX, image_settings.sizeY, imgX, imgY, buttonImage.width - 4, buttonImage.width - 4);
+    }
   }
 }
