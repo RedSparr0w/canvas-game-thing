@@ -16,7 +16,7 @@ export default class App {
   public static async load() {
     await App.cursor.load();
     await App.ui.load();
-    await App.menu.load();
+    // await App.menu.load();
     await App.game.load();
     // Start drawing to canvas
     requestAnimationFrame(App.draw);
