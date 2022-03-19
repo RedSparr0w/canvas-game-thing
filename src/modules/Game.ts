@@ -32,12 +32,12 @@ export default class Game {
     */
     drawFrame(0, 480, canvas.width, 120);
     // Button
-    UI.drawButton(6, canvas.height - 114, ButtonStyle.outline, ButtonColor.green);
-    UI.drawButton(60, canvas.height - 114, ButtonStyle.outline, ButtonColor.red);
-    UI.drawButton(114, canvas.height - 114, ButtonStyle.outline, ButtonColor.blue);
-    UI.drawButton(168, canvas.height - 114, ButtonStyle.outline, ButtonColor.orange);
-    UI.drawButton(222, canvas.height - 114, ButtonStyle.outline, ButtonColor.pink);
-    UI.drawButton(276, canvas.height - 114, ButtonStyle.outline, ButtonColor.purple);
+    UI.drawButton(6, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.blue });
+    UI.drawButton(60, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.purple });
+    UI.drawButton(114, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.pink });
+    UI.drawButton(168, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.red });
+    UI.drawButton(222, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.orange });
+    UI.drawButton(276, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.green });
     // if (!inBounds(Cursor.x, Cursor.y, 84, canvas.height - images[2].height - 65, images[2].width, images[2].height)) {
     //   context.drawImage(images[2], 84, canvas.height - images[2].height - 65);
     // } else {

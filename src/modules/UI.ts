@@ -2,13 +2,21 @@ import { context } from './Canvas';
 import Cursor from './Cursor';
 import { loadImage } from './utilities/Functions';
 
+export enum ButtonPosition {
+  top_left,
+  top_right,
+  bottom_left,
+  bottom_right,
+  center,
+}
+
 export enum ButtonStyle {
   outline = 'outline',
   solid = 'solid',
 }
 
 export enum ButtonColor {
-  blue = 'none',
+  blue = 'hue-rotate(0deg)',
   purple = 'hue-rotate(58deg)',
   pink = 'hue-rotate(108deg)',
   red = 'hue-rotate(158deg)',
@@ -27,14 +35,50 @@ export default class UI {
     this.images.solid_button_pressed = await loadImage('./assets/images/ui/solid_button_pressed.png');
   }
 
-  static drawButton(x: number, y: number, style = ButtonStyle.outline, color = ButtonColor.blue) {
+  static drawButton(posX: number, posY: number, {
+    position = ButtonPosition.top_left,
+    style = ButtonStyle.outline,
+    color = ButtonColor.blue,
+  }) {
+    let x = posX;
+    let y = posY;
+
+    // Load our image
     const buttonImage = this.images[`${style}_button`];
-    context.filter = color;
-    if (!Cursor.inBounds(x, y, buttonImage.width, buttonImage.height)) {
-      context.drawImage(buttonImage, x, y);
-    } else {
-      context.drawImage(this.images[`${style}_button_pressed`], x, y);
+
+    // eslint-disable-next-line default-case
+    switch (position) {
+      case ButtonPosition.top_right:
+        x -= buttonImage.width;
+        break;
+      case ButtonPosition.bottom_left:
+        y -= buttonImage.height;
+        break;
+      case ButtonPosition.bottom_right:
+        x -= buttonImage.width;
+        y -= buttonImage.height;
+        break;
+      case ButtonPosition.center:
+        x -= buttonImage.width / 2;
+        y -= buttonImage.height / 2;
+        break;
     }
+
+    // Round our x and y values
+    x = Math.round(x);
+    y = Math.round(y);
+
+    // Apply color
+    context.filter = color;
+
+    // On hover, apply filter effects
+    if (Cursor.inBounds(x, y, buttonImage.width, buttonImage.height)) {
+      // context.filter += ' drop-shadow(0px 0px 1px #fefefe)';
+      // context.filter += ' contrast(110%)';
+      context.filter += ' brightness(105%)';
+    }
+
+    context.drawImage(buttonImage, x, y);
     context.filter = 'none';
   }
 }

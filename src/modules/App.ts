@@ -2,7 +2,7 @@
 import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
-// import Menu from './Menu';
+import Menu from './Menu';
 import UI from './UI';
 import { fpsGraph, Settings } from './utilities/Settings';
 
@@ -46,5 +46,5 @@ export default class App {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static drawFunction = (delta: number) => Game.draw(delta);
+  private static drawFunction = (delta: number) => Menu.draw(delta);
 }
