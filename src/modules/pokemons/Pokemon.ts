@@ -4,39 +4,35 @@ import { canvas, context } from '../Canvas';
 import { bestFirstFinder } from '../Maps';
 
 const pokemonTileSize = 64;
-export enum pokemonDirection {
+export enum PokemonDirection {
   down = 0,
   left = 1,
   right = 2,
   up = 3,
-};
-export enum pokemonAction {
+}
+export enum PokemonAction {
   idle = 0,
   moving = 1,
   attacking = 2,
   defending = 3,
-};
+}
 
 export class Pokemon {
   public image: HTMLImageElement;
-  private frame = 0;
-  private action = pokemonAction.moving;
   // Movement
   public speed = 1500;
-  public direction = pokemonDirection.right;
+  public direction = PokemonDirection.right;
   public currentPosition = {
     x: Settings.map.player.spawn.x - 1,
     y: Settings.map.player.spawn.y,
-  }
-  public paths = [
-    [Settings.map.player.spawn.x, Settings.map.player.spawn.y]
-  ]
+  };
+  public paths = [[Settings.map.player.spawn.x, Settings.map.player.spawn.y]];
   public startMovementFrame = 0;
 
-  constructor(
-    public name: string,
-    public id: number,
-  ) {
+  private frame = 0;
+  private action = PokemonAction.moving;
+
+  constructor(public name: string, public id: number) {
     this.loadImage();
     this.speed = 1500 - Math.floor(Math.random() * 1000);
   }
@@ -45,24 +41,23 @@ export class Pokemon {
     this.image = await loadImage(`./assets/images/pokemon/${`${this.id}`.padStart(3, '0')}.png`);
   }
 
-  posToCanvas(x: number = undefined, y: number = undefined) {
-    x = x ?? this.currentPosition.x;
-    y = y ?? this.currentPosition.x;
+  posToCanvas(x_?: number, y_?: number) {
+    const x = x_ ?? this.currentPosition.x;
+    const y = y_ ?? this.currentPosition.y;
     return {
       x: Math.floor((x + 0.5) * Settings.tile_size) - (pokemonTileSize * 0.5) - Settings.camera,
       y: Math.floor((y - 0.4) * Settings.tile_size),
-    }
+    };
   }
 
   moveToNewPosition() {
-    const x = this.currentPosition.x;
-    const y = this.currentPosition.y;
+    const { x } = this.currentPosition;
+    const { y } = this.currentPosition;
     const destX = Settings.map.enemy.spawn.x;
     const destY = Settings.map.enemy.spawn.y;
     const distX = Math.abs(x - destX);
     const distY = Math.abs(y - destY);
     if (distX + distY <= 1) return;
-
 
     const paths = bestFirstFinder.findPath(x, y, destX, destY, Settings.map.collisions.clone());
     this.paths.push(...paths.splice(1, 5));
@@ -70,7 +65,7 @@ export class Pokemon {
     // If we aren't moving at all, set status to idle
     if (!this.paths.length) return;
 
-    this.action = pokemonAction.moving;
+    this.action = PokemonAction.moving;
     this.startMovementFrame = this.frame;
   }
 
@@ -83,9 +78,9 @@ export class Pokemon {
     this.frame += delta;
 
     let { x, y } = this.posToCanvas(this.currentPosition.x, this.currentPosition.y);
-    
+
     // If we aren't doing anything, check what we should do
-    if (this.action == pokemonAction.idle) {
+    if (this.action === PokemonAction.idle) {
       this.think();
     }
 
@@ -94,20 +89,17 @@ export class Pokemon {
       const timePassed = this.frame - this.startMovementFrame;
       const [newX, newY] = this.paths[0];
       if (this.currentPosition.x < newX) { // right
-        x += Math.min(Settings.tile_size, timePassed / this.speed * Settings.tile_size);
-        this.direction = pokemonDirection.right;
-      }
-      else if (this.currentPosition.x > newX) { // left
-        x -= Math.min(Settings.tile_size, timePassed / this.speed * Settings.tile_size);
-        this.direction = pokemonDirection.left;
-      }
-      else if (this.currentPosition.y < newY) { // down
-        y += Math.min(Settings.tile_size, timePassed / this.speed * Settings.tile_size);
-        this.direction = pokemonDirection.down;
-      }
-      else if (this.currentPosition.y > newY) { // up
-        y -= Math.min(Settings.tile_size, timePassed / this.speed * Settings.tile_size);
-        this.direction = pokemonDirection.up;
+        x += Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        this.direction = PokemonDirection.right;
+      } else if (this.currentPosition.x > newX) { // left
+        x -= Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        this.direction = PokemonDirection.left;
+      } else if (this.currentPosition.y < newY) { // down
+        y += Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        this.direction = PokemonDirection.down;
+      } else if (this.currentPosition.y > newY) { // up
+        y -= Math.min(Settings.tile_size, (timePassed / this.speed) * Settings.tile_size);
+        this.direction = PokemonDirection.up;
       }
 
       // Update our current position
@@ -115,17 +107,16 @@ export class Pokemon {
         this.startMovementFrame = this.frame;
         this.currentPosition.x = newX;
         this.currentPosition.y = newY;
-        this.paths.splice(0,1);
+        this.paths.splice(0, 1);
         if (!this.paths.length) {
-          this.action = pokemonAction.idle;
+          this.action = PokemonAction.idle;
         }
       }
     }
 
-
     // If pokemon out of frame, we don't need to draw it
     if (x + pokemonTileSize <= 0 && x >= canvas.width) return;
-    const column = this.action == pokemonAction.idle ? 0 : Math.floor(this.frame / 250) % 4;
+    const column = this.action === PokemonAction.idle ? 0 : Math.floor(this.frame / 250) % 4;
     context.drawImage(this.image, column * pokemonTileSize, this.direction * pokemonTileSize, pokemonTileSize, pokemonTileSize, Math.floor(x), Math.floor(y), pokemonTileSize, pokemonTileSize);
   }
 }

@@ -10,12 +10,12 @@ import GenericProxy from './utilities/GenericProxy';
 import * as Settings from './utilities/Settings';
 
 Object.assign(<any>window, {
-    Settings,
-    GameConstants,
-    PokemonType,
-    SeededRand,
-    Rand,
-    LevelType,
-    levelRequirements,
-    GenericProxy,
+  Settings,
+  GameConstants,
+  PokemonType,
+  SeededRand,
+  Rand,
+  LevelType,
+  levelRequirements,
+  GenericProxy,
 });

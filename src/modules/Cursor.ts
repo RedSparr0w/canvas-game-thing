@@ -1,7 +1,7 @@
-import { Settings, Values, fpsGraph } from './utilities/Settings';
+import { Settings } from './utilities/Settings';
 import { loadImage } from './utilities/Functions';
 
-export class Cursor {
+export default class Cursor {
   // Our cursor sprite sheet
   public static image = null;
   // Cursor positioning
@@ -20,7 +20,7 @@ export class Cursor {
   public static async load() {
     this.image = await loadImage('./assets/images/ui/cursor.png');
   }
-};
+}
 
 // Load our cursor image
 Cursor.load();

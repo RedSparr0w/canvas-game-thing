@@ -1,72 +1,72 @@
 // TODO: Add settings for volume etc
 export default class Sound {
-    public sound = document.createElement('audio');
-    public name: string;
-    public initialized = false;
+  public sound = document.createElement('audio');
+  public name: string;
+  public initialized = false;
+  public src: string;
 
-    constructor(fileName: string, soundName: string) {
-        const src = `assets/sounds/${fileName}.mp3`;
-        this.name = soundName;
-        this.sound.setAttribute('preload', 'auto');
-        this.sound.setAttribute('controls', 'none');
-        this.sound.style.display = 'none';
-        // Wait until the document is loaded before moving the sound to the body
-        $(() => {
-            document.body.appendChild(this.sound);
-            // Set as initialized now, incase the user is on Desktop and hasn't clicked anywhere yet
-            this.initialized = true;
-            // This is needed to be able to play sounds on mobile devices
-            $(document).one('click', () => {
-                this.sound.play().finally(() => {
-                    this.sound.pause();
-                    this.sound.src = src;
-                });
-                setTimeout(() => {
-                    this.sound.pause();
-                    this.sound.src = src;
-                }, 1000);
-            });
+  constructor(fileName: string, soundName: string) {
+    this.src = `assets/sounds/${fileName}.mp3`;
+    this.name = soundName;
+    this.sound.setAttribute('preload', 'auto');
+    this.sound.setAttribute('controls', 'none');
+    this.sound.style.display = 'none';
+    // Wait until the document is loaded before moving the sound to the body
+    this.load();
+  }
 
-            this.updateVolume(1);
+  load() {
+    try {
+      document.body.appendChild(this.sound);
+      // Set as initialized now, incase the user is on Desktop and hasn't clicked anywhere yet
+      this.initialized = true;
+      // This is needed to be able to play sounds on mobile devices
+      document.addEventListener('click', () => {
+        this.sound.play().finally(() => {
+          this.sound.pause();
+          this.sound.src = this.src;
         });
-    }
+        setTimeout(() => {
+          this.sound.pause();
+          this.sound.src = this.src;
+        }, 1000);
+      }, { once: true });
 
-    updateVolume(value: number) {
-        try {
-            this.sound.volume = value / 100;
-        } catch (e) {
-            console.error(`Error updating volume for ${this.name}:\n`, e);
-        }
+      this.updateVolume(1);
+    } catch (e) {
+      setTimeout(this.load, 500);
     }
+  }
 
-    play() {
-        if (this.initialized && this.canPlay()) {
-            this.sound.play();
-        }
+  updateVolume(value: number) {
+    try {
+      this.sound.volume = value / 100;
+    } catch (e) {
+      console.error(`Error updating volume for ${this.name}:\n`, e);
     }
+  }
 
-    stop() {
-        if (this.initialized) {
-            this.sound.pause();
-        }
+  play() {
+    if (this.initialized) {
+      this.sound.play();
     }
+  }
 
-    remove() {
-        if (this.initialized) {
-            this.sound.remove();
-        }
+  stop() {
+    if (this.initialized) {
+      this.sound.pause();
     }
+  }
 
-    canPlay() {
-        const setting = { value: true };
-        if (!setting) {
-            return true;
-        }
-        return !!setting.value;
+  remove() {
+    if (this.initialized) {
+      this.sound.remove();
     }
-    toJSON() {
-        return {
-            name: this.name,
-        };
-    }
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+    };
+  }
 }

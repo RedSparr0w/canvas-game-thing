@@ -7,8 +7,8 @@
     "start": "cross-env NODE_ENV=development gulp",
     "test": "npm run ts-test && npm run eslint",
     "ts-test": "gulp scripts",
-    "eslint": "eslint --ext ts ./src/scripts ./src/modules",
-    "eslint-fix": "eslint --ext ts --fix ./src/scripts ./src/modules",
+    "eslint": "eslint --ext ts ./src/modules",
+    "eslint-fix": "eslint --ext ts --fix ./src/modules",
     "website": "npm test && cross-env NODE_ENV=production gulp website",
     "publish": "npm test && git push origin develop:master"
   },

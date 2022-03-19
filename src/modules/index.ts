@@ -3,7 +3,7 @@ import { scale, canvas, context } from './Canvas';
 import { Settings, Values, fpsGraph } from './utilities/Settings';
 import { loadImage } from './utilities/Functions';
 import { PokemonList, Pokemon } from './pokemons/Pokemon';
-import { Cursor } from './Cursor';
+import Cursor from './Cursor';
 
 const images = [];
 
@@ -19,7 +19,6 @@ const loadImages = async () => {
 };
 
 window.onload = async () => {
-
   let drag = false;
   let dragStart;
   let dragEnd;
@@ -28,8 +27,8 @@ window.onload = async () => {
     const maxX = minX + width;
     const maxY = minY + height;
     return x >= minX && x <= maxX && y >= minY && y <= maxY;
-  }
-  document.addEventListener('mousedown', function(event) {
+  };
+  document.addEventListener('mousedown', (event) => {
     const x = Math.floor(event.pageX / scale);
     const y = Math.floor(event.pageY / scale);
     if (inBounds(x, y, 84, canvas.height - images[2].height - 65, images[2].width, images[2].height)) {
@@ -40,7 +39,7 @@ window.onload = async () => {
     dragStart = event.pageX;
     drag = true;
   });
-  document.addEventListener('mousemove', function(event) {
+  document.addEventListener('mousemove', (event) => {
     const x = Math.floor(event.pageX / scale);
     const y = Math.floor(event.pageY / scale);
     if (drag) {
@@ -53,15 +52,15 @@ window.onload = async () => {
     Cursor.x = x;
     Cursor.y = y;
   });
-  document.addEventListener('mouseup', function(event) {
+  document.addEventListener('mouseup', () => {
     drag = false;
   });
-  document.addEventListener('wheel', function(event) {
+  document.addEventListener('wheel', (event) => {
     const movement = event.deltaY / 5;
     if (!movement) return;
     Settings.camera = Math.max(0, Math.min(4800 - canvas.width, Settings.camera + movement));
   });
-  
+
   await loadImages();
 
   const drawFrame = (x, y, width, height, color = '#1EA7E1') => {
@@ -81,11 +80,11 @@ window.onload = async () => {
     Draw our game map
     */
     context.drawImage(images[0], -Settings.camera, 0);
-    PokemonList.forEach(pokemon => {
+    PokemonList.forEach((pokemon) => {
       pokemon.draw(delta);
     });
     context.drawImage(images[1], -Settings.camera, 0);
-    
+
     /*
     Draw our game menu stuff
     */
@@ -104,13 +103,13 @@ window.onload = async () => {
   };
 
   // the last frame time
-  let lastFrameTime = 0;
-  function update(time){
+  const update = (time): void => {
     fpsGraph.begin();
-    const delta = time - lastFrameTime;
-    //skip the frame if the call is too early
-    if(delta < Values.mspf){
-      return requestAnimationFrame(update);
+    const delta = time - frame;
+    // skip the frame if the call is too early
+    if (delta < Values.mspf) {
+      requestAnimationFrame(update);
+      return;
     }
 
     // Set our background color
@@ -122,9 +121,9 @@ window.onload = async () => {
 
     fpsGraph.end();
     // Update last frame time
-    lastFrameTime = time;
+    frame = time;
     // start next frame
     requestAnimationFrame(update);
-  }
+  };
   requestAnimationFrame(update); // start animation
 };
