@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
