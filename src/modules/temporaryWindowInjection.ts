@@ -2,9 +2,10 @@
 // This is only here so these values can be accessed from the console
 
 import * as GameConstants from './GameConstants';
-import * as Settings from './utilities/Settings';
+import { Settings, Values } from './utilities/Settings';
 
 Object.assign(<any>window, {
   Settings,
+  Values,
   GameConstants,
 });
