@@ -4,10 +4,12 @@
 import * as GameConstants from './GameConstants';
 import { Settings } from './utilities/Settings';
 import { canvas, context } from './Canvas';
+import App from './App';
 
 Object.assign(<any>window, {
   Settings,
   GameConstants,
   canvas,
   context,
+  App,
 });

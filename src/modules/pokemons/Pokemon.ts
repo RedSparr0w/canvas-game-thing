@@ -29,6 +29,12 @@ export class Pokemon {
   };
   public paths = [[Settings.map.player.spawn.x, Settings.map.player.spawn.y]];
   public startMovementFrame = 0;
+  // Stats
+  public hitpoints = 10;
+  public experience = 0;
+  public level = 1;
+  public attack = 10;
+  public defence = 10;
 
   private frame = 0;
   private action = PokemonAction.moving;
@@ -123,6 +129,23 @@ export class Pokemon {
     if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
     const column = this.action === PokemonAction.idle ? 0 : Math.floor(this.frame / 250) % 4;
     context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
+
+    const barX = x + (POKEMON_TILE_SIZE / 2) - 23;
+    const barY = y + POKEMON_TILE_SIZE;
+    context.fillStyle = '#222';
+    context.fillRect(barX, barY, 45, 7);
+    context.fillStyle = 'white';
+    context.fillRect(barX + 16, barY + 1, 30, 1);
+    context.fillStyle = 'tomato';
+    context.fillRect(barX + 16, barY + 1, 24, 1);
+    context.fillStyle = 'white';
+    context.fillRect(barX + 16, barY + 3, 30, 1);
+    context.fillStyle = 'deepskyblue';
+    context.fillRect(barX + 16, barY + 3, 18, 1);
+    context.fillStyle = 'white';
+    context.fillRect(barX + 16, barY + 5, 30, 1);
+    context.fillStyle = 'lime';
+    context.fillRect(barX + 16, barY + 5, 20, 1);
   }
 }
 
