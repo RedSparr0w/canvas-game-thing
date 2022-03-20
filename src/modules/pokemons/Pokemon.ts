@@ -4,6 +4,8 @@ import Rand from '../utilities/Rand';
 import { canvas, context } from '../Canvas';
 import { PathFinders } from '../Maps';
 import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
+import { PokemonNameType } from './PokemonNameType';
+import { PokemonListData, pokemonMap } from './PokemonList';
 
 export enum PokemonDirection {
   down = 0,
@@ -18,34 +20,48 @@ export enum PokemonAction {
   defending = 3,
 }
 
-export class Pokemon {
-  public image: HTMLImageElement;
+export default class Pokemon {
+  image: HTMLImageElement;
+  pokemon: PokemonListData;
   // Movement
-  public speed = 1500;
-  public direction = PokemonDirection.right;
-  public currentPosition = {
-    x: Settings.map.player.spawn.x - 1,
-    y: Settings.map.player.spawn.y,
-  };
-  public paths = [[Settings.map.player.spawn.x, Settings.map.player.spawn.y]];
-  public startMovementFrame = 0;
-  // Stats
-  public hitpoints = 10;
-  public experience = 0;
-  public level = 1;
-  public attack = 10;
-  public defence = 10;
+  speed = 1500;
+  currentPosition: { x:number, y: number } = { x: 0, y: 0 };
+  paths: Array<number[]> = [];
+  startMovementFrame = 0;
+  // TODO: Stats
+  stats: any;
 
   private frame = 0;
   private action = PokemonAction.moving;
 
-  constructor(public name: string, public id: number) {
+  constructor(
+    name: PokemonNameType,
+    spawn: { x:number, y: number },
+    public direction = PokemonDirection.right,
+    // TODO: calculate based on enemy position/spawn
+    public destination: { x:number, y: number }
+  ) {
+    this.paths.push([spawn.x, spawn.y]);
+    this.currentPosition.x = spawn.x;
+    this.currentPosition.y = spawn.y;
+
+    // eslint-disable-next-line default-case
+    switch (this.direction) {
+      case PokemonDirection.right:
+        this.currentPosition.x -= 1;
+        break;
+      case PokemonDirection.left:
+        this.currentPosition.x += 1;
+        break;
+    }
+
+    this.pokemon = pokemonMap[name];
     this.loadImage();
     this.speed = 1500 - Math.floor(Math.random() * 1000);
   }
 
   async loadImage() {
-    this.image = await loadImage(`./assets/images/pokemon/${`${this.id}`.padStart(3, '0')}.png`);
+    this.image = await loadImage(`./assets/images/pokemon/${`${this.pokemon.id}`.padStart(3, '0')}.png`);
   }
 
   posToCanvas(x_?: number, y_?: number) {
@@ -60,13 +76,13 @@ export class Pokemon {
   moveToNewPosition() {
     const { x } = this.currentPosition;
     const { y } = this.currentPosition;
-    const destX = Settings.map.enemy.spawn.x;
-    const destY = Settings.map.enemy.spawn.y;
+    const destX = this.destination.x;
+    const destY = this.destination.y;
     const distX = Math.abs(x - destX);
     const distY = Math.abs(y - destY);
     if (distX + distY <= 1) return;
 
-    const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, Settings.map.collisions.clone());
+    const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, MyApp.game.map.collisionMap.clone());
     this.paths.push(...paths.splice(1, 5));
 
     // If we aren't moving at all, set status to idle
@@ -148,17 +164,3 @@ export class Pokemon {
     context.fillRect(barX + 16, barY + 5, 20, 1);
   }
 }
-
-export const PokemonList = [
-  new Pokemon('Bulbasaur', 1),
-  new Pokemon('Ivysaur', 2),
-  new Pokemon('Venusaur', 3),
-  new Pokemon('Charmander', 4),
-  new Pokemon('Charmeleon', 5),
-  new Pokemon('Charizard', 6),
-  new Pokemon('Squirtle', 7),
-  new Pokemon('Wartortle', 8),
-  new Pokemon('Blastoise', 9),
-  new Pokemon('Pidgey', 16),
-  new Pokemon('Rattata', 19),
-];

@@ -6,8 +6,7 @@ module.exports = {
     'es2020': true,
   },
   'globals': {
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly',
+    'MyApp': 'readonly',
   },
   'parser': '@typescript-eslint/parser',
   'parserOptions': {

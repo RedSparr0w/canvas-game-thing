@@ -15,12 +15,7 @@ module.exports = {
   },
   extends: ['airbnb-typescript/base'],
   globals: {
-    ko: 'readonly',
-    $: 'readonly',
-    gtag: 'readonly',
-    App: 'readonly',
-    player: 'readonly',
-    pokemonMap: 'readonly',
+    MyApp: 'readonly',
   },
   rules: {
     indent: 'off',

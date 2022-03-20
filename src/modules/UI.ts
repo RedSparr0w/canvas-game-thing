@@ -1,5 +1,4 @@
 import { context } from './Canvas';
-import Cursor from './Cursor';
 import { loadImage } from './utilities/Functions';
 
 export enum ButtonPosition {
@@ -25,9 +24,9 @@ export enum ButtonColor {
 }
 
 export default class UI {
-  static images: {[key: string]: HTMLImageElement} = {};
+  images: {[key: string]: HTMLImageElement} = {};
 
-  static async load() {
+  async load() {
     // Load our UI images
     this.images.outline_button = await loadImage('./assets/images/ui/outline_button.png');
     this.images.outline_button_pressed = await loadImage('./assets/images/ui/outline_button_pressed.png');
@@ -35,7 +34,7 @@ export default class UI {
     this.images.solid_button_pressed = await loadImage('./assets/images/ui/solid_button_pressed.png');
   }
 
-  static drawButton(posX: number, posY: number, {
+  drawButton(posX: number, posY: number, {
     position = ButtonPosition.top_left,
     style = ButtonStyle.outline,
     color = ButtonColor.blue,
@@ -51,7 +50,7 @@ export default class UI {
     let y = posY;
 
     // Load our image
-    const buttonImage = this.images[`${style}_button`];
+    let buttonImage = this.images[`${style}_button`];
 
     // eslint-disable-next-line default-case
     switch (position) {
@@ -75,11 +74,15 @@ export default class UI {
     x = Math.round(x);
     y = Math.round(y);
 
+    if (MyApp.cursor.clickInBounds(x, y, buttonImage.width, buttonImage.height)) {
+      buttonImage = this.images[`${style}_button_pressed`];
+    }
+
     // Apply color
     context.filter = color;
 
     // On hover, apply filter effects
-    if (Cursor.inBounds(x, y, buttonImage.width, buttonImage.height)) {
+    if (MyApp.cursor.inBounds(x, y, buttonImage.width, buttonImage.height)) {
       // context.filter += ' drop-shadow(0px 0px 1px #fefefe)';
       // context.filter += ' contrast(110%)';
       context.filter += ' brightness(105%)';
@@ -90,8 +93,8 @@ export default class UI {
 
     // Draw our text if we have some
     if (image) {
-      const imgX = x+2;// + Math.floor(buttonImage.width / 2) - Math.floor(image_settings.sizeX / 2);
-      const imgY = y-3;// + Math.floor(buttonImage.height / 2) - Math.floor(image_settings.sizeY / 2);
+      const imgX = x + 2;// + Math.floor(buttonImage.width / 2) - Math.floor(image_settings.sizeX / 2);
+      const imgY = y - 3;// + Math.floor(buttonImage.height / 2) - Math.floor(image_settings.sizeY / 2);
       // context.drawImage(image, imgX, imgY);
       // context.fillStyle = '#222';
       // context.fillRect(imgX, imgY, image_settings.sizeX, image_settings.sizeY);

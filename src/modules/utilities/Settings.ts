@@ -5,8 +5,8 @@ import { Maps } from '../Maps';
 // Our default settings
 export const Settings = {
   // Performance
-  fps: 30,
-  mspf: Math.floor(1000 / 30),
+  fps: 75, // Set this to 75 so we should get at least 60 frames depending on monitor refresh rate
+  mspf: Math.floor(1000 / 75),
   // Game
   camera: 0,
   map: Maps.route1,

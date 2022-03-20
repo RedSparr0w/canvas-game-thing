@@ -20,6 +20,10 @@ export const ROAMING_MAX_CHANCE = 4096;
 // SHINY
 export const SHINY_CHANCE = 8192;
 
+// GAMEPLAY
+export const MONEY_TICK = 1 * SECOND;
+export const MONEY_PER_TICK = 10;
+
 /*
 FUNCTIONS
 */
