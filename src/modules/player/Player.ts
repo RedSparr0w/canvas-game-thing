@@ -8,6 +8,11 @@ export default class Player {
   money = 0;
   moneyTick = 0;
 
+  // eslint-disable-next-line class-methods-use-this
+  async load() {
+    // load our assets?
+  }
+
   setup(details: any) {
     this.map = details;
     this.moneyTick = 0;

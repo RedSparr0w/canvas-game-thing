@@ -21,7 +21,7 @@ export default class App {
     await this.cursor.load();
     await this.ui.load();
     await this.menu.load();
-    await this.game.load('route1');
+    await this.game.load();
     // Start drawing to canvas
     requestAnimationFrame(this.draw.bind(this));
   }
@@ -52,5 +52,5 @@ export default class App {
     requestAnimationFrame(this.draw.bind(this));
   }
 
-  private drawFunction = (delta: number) => this.game.draw(delta);
+  private drawFunction = (delta: number) => this.menu.draw(delta);
 }

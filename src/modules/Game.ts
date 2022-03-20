@@ -14,9 +14,15 @@ export default class Game {
   ) {}
 
   // TODO: map types?
-  async load(map: string) {
+  async load() {
+    await this.map.load();
+    await this.player.load();
+    await this.enemy.load();
+  }
+
+  async start(map: string) {
     // Load our map
-    this.map.setMap(map);
+    await this.map.setMap(map);
     // Setup the players
     this.player.setup(this.map.current);
     this.enemy.setup(this.map.current);
