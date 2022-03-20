@@ -30,7 +30,15 @@ module.exports = {
     'no-trailing-spaces': 'error',
     'eol-last': ['error', 'always'],
     'array-bracket-newline': ['error', { 'multiline': true }],
-    'comma-dangle': ['error', { 'arrays': 'always-multiline', 'objects': 'always-multiline', 'imports': 'always-multiline', 'exports': 'always-multiline' }],
+    'comma-dangle': [
+      'error', {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+      },
+    ],
     'quotes': ['error', 'single', { 'avoidEscape': true }],
     'no-useless-concat': 'error',
     'prefer-template': 'error',
