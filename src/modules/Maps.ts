@@ -1,6 +1,9 @@
 /* eslint-disable max-len */
 import PF from 'pathfinding';
+import { canvas } from './Canvas';
+import { MAP_TILE_SIZE } from './GameConstants';
 import { loadImage } from './utilities/Functions';
+import { Settings } from './utilities/Settings';
 
 // Use a few path finders for some "randomness"
 export const PathFinders = [
@@ -56,6 +59,34 @@ export default class GameMap {
     this.current.image = await loadImage(`./assets/images/map/${map}.png`);
     this.current.image_top = await loadImage(`./assets/images/map/${map}_top.png`);
     this.updateCollisionMap();
+
+    // Our map controls
+    let drag = false;
+    let dragStart;
+    let dragEnd;
+    document.addEventListener('mousedown', () => {
+      if (MyApp.cursor.inBounds(0, 0, window.innerWidth, this.current.height * MAP_TILE_SIZE)) {
+        dragStart = MyApp.cursor.x;
+        drag = true;
+      }
+    });
+    document.addEventListener('mousemove', () => {
+      if (drag) {
+        dragEnd = MyApp.cursor.x;
+        const movement = Math.floor(Math.abs(dragEnd - dragStart));
+        if (!movement) return;
+        Settings.camera = Math.max(0, Math.min(this.current.width * MAP_TILE_SIZE - canvas.width, Settings.camera + (dragEnd > dragStart ? -movement : movement)));
+        dragStart = dragEnd;
+      }
+    });
+    document.addEventListener('mouseup', () => {
+      drag = false;
+    });
+    document.addEventListener('wheel', (event) => {
+      const movement = event.deltaY / 5;
+      if (!movement) return;
+      Settings.camera = Math.max(0, Math.min(4800 - canvas.width, Settings.camera + movement));
+    });
   }
 
   updateCollisionMap() {
