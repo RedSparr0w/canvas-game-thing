@@ -1,28 +1,46 @@
 import { canvas } from './Canvas';
-import { ButtonColor, ButtonPosition, ButtonStyle } from './UI';
+import { ButtonColor, ButtonStyle } from './UI';
+import { Alignment } from './utilities/CanvasFunctions';
 
 export default class Menu {
   images: {[key: string]: HTMLImageElement} = {};
+  buttons: Array<any> = [];
 
   // eslint-disable-next-line class-methods-use-this
   load() {
     // nothing to load here yet
+    document.addEventListener('mousedown', () => {
+      this.buttons.forEach((button) => {
+        if (MyApp.cursor.clickInBounds(button.button.x, button.button.y, button.button.width, button.button.height)) {
+          button.function();
+        }
+      });
+    });
+
+    this.buttons.push(
+      {
+        button: MyApp.ui.generateButton(canvas.width / 2, canvas.height / 2, {
+          position: Alignment.center,
+          style: ButtonStyle.outline,
+          color: ButtonColor.blue,
+        }),
+        function: () => console.log('test'),
+      },
+      {
+        button: MyApp.ui.generateButton(canvas.width / 2, canvas.height / 2 + 60, {
+          position: Alignment.center,
+          style: ButtonStyle.solid,
+          color: ButtonColor.blue,
+        }),
+        function: () => console.log('test2'),
+      },
+    );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   draw(delta: number) {
-    // eslint-disable-next-line no-console
-    console.log(delta);
     // Buttons
-    MyApp.ui.drawButton(canvas.width / 2, canvas.height / 2, {
-      position: ButtonPosition.center,
-      style: ButtonStyle.outline,
-      color: ButtonColor.blue,
-    });
-    MyApp.ui.drawButton(canvas.width / 2, canvas.height / 2 + 60, {
-      position: ButtonPosition.center,
-      style: ButtonStyle.solid,
-      color: ButtonColor.blue,
+    this.buttons.forEach((button) => {
+      button.button?.draw?.();
     });
   }
 }

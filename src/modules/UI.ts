@@ -1,13 +1,6 @@
 import { context } from './Canvas';
+import { alignImage, Alignment } from './utilities/CanvasFunctions';
 import { loadImage } from './utilities/Functions';
-
-export enum ButtonPosition {
-  top_left,
-  top_right,
-  bottom_left,
-  bottom_right,
-  center,
-}
 
 export enum ButtonStyle {
   outline = 'outline',
@@ -34,8 +27,47 @@ export default class UI {
     this.images.solid_button_pressed = await loadImage('./assets/images/ui/solid_button_pressed.png');
   }
 
+  generateButton(posX: number, posY: number, {
+    position = Alignment.top_left,
+    style = ButtonStyle.outline,
+    color = ButtonColor.blue,
+  }) {
+    // Load our image
+    const buttonImage = this.images[`${style}_button`];
+    const buttonImagePressed = this.images[`${style}_button_pressed`];
+
+    const { x, y } = alignImage(buttonImage, posX, posY, position);
+
+    return {
+      x,
+      y,
+      width: buttonImage.width,
+      height: buttonImage.height,
+      draw: () => {
+        let image = buttonImage;
+
+        if (MyApp.cursor.clickInBounds(x, y, buttonImage.width, buttonImage.height)) {
+          image = buttonImagePressed;
+        }
+
+        // Apply color
+        context.filter = color;
+
+        // On hover, apply filter effects
+        if (MyApp.cursor.inBounds(x, y, image.width, image.height)) {
+          // context.filter += ' drop-shadow(0px 0px 1px #fefefe)';
+          // context.filter += ' contrast(110%)';
+          context.filter += ' brightness(105%)';
+        }
+
+        context.drawImage(image, x, y);
+        context.filter = 'none';
+      },
+    };
+  }
+
   drawButton(posX: number, posY: number, {
-    position = ButtonPosition.top_left,
+    position = Alignment.top_left,
     style = ButtonStyle.outline,
     color = ButtonColor.blue,
     image = null,
@@ -46,33 +78,10 @@ export default class UI {
       sizeY: 0,
     },
   }) {
-    let x = posX;
-    let y = posY;
-
     // Load our image
     let buttonImage = this.images[`${style}_button`];
 
-    // eslint-disable-next-line default-case
-    switch (position) {
-      case ButtonPosition.top_right:
-        x -= buttonImage.width;
-        break;
-      case ButtonPosition.bottom_left:
-        y -= buttonImage.height;
-        break;
-      case ButtonPosition.bottom_right:
-        x -= buttonImage.width;
-        y -= buttonImage.height;
-        break;
-      case ButtonPosition.center:
-        x -= buttonImage.width / 2;
-        y -= buttonImage.height / 2;
-        break;
-    }
-
-    // Round our x and y values
-    x = Math.round(x);
-    y = Math.round(y);
+    const { x, y } = alignImage(buttonImage, posX, posY, position);
 
     if (MyApp.cursor.clickInBounds(x, y, buttonImage.width, buttonImage.height)) {
       buttonImage = this.images[`${style}_button_pressed`];
