@@ -2,11 +2,12 @@ import { canvas, context } from './Canvas';
 import GameMap from './Maps';
 import Player from './player/Player';
 import Enemy from './player/Enemy';
-import { ButtonColor, ButtonStyle } from './ui/Button';
 import { drawFrame } from './utilities/CanvasFunctions';
 import { Settings } from './utilities/Settings';
 
 export default class Game {
+  public running = false;
+
   constructor(
     public map = new GameMap(),
     public player = new Player(),
@@ -26,12 +27,18 @@ export default class Game {
     // Setup the players
     this.player.setup(this.map.current);
     this.enemy.setup(this.map.current);
+    this.running = true;
   }
 
-  draw(delta) {
-    /*
-    Draw our game map
-    */
+  async stop() {
+    this.running = false;
+  }
+
+  draw(delta: number) {
+    // If our game isn't started/runnign return
+    if (!this.running) return;
+
+    // Draw our map
     context.drawImage(MyApp.game.map.current.image, -Settings.camera, 0);
     // Process our player/enemy
     this.player.draw(delta);
@@ -43,17 +50,5 @@ export default class Game {
     Draw our game menu stuff
     */
     drawFrame(0, 480, canvas.width, 120);
-    // Button
-    // MyApp.ui.drawButton(6, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.blue });
-    // MyApp.ui.drawButton(60, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.purple });
-    // MyApp.ui.drawButton(114, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.pink });
-    // MyApp.ui.drawButton(168, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.red });
-    // MyApp.ui.drawButton(222, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.orange });
-    // MyApp.ui.drawButton(276, canvas.height - 114, { style: ButtonStyle.outline, color: ButtonColor.green });
-    // if (!inBounds(Cursor.x, Cursor.y, 84, canvas.height - images[2].height - 65, images[2].width, images[2].height)) {
-    //   context.drawImage(images[2], 84, canvas.height - images[2].height - 65);
-    // } else {
-    //   context.drawImage(images[3], 84, canvas.height - images[3].height - 65);
-    // }
   }
 }

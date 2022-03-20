@@ -22,7 +22,6 @@ export default class App {
     await this.ui.load();
     await this.menu.load();
     await this.game.load();
-    // Start drawing to canvas
     requestAnimationFrame(this.draw.bind(this));
   }
 
@@ -40,7 +39,7 @@ export default class App {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw to our canvas using whatever our current draw function is
-    this.drawFunction(delta);
+    this.game.draw(delta);
 
     // Draw our cursor last so it is on top of everything
     this.cursor.draw(delta);
@@ -51,6 +50,4 @@ export default class App {
     // start next frame
     requestAnimationFrame(this.draw.bind(this));
   }
-
-  private drawFunction = (delta: number) => this.menu.draw(delta);
 }

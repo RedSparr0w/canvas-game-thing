@@ -5,12 +5,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overlay Template</title>
+  <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css">
   <!--Minified styles-->
   <link href="styles/styles.min.css?v=$VERSION" rel="stylesheet">
 </head>
 <body>
     <canvas></canvas>
-    <!-- New module-based code from './modules' -->
+
+    @import "mainMenu.html"
+    <!-- our generated code -->
     <script src="scripts/modules.min.js?v=$VERSION"></script>
 </body>
 </html>

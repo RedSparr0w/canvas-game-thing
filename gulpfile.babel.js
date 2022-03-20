@@ -68,7 +68,7 @@ gulp.task('deploy', () => gulp.src('./dist/**/*')
 const srcs = {
   buildArtefacts: 'build/**/*',
   scripts: ['src/modules/**/*.ts'],
-  html: ['src/*.html'],
+  html: ['src/*.html', 'src/components/**/*.html'],
   ejsTemplates: ['src/templates/*.ejs'],
   styles: 'src/styles/**/*.less',
   assets: 'src/assets/**/*',

@@ -13,7 +13,6 @@ html,body{
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
-  cursor: none;
 }
 
 /*
@@ -24,16 +23,14 @@ div.tp-dfwv {
   top: -100%;
   transition: top 300ms ease-in-out;
 }
-body:hover div.tp-dfwv {
-  top: 8px;
-}
 div.tp-dfwv {
   top: 8px;
-  cursor: auto;
 }
 
 canvas {
   width: 100vw;
   height: 100vh;
   image-rendering: pixelated;
+  z-index: -1;
+  cursor: none;
 }
