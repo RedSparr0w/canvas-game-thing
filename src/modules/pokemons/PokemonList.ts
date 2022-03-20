@@ -22,11 +22,7 @@ export type PokemonListData = {
   attack?: number;
 };
 
-function createPokemonArray<T extends readonly PokemonListData[] & Array<{name: V}>, V extends string>(...args: T) {
-  return args;
-}
-
-export const pokemonList = createPokemonArray(
+export const pokemonList = [
   {
     id: 1,
     name: 'Bulbasaur',
@@ -19970,13 +19966,11 @@ export const pokemonList = createPokemonArray(
       specialDefense: 23,
       speed: 0,
     },
-  // eslint-disable-next-line @typescript-eslint/comma-dangle
-  }
-);
+  },
+];
 
 const pokemonNameIndex = {};
 
-// TODO move to its own initialize method that gets called on game start.
 pokemonList.forEach((p) => {
   pokemonNameIndex[p.name.toLowerCase()] = p;
 });
@@ -20001,7 +19995,7 @@ export const pokemonMap = new Proxy(pokemonList, {
           const basePokemonIDs: number[] = [...new Set(pokemon.filter((p) => p.id >= min && p.id <= max).map((p) => Math.floor(p.id)))];
           const ID: number = Rand.fromArray(basePokemonIDs);
           // Choose a Pokemon with that base ID
-          const poke: PokemonListData = Rand.fromArray(pokemon.filter((p) => Math.floor(p.id) === ID && p.id >= min && p.id <= max));
+          const poke: PokemonListData = Rand.fromArray(pokemon.filter((p) => Math.floor(p.id) === ID && p.id >= min && p.id <= max)) as PokemonListData;
           return poke || (pokemon.find((p) => p.id === 0) as PokemonListData);
         };
       default:
