@@ -4,6 +4,10 @@
 
 - Choose a starter (will be your main/base Pokemon)
   - Appears on your spawnpoint
+  - 10 x base health?
+  - Levels up?
+  - Evolves?
+  - Attacks?
 - Choose up to 6 base pokemon for your team (you can spawn these with money)
 - Gain money every x ticks (based on something, maybe map progress?)
 - Can spawn Pokemon using money (the 6 selected at start)
