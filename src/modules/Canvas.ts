@@ -13,7 +13,7 @@ export const context = canvas.getContext('2d');
 const tempCanvas = document.createElement('canvas');
 const tempContext = tempCanvas.getContext('2d');
 // On window resize
-window.onresize = () => {
+window.addEventListener('resize', () => {
   // Adjust temp canvas size
   tempCanvas.height = canvas.height;
   tempCanvas.width = canvas.width;
@@ -27,4 +27,4 @@ window.onresize = () => {
 
   // Draw temp canvas back to the current canvas
   context.drawImage(tempContext.canvas, 0, 0);
-};
+});
