@@ -6,7 +6,7 @@ import { Settings } from './utilities/Settings';
 import { canvas, context } from './Canvas';
 import App from './App';
 import Game from './Game';
-import Menu from './Menu';
+import Menus from './menu/Menus';
 import Cursor from './Cursor';
 import Player from './player/Player';
 import Enemy from './player/Enemy';
@@ -18,7 +18,7 @@ Object.assign(<any>window, {
   context,
   App,
   Game,
-  Menu,
+  Menus,
   Cursor,
   Player,
   Enemy,

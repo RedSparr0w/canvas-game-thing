@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "es2019"],
+    "lib": [
+      "dom",
+      "DOM.Iterable",
+      "es2019",
+    ],
     "skipLibCheck": true,
     "sourceMap": true,
     "module": "es6",

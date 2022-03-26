@@ -1,10 +1,12 @@
 #mainMenu {
+  background-color: red;
+}
+.menu {
   position: absolute;
-  top: 0;
+  top: 100vh;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #2d3436;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,12 +17,7 @@
     padding: 1.5vh 2vh;
     margin-bottom: 1vh;
   }
-
-  #startGame {
-    transform: rotate(3deg);
-  }
-
-  #settings {
-    transform: rotate(-2deg);
-  }
+}
+.menu.visible {
+  top: 0;
 }

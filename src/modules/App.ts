@@ -2,7 +2,7 @@
 import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
-import Menu from './Menu';
+import Menus from './menu/Menus';
 import UI from './UI';
 import { fpsGraph, Settings } from './utilities/Settings';
 
@@ -13,14 +13,14 @@ export default class App {
   constructor(
     public cursor = new Cursor(),
     public ui = new UI(),
-    public menu = new Menu(),
+    public menus = new Menus(),
     public game = new Game()
   ) {}
 
   public async load() {
     await this.cursor.load();
     await this.ui.load();
-    await this.menu.load();
+    await this.menus.load();
     await this.game.load();
     requestAnimationFrame(this.draw.bind(this));
   }
