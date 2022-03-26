@@ -37,6 +37,7 @@ export default class App {
     // Set our background color
     context.fillStyle = '#333';
     context.fillRect(0, 0, canvas.width, canvas.height);
+    // context.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw to our canvas using whatever our current draw function is
     this.game.draw(delta);

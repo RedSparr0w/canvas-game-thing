@@ -4,7 +4,7 @@ const mainMenu = new Menu('mainMenu');
 mainMenu.addButton('startGame', {
   // eslint-disable-next-line no-console
   click: () => {
-    MyApp.menus.hide('mainMenu');
+    MyApp.menus.show('gameControls');
     MyApp.game.start('route1');
   },
 });

@@ -29,6 +29,7 @@ module.exports = {
       },
     ],
     'no-return-assign': ['error', 'except-parens'],
+    'no-param-reassign': ['error', { props: false }],
     'no-console': ['error', { allow: ['warn', 'error', 'trace'] }],
     '@typescript-eslint/indent': ['error', 2, { SwitchCase: 1 }],
     '@typescript-eslint/comma-dangle': [
