@@ -103,19 +103,23 @@ export default class Pokemon {
     const destY = this.destination.y;
     const distX = Math.abs(x - destX);
     const distY = Math.abs(y - destY);
+    // If next to an enemy, face them, and do nothing else
     if (distX + distY <= 1) {
       if (y - destY === 1) this.direction = PokemonDirection.up;
       else if (y - destY === -1) this.direction = PokemonDirection.down;
       else if (x - destX === 1) this.direction = PokemonDirection.left;
       else if (x - destX === -1) this.direction = PokemonDirection.right;
+      this.action = PokemonAction.attacking;
       return;
     }
+
+    // Move towards the enemy/target
     this.updateCollisionMap();
     const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, this.collisionMap.clone());
     this.paths.push(...paths.splice(1, 1));
 
-    // If we aren't moving at all, set status to idle
-    if (!this.paths.length) return;
+    // If we aren't moving at all, set path to current pos, so it doesn't spam trying to move
+    if (!this.paths.length) this.paths.push([x, y]);
 
     this.action = PokemonAction.moving;
     this.startMovementFrame = this.frame;
