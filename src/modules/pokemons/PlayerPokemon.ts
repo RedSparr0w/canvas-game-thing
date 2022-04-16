@@ -26,6 +26,7 @@ export default class PlayerPokemon extends Pokemon {
   }
 
   getEnemy() {
+    super.getEnemy();
     let enemy = null;
     let distance = Infinity;
     let destX;
@@ -46,6 +47,10 @@ export default class PlayerPokemon extends Pokemon {
       this.destination.x = destX;
       this.destination.y = destY;
       this.enemy = enemy;
+    } else {
+      // TODO: remove once boss/base pokemon added as once that is defeated, the game should end
+      this.destination.x = MyApp.game.map.current.enemy.spawn.x;
+      this.destination.y = MyApp.game.map.current.enemy.spawn.y;
     }
   }
 }

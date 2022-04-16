@@ -84,7 +84,11 @@ export default class Pokemon {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  getEnemy() {}
+  getEnemy() {
+    if (!this.enemy?.hp) {
+      this.enemy = null;
+    }
+  }
 
   updateCollisionMap() {
     this.collisions = [...MyApp.game.map.current.collisions.map((a) => [...a])];
@@ -93,6 +97,7 @@ export default class Pokemon {
       ...MyApp.game.player.pokemon,
       ...MyApp.game.enemy.pokemon,
     ].forEach((p) => {
+      if (p === this.enemy) return;
       const x = (p.paths[0]?.[0] || p.currentPosition.x);
       const y = (p.paths[0]?.[1] || p.currentPosition.y);
       if (x === this.currentPosition.x && y === this.currentPosition.y) return;
@@ -155,9 +160,11 @@ export default class Pokemon {
         return;
       }
       // Attack
+      // TODO: Calculate damage (move, typing etc)
       if (this.enemy.hp > 0) this.enemy.hp -= 1;
       // If enemy dies from your hit
       if (this.enemy.hp <= 0) {
+        // TODO: Fixup xp gain, enemy death (fade into ground?)
         this.xp += this.enemy.stats.hitpoints;
         this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
         this.action = PokemonAction.idle;
@@ -214,6 +221,7 @@ export default class Pokemon {
     context.fillStyle = 'tomato';
     context.fillRect(barX + 14, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * 30, 1);
     // Experience
+    // TODO: calculate levels etc
     context.fillStyle = 'white';
     context.fillRect(barX + 14, barY + 3, 30, 1);
     context.fillStyle = 'deepskyblue';

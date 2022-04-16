@@ -1,7 +1,8 @@
-import PlayerPokemon from './PlayerPokemon';
-import { PokemonDirection } from './Pokemon';
+import type Player from '../player/Player';
+import Pokemon, { PokemonDirection } from './Pokemon';
+import { PokemonNameType } from './PokemonNameType';
 
-export default class EnemyPokemon extends PlayerPokemon {
+export default class EnemyPokemon extends Pokemon {
   direction = PokemonDirection.left;
   currentPosition = {
     x: MyApp.game.map.current.enemy.spawn.x + 1,
@@ -13,7 +14,19 @@ export default class EnemyPokemon extends PlayerPokemon {
     y: MyApp.game.map.current.player.spawn.y,
   };
 
+  constructor(
+    public parent: Player,
+    name: PokemonNameType,
+    spawn: { x: number, y: number },
+    direction = PokemonDirection.right,
+    // TODO: calculate based on enemy position/spawn
+    destination: { x: number, y: number }
+  ) {
+    super(name, spawn, direction, destination);
+  }
+
   getEnemy() {
+    super.getEnemy();
     let enemy = null;
     let distance = Infinity;
     let destX;
@@ -34,6 +47,10 @@ export default class EnemyPokemon extends PlayerPokemon {
       this.destination.x = destX;
       this.destination.y = destY;
       this.enemy = enemy;
+    } else {
+      // TODO: remove once boss/base pokemon added as once that is defeated, the game should end
+      this.destination.x = MyApp.game.map.current.player.spawn.x;
+      this.destination.y = MyApp.game.map.current.player.spawn.y;
     }
   }
 }
