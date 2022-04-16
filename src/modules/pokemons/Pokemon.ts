@@ -1,3 +1,4 @@
+import PF from 'pathfinding';
 import { loadImage } from '../utilities/Functions';
 import { Settings } from '../utilities/Settings';
 import Rand from '../utilities/Rand';
@@ -30,6 +31,8 @@ export default class Pokemon {
   startMovementFrame = 0;
   // TODO: Stats
   stats: any;
+  collisions: Array<Array<number>>;
+  collisionMap: any;
 
   private frame = 0;
   private action = PokemonAction.moving;
@@ -76,16 +79,33 @@ export default class Pokemon {
   // eslint-disable-next-line class-methods-use-this
   getEnemy() {}
 
+  updateCollisionMap() {
+    this.collisions = [...MyApp.game.map.current.collisions.map((a) => [...a])];
+    const maxDist = 1;
+    [
+      ...MyApp.game.player.pokemon,
+      ...MyApp.game.enemy.pokemon,
+    ].forEach((p) => {
+      const x = (p.paths[0]?.[0] || p.currentPosition.x);
+      const y = (p.paths[0]?.[1] || p.currentPosition.y);
+      if (x === this.currentPosition.x && y === this.currentPosition.y) return;
+      if (x >= this.currentPosition.x - maxDist && x <= this.currentPosition.x + maxDist && y >= this.currentPosition.y - maxDist && y <= this.currentPosition.y + maxDist) {
+        this.collisions[y][x] = 1;
+      }
+    });
+    this.collisionMap = new PF.Grid(this.collisions);
+  }
+
   moveToNewPosition() {
     this.getEnemy();
-    const { x } = this.currentPosition;
-    const { y } = this.currentPosition;
+    const { x, y } = this.currentPosition;
     const destX = this.destination.x;
     const destY = this.destination.y;
     const distX = Math.abs(x - destX);
     const distY = Math.abs(y - destY);
     if (distX + distY <= 1) return;
-    const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, MyApp.game.map.collisionMap.clone());
+    this.updateCollisionMap();
+    const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, this.collisionMap.clone());
     this.paths.push(...paths.splice(1, 1));
 
     // If we aren't moving at all, set status to idle

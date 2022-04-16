@@ -96,16 +96,6 @@ export default class GameMap {
 
   updateCollisionMap() {
     this.collisions = [...this.current.collisions.map((a) => [...a])];
-    // MyApp.game.player.pokemon.forEach((p) => {
-    //   const x = (p.paths[0]?.[0] || p.currentPosition.x);
-    //   const y = (p.paths[0]?.[1] || p.currentPosition.y);
-    //   this.collisions[y][x] = 1;
-    // });
-    // MyApp.game.enemy.pokemon.forEach((p) => {
-    //   const x = (p.paths[0]?.[0] || p.currentPosition.x);
-    //   const y = (p.paths[0]?.[1] || p.currentPosition.y);
-    //   this.collisions[y][x] = 1;
-    // });
     this.collisionMap = new PF.Grid(this.collisions);
   }
 }
