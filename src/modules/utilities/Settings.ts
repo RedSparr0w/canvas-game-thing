@@ -1,6 +1,5 @@
 import { Pane } from 'tweakPane';
 import * as EssentialsPlugin from '@tweakPane/plugin-essentials';
-import { Maps } from '../Maps';
 
 // Our default settings
 export const Settings = {
@@ -9,7 +8,6 @@ export const Settings = {
   mspf: Math.floor(1000 / 75),
   // Game
   camera: 0,
-  map: Maps.route1,
 };
 
 // Create our settings GUI

@@ -12,7 +12,7 @@ const gameControls = new Menu('gameControls');
       MyApp.game.player.pokemon.push(new PlayerPokemon(
         element.dataset.spawn as PokemonNameType,
         { x: MyApp.game.map.current.player.spawn.x, y: MyApp.game.map.current.player.spawn.y },
-        PokemonDirection.left,
+        PokemonDirection.right,
         { x: MyApp.game.map.current.enemy.spawn.x, y: MyApp.game.map.current.enemy.spawn.y }
       ));
     },

@@ -25,7 +25,7 @@ export default class Pokemon {
   pokemon: PokemonListData;
   // Movement
   speed = 1500;
-  currentPosition: { x:number, y: number } = { x: 0, y: 0 };
+  currentPosition: { x: number, y: number } = { x: 0, y: 0 };
   paths: Array<number[]> = [];
   startMovementFrame = 0;
   // TODO: Stats
@@ -36,10 +36,10 @@ export default class Pokemon {
 
   constructor(
     name: PokemonNameType,
-    spawn: { x:number, y: number },
+    spawn: { x: number, y: number },
     public direction = PokemonDirection.right,
     // TODO: calculate based on enemy position/spawn
-    public destination: { x:number, y: number }
+    public destination: { x: number, y: number }
   ) {
     this.paths.push([spawn.x, spawn.y]);
     this.currentPosition.x = spawn.x;
@@ -73,7 +73,11 @@ export default class Pokemon {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getEnemy() {}
+
   moveToNewPosition() {
+    this.getEnemy();
     const { x } = this.currentPosition;
     const { y } = this.currentPosition;
     const destX = this.destination.x;
@@ -81,9 +85,8 @@ export default class Pokemon {
     const distX = Math.abs(x - destX);
     const distY = Math.abs(y - destY);
     if (distX + distY <= 1) return;
-
     const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, MyApp.game.map.collisionMap.clone());
-    this.paths.push(...paths.splice(1, 5));
+    this.paths.push(...paths.splice(1, 1));
 
     // If we aren't moving at all, set status to idle
     if (!this.paths.length) return;
@@ -143,7 +146,7 @@ export default class Pokemon {
 
     // If pokemon out of frame, we don't need to draw it
     if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
-    const column = this.action === PokemonAction.idle ? 0 : Math.floor(this.frame / 250) % 4;
+    const column = this.action === PokemonAction.idle ? Math.floor(this.frame / 250) % 4 : Math.floor(this.frame / 250) % 4;
     context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
 
     const barX = x + (POKEMON_TILE_SIZE / 2) - 23;
