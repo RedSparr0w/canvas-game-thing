@@ -109,7 +109,7 @@ export default class Pokemon {
       else if (x - destX === 1) this.direction = PokemonDirection.left;
       else if (x - destX === -1) this.direction = PokemonDirection.right;
       return;
-    };
+    }
     this.updateCollisionMap();
     const paths = Rand.fromArray(PathFinders).findPath(x, y, destX, destY, this.collisionMap.clone());
     this.paths.push(...paths.splice(1, 1));
