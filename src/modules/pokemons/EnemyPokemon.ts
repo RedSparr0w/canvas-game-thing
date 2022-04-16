@@ -33,6 +33,7 @@ export default class EnemyPokemon extends PlayerPokemon {
     if (enemy) {
       this.destination.x = destX;
       this.destination.y = destY;
+      this.enemy = enemy;
     }
   }
 }
