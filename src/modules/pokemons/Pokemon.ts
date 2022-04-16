@@ -217,19 +217,14 @@ export default class Pokemon {
     context.fillRect(barX, barY, 45, 7);
     // Hit points
     context.fillStyle = 'white';
-    context.fillRect(barX + 14, barY + 1, 30, 1);
+    context.fillRect(barX + 14, barY + 1, 30, 2);
     context.fillStyle = 'tomato';
-    context.fillRect(barX + 14, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * 30, 1);
+    context.fillRect(barX + 14, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * 30, 2);
     // Experience
     // TODO: calculate levels etc
     context.fillStyle = 'white';
-    context.fillRect(barX + 14, barY + 3, 30, 1);
+    context.fillRect(barX + 14, barY + 4, 30, 2);
     context.fillStyle = 'deepskyblue';
-    context.fillRect(barX + 14, barY + 3, Math.min(30, (this.xp / 100) * 30), 1);
-    // Something else?
-    context.fillStyle = 'white';
-    context.fillRect(barX + 14, barY + 5, 30, 1);
-    context.fillStyle = 'lime';
-    context.fillRect(barX + 14, barY + 5, 20, 1);
+    context.fillRect(barX + 14, barY + 4, Math.min(30, (this.xp / 100) * 30), 2);
   }
 }
