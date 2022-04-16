@@ -67,7 +67,7 @@ export default class Pokemon {
 
     this.pokemon = pokemonMap[name];
     this.loadImage();
-    this.speed = 1500 - Math.floor(Math.random() * 1000);
+    this.speed = 1000 - (this.stats.speed * 5);
   }
 
   async loadImage() {
@@ -92,7 +92,7 @@ export default class Pokemon {
 
   updateCollisionMap() {
     this.collisions = [...MyApp.game.map.current.collisions.map((a) => [...a])];
-    const maxDist = 1;
+    const maxDist = 2;
     [
       ...MyApp.game.player.pokemon,
       ...MyApp.game.enemy.pokemon,
@@ -161,7 +161,7 @@ export default class Pokemon {
       }
       // Attack
       // TODO: Calculate damage (move, typing etc)
-      if (this.enemy.hp > 0) this.enemy.hp -= 1;
+      if (this.enemy.hp > 0) this.enemy.hp -= (this.stats.attack / 10);
       // If enemy dies from your hit
       if (this.enemy.hp <= 0) {
         // TODO: Fixup xp gain, enemy death (fade into ground?)
