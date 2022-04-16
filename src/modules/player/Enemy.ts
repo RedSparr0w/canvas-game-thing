@@ -13,6 +13,7 @@ export default class Enemy extends Player {
       this.spawnTick -= 1500;
       if (this.pokemon.length < 50) {
         this.pokemon.push(new EnemyPokemon(
+          this,
           'Rattata',
           { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
           PokemonDirection.left,

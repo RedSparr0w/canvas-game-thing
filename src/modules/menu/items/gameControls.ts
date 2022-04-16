@@ -11,6 +11,7 @@ const gameControls = new Menu('gameControls');
     click: () => {
       if (MyApp.game.player.pokemon.length >= 50) return;
       MyApp.game.player.pokemon.push(new PlayerPokemon(
+        MyApp.game.player,
         element.dataset.spawn as PokemonNameType,
         { x: MyApp.game.map.current.player.spawn.x, y: MyApp.game.map.current.player.spawn.y },
         PokemonDirection.right,

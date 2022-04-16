@@ -7,6 +7,7 @@ import { PathFinders } from '../Maps';
 import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
 import { PokemonNameType } from './PokemonNameType';
 import { PokemonListData, pokemonMap } from './PokemonList';
+import type Player from '../player/Player';
 
 export enum PokemonDirection {
   down = 0,
@@ -22,6 +23,7 @@ export enum PokemonAction {
 }
 
 export default class Pokemon {
+  parent: Player;
   image: HTMLImageElement;
   pokemon: PokemonListData;
   enemy: Pokemon;
@@ -35,6 +37,7 @@ export default class Pokemon {
   // TODO: Stats
   stats: Record<string, number>;
   hp: number;
+  xp: number = 0;
 
   private frame = 0;
   private action = PokemonAction.moving;
@@ -145,7 +148,21 @@ export default class Pokemon {
     }
 
     if (this.action === PokemonAction.attacking) {
+      // If enemy already dead
+      if (!this.enemy?.hp) {
+        this.action = PokemonAction.idle;
+        this.enemy = null;
+        return;
+      }
+      // Attack
       if (this.enemy.hp > 0) this.enemy.hp -= 1;
+      // If enemy dies from your hit
+      if (this.enemy.hp <= 0) {
+        this.xp += this.enemy.stats.hitpoints;
+        this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
+        this.action = PokemonAction.idle;
+        this.enemy = null;
+      }
     }
 
     // Check if we need to move
@@ -200,7 +217,7 @@ export default class Pokemon {
     context.fillStyle = 'white';
     context.fillRect(barX + 14, barY + 3, 30, 1);
     context.fillStyle = 'deepskyblue';
-    context.fillRect(barX + 14, barY + 3, 18, 1);
+    context.fillRect(barX + 14, barY + 3, Math.min(30, (this.xp / 100) * 30), 1);
     // Something else?
     context.fillStyle = 'white';
     context.fillRect(barX + 14, barY + 5, 30, 1);
