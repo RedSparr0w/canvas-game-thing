@@ -210,8 +210,11 @@ export default class Pokemon {
 
     // If pokemon out of frame, we don't need to draw it
     if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
-    const column = this.action === PokemonAction.idle ? Math.floor(this.frame / 250) % 4 : Math.floor(this.frame / 250) % 4;
+    const column = this.action === PokemonAction.idle ? Math.floor(this.frame / 200) % 4 : Math.floor(this.frame / 250) % 4;
     context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
+    if (this.shiny) {
+      context.drawImage(MyApp.images.list.sparkle, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
+    }
 
     const barX = x + (POKEMON_TILE_SIZE / 2) - 23;
     const barY = y + POKEMON_TILE_SIZE;

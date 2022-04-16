@@ -2,6 +2,7 @@
 import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
+import Images from './Images';
 import Menus from './menu/Menus';
 import UI from './UI';
 import { fpsGraph, Settings } from './utilities/Settings';
@@ -12,6 +13,7 @@ export default class App {
 
   constructor(
     public cursor = new Cursor(),
+    public images = new Images(),
     public ui = new UI(),
     public menus = new Menus(),
     public game = new Game()
@@ -19,6 +21,7 @@ export default class App {
 
   public async load() {
     await this.cursor.load();
+    await this.images.load();
     await this.ui.load();
     await this.menus.load();
     await this.game.load();
