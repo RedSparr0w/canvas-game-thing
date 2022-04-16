@@ -27,6 +27,7 @@ export default class Pokemon {
   image: HTMLImageElement;
   pokemon: PokemonListData;
   enemy: Pokemon;
+  shiny: boolean;
   // Movement
   speed = 1500;
   collisions: Array<Array<number>>;
@@ -54,6 +55,7 @@ export default class Pokemon {
     this.currentPosition.y = spawn.y;
     this.stats = pokemonMap[name].base;
     this.hp = this.stats.hitpoints * 10;
+    this.shiny = Rand.chance(20);
 
     // eslint-disable-next-line default-case
     switch (this.direction) {
@@ -71,7 +73,7 @@ export default class Pokemon {
   }
 
   async loadImage() {
-    this.image = await loadImage(`./assets/images/pokemon/${`${this.pokemon.id}`.padStart(3, '0')}.png`);
+    this.image = await loadImage(`./assets/images/pokemon/${`${this.pokemon.id}`.padStart(3, '0')}${this.shiny ? 's' : ''}.png`);
   }
 
   posToCanvas(x_?: number, y_?: number) {
