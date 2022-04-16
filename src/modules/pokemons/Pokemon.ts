@@ -6,7 +6,7 @@ import { canvas, context } from '../Canvas';
 import { PathFinders } from '../Maps';
 import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
 import { PokemonNameType } from './PokemonNameType';
-import { pokemonList, PokemonListData, pokemonMap } from './PokemonList';
+import { PokemonListData, pokemonMap } from './PokemonList';
 
 export enum PokemonDirection {
   down = 0,
@@ -49,8 +49,8 @@ export default class Pokemon {
     this.paths.push([spawn.x, spawn.y]);
     this.currentPosition.x = spawn.x;
     this.currentPosition.y = spawn.y;
-    this.stats = pokemonList.find((p) => p.name === name)?.base;
-    this.hp = this.stats.hitpoints * 100;
+    this.stats = pokemonMap[name].base;
+    this.hp = this.stats.hitpoints * 10;
 
     // eslint-disable-next-line default-case
     switch (this.direction) {
@@ -193,18 +193,18 @@ export default class Pokemon {
     context.fillRect(barX, barY, 45, 7);
     // Hit points
     context.fillStyle = 'white';
-    context.fillRect(barX + 16, barY + 1, 30, 1);
+    context.fillRect(barX + 14, barY + 1, 30, 1);
     context.fillStyle = 'tomato';
-    context.fillRect(barX + 16, barY + 1, ((this.hp / 100) / this.stats.hitpoints) * 30, 1);
+    context.fillRect(barX + 14, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * 30, 1);
     // Experience
     context.fillStyle = 'white';
-    context.fillRect(barX + 16, barY + 3, 30, 1);
+    context.fillRect(barX + 14, barY + 3, 30, 1);
     context.fillStyle = 'deepskyblue';
-    context.fillRect(barX + 16, barY + 3, 18, 1);
+    context.fillRect(barX + 14, barY + 3, 18, 1);
     // Something else?
     context.fillStyle = 'white';
-    context.fillRect(barX + 16, barY + 5, 30, 1);
+    context.fillRect(barX + 14, barY + 5, 30, 1);
     context.fillStyle = 'lime';
-    context.fillRect(barX + 16, barY + 5, 20, 1);
+    context.fillRect(barX + 14, barY + 5, 20, 1);
   }
 }
