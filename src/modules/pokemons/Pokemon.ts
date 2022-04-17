@@ -81,7 +81,7 @@ export default class Pokemon {
     const y = y_ ?? this.currentPosition.y;
     return {
       x: Math.floor((x + 0.5) * MAP_TILE_SIZE) - (POKEMON_TILE_SIZE * 0.5) - Settings.camera.x,
-      y: Math.floor((y - 0.4) * MAP_TILE_SIZE),
+      y: Math.floor((y - 0.4) * MAP_TILE_SIZE) - Settings.camera.y,
     };
   }
 
