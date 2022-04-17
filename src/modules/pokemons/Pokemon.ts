@@ -218,18 +218,21 @@ export default class Pokemon {
 
     const barX = x + (POKEMON_TILE_SIZE / 2) - 23;
     const barY = y + POKEMON_TILE_SIZE;
-    context.fillStyle = '#222';
-    context.fillRect(barX, barY, 45, 7);
-    // Hit points
-    context.fillStyle = 'white';
-    context.fillRect(barX + 14, barY + 1, 30, 2);
+    context.drawImage(MyApp.images.list.pokemon_bar, barX, barY);
+    const barsX = barX + 16;
+    const barsSize = 28;
+    // context.fillStyle = '#222';
+    // context.fillRect(barX, barY, 45, 7);
+    // // Hit points
+    // context.fillStyle = 'white';
+    // context.fillRect(barX + 14, barY + 1, 30, 2);
     context.fillStyle = 'tomato';
-    context.fillRect(barX + 14, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * 30, 2);
-    // Experience
-    // TODO: calculate levels etc
-    context.fillStyle = 'white';
-    context.fillRect(barX + 14, barY + 4, 30, 2);
+    context.fillRect(barsX, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * barsSize, 2);
+    // // Experience
+    // // TODO: calculate levels etc
+    // context.fillStyle = 'white';
+    // context.fillRect(barX + 14, barY + 4, 30, 2);
     context.fillStyle = 'deepskyblue';
-    context.fillRect(barX + 14, barY + 4, Math.min(30, (this.xp / 100) * 30), 2);
+    context.fillRect(barsX, barY + 4, Math.min(30, (this.xp / 100) * barsSize), 2);
   }
 }
