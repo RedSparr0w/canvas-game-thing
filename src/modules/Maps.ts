@@ -15,6 +15,13 @@ export const PathFinders = [
   new PF.BestFirstFinder(),
 ];
 
+// Generate collision map:
+// collision = [json output from tiled]
+// colMap = []
+// collision = collision.map(c => c?1:0);
+// while (collision.length > 0) colMap.push(collision.splice(0,100))
+// copy(JSON.stringify(colMap));
+
 export const Maps = {
   route1: {
     image: new Image(),
