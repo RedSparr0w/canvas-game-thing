@@ -19857,7 +19857,11 @@ export const pokemonList = [
 const pokemonNameIndex = {};
 
 pokemonList.forEach((p) => {
-  p.cost = p.exp;
+  const highestAtt = Math.max(p.base.attack, p.base.specialAttack);
+  const highestDef = Math.max(p.base.defense, p.base.specialDefense);
+  let cost = +Math.floor((highestAtt + highestDef + p.base.hitpoints + p.base.speed) ** 3 / 100000).toPrecision(2);
+  cost = Math.round(cost / 5) * 5;
+  p.cost = p.cost || cost;
   pokemonNameIndex[p.name.toLowerCase()] = p;
 });
 
