@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import EnemyPokemon from '../pokemons/EnemyPokemon';
 import { PokemonDirection } from '../pokemons/Pokemon';
+import { pokemonMap } from '../pokemons/PokemonList';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Rand from '../utilities/Rand';
 import Player from './Player';
 
@@ -9,19 +11,31 @@ export default class Enemy extends Player {
   spawnTick = 0;
 
   draw(delta: number) {
+    super.draw(delta);
+
     this.spawnTick += delta;
     if (this.spawnTick >= 1500) {
       this.spawnTick -= 1500;
-      if (this.pokemon.length < 50) {
-        this.pokemon.push(new EnemyPokemon(
-          this,
-          Rand.fromArray(['Rattata', 'Pikachu', 'Pidgey', 'Caterpie', 'Weedle', 'Mankey']),
-          { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
-          PokemonDirection.left,
-          { x: this.map.player.spawn.x, y: this.map.player.spawn.y }
-        ));
-      }
+      this.addPokemon(Rand.fromArray(['Rattata', 'Pikachu', 'Pidgey', 'Caterpie', 'Weedle', 'Mankey']));
     }
-    super.draw(delta);
+  }
+
+  updateMoney(amount: number) {
+    this.money += amount;
+  }
+
+  addPokemon(name: PokemonNameType) {
+    if (!this.canAddPokemon(name)) return;
+
+    const pokemon = pokemonMap[name];
+    this.updateMoney(-pokemon.cost);
+
+    this.pokemon.push(new EnemyPokemon(
+      this,
+      name,
+      { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
+      PokemonDirection.left,
+      { x: this.map.player.spawn.x, y: this.map.player.spawn.y }
+    ));
   }
 }

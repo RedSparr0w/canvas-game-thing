@@ -1,12 +1,16 @@
 /* eslint-disable max-classes-per-file */
 import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
 import PlayerPokemon from '../pokemons/PlayerPokemon';
+import { PokemonDirection } from '../pokemons/Pokemon';
+import { pokemonMap } from '../pokemons/PokemonList';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
 
 export default class Player {
   pokemon: PlayerPokemon[] = [];
   map: any;
   money = 0;
   moneyTick = 0;
+  moneyEl = document.getElementById('player-money');
 
   // eslint-disable-next-line class-methods-use-this
   async load() {
@@ -25,12 +29,42 @@ export default class Player {
     // Calculate our money
     if (this.moneyTick >= MONEY_TICK) {
       this.moneyTick -= MONEY_TICK;
-      this.money += MONEY_PER_TICK;
+      this.updateMoney(MONEY_PER_TICK);
     }
 
     // Process our Pokemon
     this.pokemon.forEach((pokemon) => {
       pokemon.draw(delta);
     });
+  }
+
+  updateMoney(amount: number) {
+    this.money += amount;
+    this.moneyEl.innerText = `Money: $${this.money}`;
+  }
+
+  canAddPokemon(name: PokemonNameType): boolean {
+    if (this.pokemon.length >= 50) return false;
+
+    const pokemon = pokemonMap[name];
+
+    if (this.money < pokemon.cost) return false;
+
+    return true;
+  }
+
+  addPokemon(name: PokemonNameType) {
+    if (!this.canAddPokemon(name)) return;
+
+    const pokemon = pokemonMap[name];
+    this.updateMoney(-pokemon.cost);
+
+    this.pokemon.push(new PlayerPokemon(
+      this,
+      name,
+      { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
+      PokemonDirection.right,
+      { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y }
+    ));
   }
 }
