@@ -223,7 +223,6 @@ gulp.task('push-page', (done) => {
   ghpages.publish(dests.githubPages, {
     tag: `v${version}`,
     message: `[v${version}]`,
-    history: false,
   }, done);
 });
 
