@@ -20,6 +20,7 @@ const webpack = require('webpack');
 const del = require('del');
 const fs = require('fs');
 const path = require('path');
+const ghpages = require('gh-pages');
 const version = process.env.npm_package_version || '0.0.0';
 
 const webpackConfig = require('./webpack.config');
@@ -83,7 +84,7 @@ const dests = {
   scripts: 'build/scripts/',
   declarations: 'src/declarations/',
   styles: 'build/styles/',
-  githubPages: 'docs/',
+  githubPages: 'dist/',
 };
 
 gulp.task('copy', (done) => {
@@ -218,12 +219,20 @@ gulp.task('cname', (done) => {
   fs.writeFile(`${dests.githubPages}CNAME`, config.CNAME, done);
 });
 
+gulp.task('push-page', (done) => {
+  ghpages.publish(dests.githubPages, {
+    tag: `v${version}`,
+    message: `[v${version}]`,
+    history: false,
+  }, done);
+});
+
 gulp.task('build', done => {
   gulp.series('copy', 'assets', 'compile-html', 'scripts', 'styles')(done);
 });
 
-gulp.task('website', done => {
-  gulp.series('clean', 'build', 'cleanWebsite', 'copyWebsite', 'cname')(done);
+gulp.task('gh-pages', done => {
+  gulp.series('clean', 'build', 'cleanWebsite', 'copyWebsite', 'cname', 'push-page')(done);
 });
 
 gulp.task('default', done => {

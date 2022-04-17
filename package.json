@@ -9,8 +9,7 @@
     "ts-test": "gulp scripts",
     "eslint": "eslint --ext ts ./src/modules",
     "eslint-fix": "eslint --ext ts --fix ./src/modules",
-    "website": "npm test && cross-env NODE_ENV=production gulp website",
-    "publish": "npm test && git push origin develop:master"
+    "gh-pages": "npm test && cross-env NODE_ENV=production gulp gh-pages"
   },
   "repository": {
     "type": "git",
@@ -40,6 +39,7 @@
     "es6-promise": "^4.2.8",
     "eslint-config-airbnb-typescript": "^11.0.0",
     "eslint-plugin-import": "^2.22.1",
+    "gh-pages": "^3.2.3",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-changed": "^4.0.2",
