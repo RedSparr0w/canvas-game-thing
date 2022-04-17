@@ -39,12 +39,12 @@ export default class Game {
     if (!this.running) return;
 
     // Draw our map
-    context.drawImage(MyApp.game.map.current.image, -Settings.camera, 0);
+    context.drawImage(MyApp.game.map.current.image, -Settings.camera.x, 0);
     // Process our player/enemy
     this.player.draw(delta);
     this.enemy.draw(delta);
     // overlayed images (should appear above stuff on the map)
-    context.drawImage(MyApp.game.map.current.image_top, -Settings.camera, 0);
+    context.drawImage(MyApp.game.map.current.image_top, -Settings.camera.x, 0);
 
     /*
     Draw our game menu stuff

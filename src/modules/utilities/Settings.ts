@@ -7,7 +7,10 @@ export const Settings = {
   fps: 75, // Set this to 75 so we should get at least 60 frames depending on monitor refresh rate
   mspf: Math.floor(1000 / 75),
   // Game
-  camera: 0,
+  camera: {
+    x: 0,
+    y: 0,
+  },
 };
 
 // Create our settings GUI

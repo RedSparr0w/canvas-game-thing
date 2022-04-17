@@ -71,7 +71,7 @@ export default class GameMap {
         const movement = Math.abs(dragEnd - dragStart);
         if (!movement) return;
         // Ensure our camera doesn't go out of the map
-        Settings.camera = Math.max(0, Math.min(this.current.width * MAP_TILE_SIZE - canvas.width, Settings.camera + (dragEnd > dragStart ? -movement : movement)));
+        Settings.camera.x = Math.max(0, Math.min(this.current.width * MAP_TILE_SIZE - canvas.width, Settings.camera.x + (dragEnd > dragStart ? -movement : movement)));
         dragStart = dragEnd;
       }
     });
@@ -81,7 +81,7 @@ export default class GameMap {
     document.addEventListener('wheel', (event) => {
       const movement = event.deltaY / 5;
       if (!movement) return;
-      Settings.camera = Math.max(0, Math.min(4800 - canvas.width, Settings.camera + movement));
+      Settings.camera.x = Math.max(0, Math.min(4800 - canvas.width, Settings.camera.x + movement));
     });
   }
 
@@ -89,8 +89,9 @@ export default class GameMap {
   async setMap(map: string) {
     this.current = Maps[map];
     this.current.image = await loadImage(`./assets/images/map/${map}.png`);
-    this.current.image_top = await loadImage(`./assets/images/map/${map}_top.png`);
-    Settings.camera = 0;
+    // this.current.image_top = await loadImage(`./assets/images/map/${map}_top.png`);
+    Settings.camera.x = 0;
+    Settings.camera.y = 0;
     this.updateCollisionMap();
   }
 

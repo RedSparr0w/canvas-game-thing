@@ -80,7 +80,7 @@ export default class Pokemon {
     const x = x_ ?? this.currentPosition.x;
     const y = y_ ?? this.currentPosition.y;
     return {
-      x: Math.floor((x + 0.5) * MAP_TILE_SIZE) - (POKEMON_TILE_SIZE * 0.5) - Settings.camera,
+      x: Math.floor((x + 0.5) * MAP_TILE_SIZE) - (POKEMON_TILE_SIZE * 0.5) - Settings.camera.x,
       y: Math.floor((y - 0.4) * MAP_TILE_SIZE),
     };
   }
@@ -210,7 +210,7 @@ export default class Pokemon {
 
     // If pokemon out of frame, we don't need to draw it
     if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
-    const column = this.action === PokemonAction.idle ? Math.floor(this.frame / 200) % 4 : Math.floor(this.frame / 250) % 4;
+    const column = Math.floor(this.frame / 200) % 4;
     context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
     if (this.shiny) {
       context.drawImage(MyApp.images.list.sparkle, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
