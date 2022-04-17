@@ -22,6 +22,7 @@ export type PokemonListData = {
   eggCycles: number;
   baby?: boolean;
   attack?: number;
+  evolution?: string;
 };
 
 export const pokemonList = [
@@ -41,6 +42,7 @@ export const pokemonList = [
       specialDefense: 65,
       speed: 45,
     },
+    evolution: 'Ivysaur',
   },
   {
     id: 2,
@@ -58,6 +60,7 @@ export const pokemonList = [
       specialDefense: 80,
       speed: 60,
     },
+    evolution: 'Venusaur',
   },
   {
     id: 3,
@@ -92,6 +95,7 @@ export const pokemonList = [
       specialDefense: 50,
       speed: 65,
     },
+    evolution: 'Charmeleon',
   },
   {
     id: 5,
@@ -109,6 +113,7 @@ export const pokemonList = [
       specialDefense: 65,
       speed: 80,
     },
+    evolution: 'Charizard',
   },
   {
     id: 6,
@@ -143,6 +148,7 @@ export const pokemonList = [
       specialDefense: 64,
       speed: 43,
     },
+    evolution: 'Wartortle',
   },
   {
     id: 8,
@@ -160,6 +166,7 @@ export const pokemonList = [
       specialDefense: 80,
       speed: 58,
     },
+    evolution: 'Blastoise',
   },
   {
     id: 9,
@@ -194,6 +201,7 @@ export const pokemonList = [
       specialDefense: 20,
       speed: 45,
     },
+    evolution: 'Metapod',
   },
   {
     id: 11,
@@ -211,6 +219,7 @@ export const pokemonList = [
       specialDefense: 25,
       speed: 30,
     },
+    evolution: 'Butterfree',
   },
   {
     id: 12,
@@ -245,6 +254,7 @@ export const pokemonList = [
       specialDefense: 20,
       speed: 50,
     },
+    evolution: 'Kakuna',
   },
   {
     id: 14,
@@ -262,6 +272,7 @@ export const pokemonList = [
       specialDefense: 25,
       speed: 35,
     },
+    evolution: 'Beedrill',
   },
   {
     id: 15,
@@ -296,6 +307,7 @@ export const pokemonList = [
       specialDefense: 35,
       speed: 56,
     },
+    evolution: 'Pidgeotto',
   },
   {
     id: 17,
@@ -313,6 +325,7 @@ export const pokemonList = [
       specialDefense: 50,
       speed: 71,
     },
+    evolution: 'Pidgeot',
   },
   {
     id: 18,
@@ -347,6 +360,7 @@ export const pokemonList = [
       specialDefense: 35,
       speed: 72,
     },
+    evolution: 'Raticate',
   },
   {
     id: 19.01,
@@ -400,23 +414,6 @@ export const pokemonList = [
     },
   },
   {
-    id: 20.02,
-    name: 'Totem Alolan Raticate',
-    catchRate: 127,
-    type: [PokemonType.Dark, PokemonType.Normal],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 145,
-    eggCycles: 23,
-    base: {
-      hitpoints: 75,
-      attack: 71,
-      specialAttack: 40,
-      defense: 80,
-      specialDefense: 80,
-      speed: 77,
-    },
-  },
-  {
     id: 21,
     name: 'Spearow',
     catchRate: 255,
@@ -432,6 +429,7 @@ export const pokemonList = [
       specialDefense: 31,
       speed: 70,
     },
+    evolution: 'Fearow',
   },
   {
     id: 22,
@@ -466,6 +464,7 @@ export const pokemonList = [
       specialDefense: 54,
       speed: 55,
     },
+    evolution: 'Arbok',
   },
   {
     id: 24,
@@ -500,125 +499,7 @@ export const pokemonList = [
       specialDefense: 50,
       speed: 90,
     },
-  },
-  {
-    id: 25.01,
-    name: 'Pikachu (Original cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
-  },
-  {
-    id: 25.02,
-    name: 'Pikachu (Hoenn cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
-  },
-  {
-    id: 25.03,
-    name: 'Pikachu (Sinnoh cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
-  },
-  {
-    id: 25.04,
-    name: 'Pikachu (Unova cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
-  },
-  {
-    id: 25.05,
-    name: 'Pikachu (Kalos cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
-  },
-  {
-    id: 25.06,
-    name: 'Pikachu (Alola cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
-  },
-  {
-    id: 25.07,
-    name: 'Pikachu (Partner cap)',
-    catchRate: 190,
-    type: [PokemonType.Electric],
-    levelType: PokemonLevelType.mediumfast,
-    exp: 112,
-    eggCycles: 10,
-    base: {
-      hitpoints: 35,
-      attack: 55,
-      specialAttack: 50,
-      defense: 40,
-      specialDefense: 50,
-      speed: 90,
-    },
+    evolution: 'Raichu',
   },
   {
     id: 26,

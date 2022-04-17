@@ -168,26 +168,11 @@ export default class Pokemon {
         if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= (this.pokemon.base.attack / 10);
         // If enemy dies from your hit
         if (this.enemy.stats.hitpoints <= 0) {
-          // TODO: Fixup xp gain, enemy death (fade into ground?)
-          this.xp += this.enemy.pokemon.base.hitpoints;
+          this.gainExp(this.enemy.pokemon.base.hitpoints);
+          // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
           this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
           this.action = PokemonAction.idle;
           this.enemy = null;
-
-          // TODO: calculate levels etc
-          if (this.xp >= this.level * 100) {
-            this.xp -= this.level * 100;
-            // Heal a little bit on level up?
-            const hpGain = this.pokemon.base.hitpoints * this.level;
-            this.maxStats.hitpoints += hpGain;
-            this.heal(hpGain * 2);
-            // Increase attack?
-            const attGain = this.maxStats.attack * (this.level / 10);
-            this.stats.attack += attGain;
-            this.maxStats.attack += attGain;
-            // Update new level
-            this.level += 1;
-          }
         }
       }
     }
@@ -248,11 +233,40 @@ export default class Pokemon {
     CanvasTinyNumber.draw(this.level.toString().padStart(2, '0'), barX + 8, barY + 1);
   }
 
-  heal(amount: number) {
+  heal(amount: number): void {
     this.stats.hitpoints = Math.min(this.maxStats.hitpoints, this.stats.hitpoints + amount);
   }
 
-  damage(amount: number) {
+  damage(amount: number): void {
     this.stats.hitpoints = Math.max(0, this.stats.hitpoints - amount);
+  }
+
+  gainExp(amount: number): void {
+    this.xp += amount;
+
+    // TODO: calculate levels etc
+    if (this.xp >= this.level * 100) {
+      this.xp -= this.level * 100;
+      // Heal a little bit on level up?
+      const hpGain = this.pokemon.base.hitpoints * this.level;
+      this.maxStats.hitpoints += hpGain;
+      this.heal(hpGain * 2);
+      // Increase attack?
+      const attGain = this.maxStats.attack * (this.level / 10);
+      this.stats.attack += attGain;
+      this.maxStats.attack += attGain;
+      // Update new level
+      this.level += 1;
+
+      if (this.level === 3 && this.pokemon.evolution) {
+        this.pokemon = pokemonMap[this.pokemon.evolution];
+        this.loadImage();
+      }
+
+      if (this.level === 6 && this.pokemon.evolution) {
+        this.pokemon = pokemonMap[this.pokemon.evolution];
+        this.loadImage();
+      }
+    }
   }
 }
