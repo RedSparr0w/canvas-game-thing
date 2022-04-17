@@ -17,6 +17,8 @@ export type PokemonListData = {
   };
   levelType: PokemonLevelType; // TODO:
   exp: number;
+  // TODO: cost calculations
+  cost: number;
   eggCycles: number;
   baby?: boolean;
   attack?: number;
@@ -19957,6 +19959,7 @@ export const pokemonList = [
     type: [PokemonType.Flying, PokemonType.Normal],
     levelType: PokemonLevelType.mediumslow,
     exp: 64,
+    cost: 64,
     eggCycles: 20,
     base: {
       hitpoints: 178,
@@ -19972,6 +19975,7 @@ export const pokemonList = [
 const pokemonNameIndex = {};
 
 pokemonList.forEach((p) => {
+  p.cost = p.exp;
   pokemonNameIndex[p.name.toLowerCase()] = p;
 });
 
