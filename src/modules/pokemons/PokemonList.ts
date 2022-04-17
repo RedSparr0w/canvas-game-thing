@@ -1197,6 +1197,7 @@ export const pokemonList = [
       specialDefense: 45,
       speed: 70,
     },
+    evolution: 'Primeape',
   },
   {
     id: 57,
