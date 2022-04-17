@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overlay Template</title>
+  <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css">
+  <!--Minified styles-->
+  <link href="styles/styles.min.css?v=0.0.2" rel="stylesheet">
+</head>
+<body>
+    <canvas></canvas>
+
+    <!-- Menus -->
+    <div id="settingsMenu" class="menu bg-secondary">
+  <div class="text-center">
+    <a data-button="setting1" class="btn btn-big btn-primary btn-lg" href="#">Setting1</a>
+    <br/>
+    <br/>
+    <a data-button="setting2" class="btn btn-big btn-primary btn-lg" href="#">Setting2</a>
+    <br/>
+    <br/>
+    <a data-button="back" class="btn btn-big btn-primary btn-lg" href="#">Back</a>
+  </div>
+</div>
+    <div id="mainMenu" class="menu bg-secondary visible">
+  <div class="text-center">
+    <a data-button="startGame" class="btn btn-big btn-primary btn-lg" href="#">Start Game</a>
+    <br/>
+    <br/>
+    <a data-button="settings" class="btn btn-big btn-primary btn-lg" href="#">Settings</a>
+  </div>
+</div>
+    <!-- Game controls -->
+    <div id="gameControls" class="menu">
+  <div class="wrapper">
+    <div class="controlsContainer bg-secondary">
+      <div class="card d-inline-block" style="width: 120px;">
+        <div class="card-body text-center p-0">
+          <span id="player-name" class="card-title text-nowrap">Player X</span>
+          <br/>
+          <span id="player-money" class="card-text">Money: $0</span>
+        </div>
+      </div>
+      <a data-spawn="Bulbasaur" class="btn btn-primary btn-lg" href="#"></a>
+      <a data-spawn="Charmander" class="btn btn-primary btn-lg" href="#"></a>
+      <a data-spawn="Squirtle" class="btn btn-primary btn-lg" href="#"></a>
+      <a data-spawn="Rattata" class="btn btn-primary btn-lg" href="#"></a>
+      <a data-spawn="Pidgey" class="btn btn-primary btn-lg" href="#"></a>
+      <a data-spawn="Pikachu" class="btn btn-primary btn-lg" href="#"></a>
+    </div>
+  </div>
+</div>
+
+<template id="template-spawn-pokemon">
+  <div class="card d-inline-block" style="width: 120px;">
+    <img class="card-img-top" src="" alt="Card image cap">
+    <div class="card-body text-center p-0">
+      <span class="card-title text-nowrap">Pokemon</span>
+      <br/>
+      <span class="card-text cost">Cost: $150</span>
+      <a href="#" class="btn btn-primary col-12 spawn">Spawn</a>
+    </div>
+  </div>
+</template>
+    <!-- our generated code -->
+    <script src="scripts/modules.min.js?v=0.0.2"></script>
+</body>
+</html>
