@@ -228,8 +228,13 @@ export default class Pokemon {
     context.fillStyle = 'tomato';
     context.fillRect(barsX, barY + 1, (this.stats.hitpoints / this.maxStats.hitpoints) * barsSize, 2);
     // Experience
-    context.fillStyle = 'deepskyblue';
-    context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / (this.level * 100)) * barsSize), 2);
+    if (this.level < 99) {
+      context.fillStyle = 'deepskyblue';
+      context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / (this.level * 100)) * barsSize), 2);
+    } else {
+      context.fillStyle = '#555';
+      context.fillRect(barsX, barY + 4, barsSize, 2);
+    }
     CanvasTinyNumber.draw(this.level.toString().padStart(2, '0'), barX + 8, barY + 1);
   }
 
@@ -245,7 +250,7 @@ export default class Pokemon {
     this.xp += amount;
 
     // TODO: calculate levels etc
-    if (this.xp >= this.level * 100) {
+    while (this.xp >= this.level * 100 && this.level < 99) {
       this.xp -= this.level * 100;
       // Heal a little bit on level up?
       const hpGain = this.pokemon.base.hitpoints * this.level;
