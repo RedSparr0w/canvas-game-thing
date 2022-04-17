@@ -57,22 +57,33 @@ export default class GameMap {
   async load() {
     // Our map controls
     let drag = false;
-    let dragStart;
-    let dragEnd;
+    const dragStart = {
+      x: 0,
+      y: 0,
+    };
+    const dragEnd = {
+      x: 0,
+      y: 0,
+    };
     document.addEventListener('mousedown', () => {
       if (MyApp.cursor.inBounds(0, 0, window.innerWidth, this.current.height * MAP_TILE_SIZE)) {
-        dragStart = MyApp.cursor.x;
+        dragStart.x = MyApp.cursor.x;
+        dragStart.y = MyApp.cursor.y;
         drag = true;
       }
     });
     document.addEventListener('mousemove', () => {
       if (drag) {
-        dragEnd = MyApp.cursor.x;
-        const movement = Math.abs(dragEnd - dragStart);
-        if (!movement) return;
+        dragEnd.x = MyApp.cursor.x;
+        dragEnd.y = MyApp.cursor.y;
+        const movementX = Math.abs(dragEnd.x - dragStart.x);
+        const movementY = Math.abs(dragEnd.y - dragStart.y);
+        if (!(movementX + movementY)) return;
         // Ensure our camera doesn't go out of the map
-        Settings.camera.x = Math.max(0, Math.min(this.current.width * MAP_TILE_SIZE - canvas.width, Settings.camera.x + (dragEnd > dragStart ? -movement : movement)));
-        dragStart = dragEnd;
+        Settings.camera.x = Math.max(0, Math.min(this.current.width * MAP_TILE_SIZE - canvas.width, Settings.camera.x + (dragEnd.x > dragStart.x ? -movementX : movementX)));
+        Settings.camera.y = Math.max(0, Math.min(this.current.height * MAP_TILE_SIZE - canvas.height, Settings.camera.y + (dragEnd.y > dragStart.y ? -movementY : movementY)));
+        dragStart.x = dragEnd.x;
+        dragStart.y = dragEnd.y;
       }
     });
     document.addEventListener('mouseup', () => {
