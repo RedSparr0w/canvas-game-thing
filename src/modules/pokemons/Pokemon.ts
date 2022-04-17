@@ -165,7 +165,7 @@ export default class Pokemon {
       } else {
         // Attack
         // TODO: Calculate damage (move, typing, level etc)
-        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= (this.pokemon.base.attack / 10);
+        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= (Math.max(this.pokemon.base.attack, this.pokemon.base.specialAttack) / 10);
         // If enemy dies from your hit
         if (this.enemy.stats.hitpoints <= 0) {
           this.gainExp(this.enemy.pokemon.base.hitpoints);
