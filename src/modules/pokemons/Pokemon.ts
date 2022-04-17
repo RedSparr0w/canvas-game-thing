@@ -159,18 +159,18 @@ export default class Pokemon {
       if (!this.enemy?.hp) {
         this.action = PokemonAction.idle;
         this.enemy = null;
-        return;
-      }
-      // Attack
-      // TODO: Calculate damage (move, typing etc)
-      if (this.enemy.hp > 0) this.enemy.hp -= (this.stats.attack / 10);
-      // If enemy dies from your hit
-      if (this.enemy.hp <= 0) {
-        // TODO: Fixup xp gain, enemy death (fade into ground?)
-        this.xp += this.enemy.stats.hitpoints;
-        this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
-        this.action = PokemonAction.idle;
-        this.enemy = null;
+      } else {
+        // Attack
+        // TODO: Calculate damage (move, typing etc)
+        if (this.enemy.hp > 0) this.enemy.hp -= (this.stats.attack / 10);
+        // If enemy dies from your hit
+        if (this.enemy.hp <= 0) {
+          // TODO: Fixup xp gain, enemy death (fade into ground?)
+          this.xp += this.enemy.stats.hitpoints;
+          this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
+          this.action = PokemonAction.idle;
+          this.enemy = null;
+        }
       }
     }
 
