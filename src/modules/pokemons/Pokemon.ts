@@ -221,18 +221,12 @@ export default class Pokemon {
     context.drawImage(MyApp.images.list.pokemon_bar, barX, barY);
     const barsX = barX + 16;
     const barsSize = 28;
-    // context.fillStyle = '#222';
-    // context.fillRect(barX, barY, 45, 7);
-    // // Hit points
-    // context.fillStyle = 'white';
-    // context.fillRect(barX + 14, barY + 1, 30, 2);
+    // Hit points
     context.fillStyle = 'tomato';
     context.fillRect(barsX, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * barsSize, 2);
-    // // Experience
-    // // TODO: calculate levels etc
-    // context.fillStyle = 'white';
-    // context.fillRect(barX + 14, barY + 4, 30, 2);
+    // Experience
+    // TODO: calculate levels etc
     context.fillStyle = 'deepskyblue';
-    context.fillRect(barsX, barY + 4, Math.min(30, (this.xp / 100) * barsSize), 2);
+    context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / 100) * barsSize), 2);
   }
 }
