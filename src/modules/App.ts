@@ -25,6 +25,7 @@ export default class App {
     await this.ui.load();
     await this.menus.load();
     await this.game.load();
+    // Start drawing our game
     requestAnimationFrame(this.draw.bind(this));
   }
 

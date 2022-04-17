@@ -8,6 +8,7 @@ import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
 import { PokemonNameType } from './PokemonNameType';
 import { PokemonListData, pokemonMap } from './PokemonList';
 import type Player from '../player/Player';
+import CanvasTinyNumber from '../ui/CanvasTinyNumber';
 
 export enum PokemonDirection {
   down = 0,
@@ -37,8 +38,9 @@ export default class Pokemon {
   startMovementFrame = 0;
   // TODO: Stats
   stats: Record<string, number>;
-  hp: number;
+  maxStats: Record<string, number>;
   xp: number = 0;
+  level: number = 1;
 
   private frame = 0;
   private action = PokemonAction.moving;
@@ -53,9 +55,6 @@ export default class Pokemon {
     this.paths.push([spawn.x, spawn.y]);
     this.currentPosition.x = spawn.x;
     this.currentPosition.y = spawn.y;
-    this.stats = pokemonMap[name].base;
-    this.hp = this.stats.hitpoints * 10;
-    this.shiny = Rand.chance(20);
 
     // eslint-disable-next-line default-case
     switch (this.direction) {
@@ -69,7 +68,11 @@ export default class Pokemon {
 
     this.pokemon = pokemonMap[name];
     this.loadImage();
-    this.speed = 1000 - (this.stats.speed * 5);
+    this.speed = 1000 - (this.pokemon.base.speed * 5);
+    this.stats = { ...this.pokemon.base };
+    this.stats.hitpoints = this.pokemon.base.hitpoints * 10;
+    this.maxStats = { ...this.stats };
+    this.shiny = Rand.chance(20);
   }
 
   async loadImage() {
@@ -87,7 +90,7 @@ export default class Pokemon {
 
   // eslint-disable-next-line class-methods-use-this
   getEnemy() {
-    if (!this.enemy?.hp) {
+    if (!this.enemy?.stats?.hitpoints) {
       this.enemy = null;
     }
   }
@@ -156,20 +159,35 @@ export default class Pokemon {
 
     if (this.action === PokemonAction.attacking) {
       // If enemy already dead
-      if (!this.enemy?.hp) {
+      if (!this.enemy?.stats?.hitpoints) {
         this.action = PokemonAction.idle;
         this.enemy = null;
       } else {
         // Attack
-        // TODO: Calculate damage (move, typing etc)
-        if (this.enemy.hp > 0) this.enemy.hp -= (this.stats.attack / 10);
+        // TODO: Calculate damage (move, typing, level etc)
+        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= (this.pokemon.base.attack / 10);
         // If enemy dies from your hit
-        if (this.enemy.hp <= 0) {
+        if (this.enemy.stats.hitpoints <= 0) {
           // TODO: Fixup xp gain, enemy death (fade into ground?)
-          this.xp += this.enemy.stats.hitpoints;
+          this.xp += this.enemy.pokemon.base.hitpoints;
           this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
           this.action = PokemonAction.idle;
           this.enemy = null;
+
+          // TODO: calculate levels etc
+          if (this.xp >= this.level * 100) {
+            this.xp -= this.level * 100;
+            // Heal a little bit on level up?
+            const hpGain = this.pokemon.base.hitpoints * this.level;
+            this.maxStats.hitpoints += hpGain;
+            this.heal(hpGain * 2);
+            // Increase attack?
+            const attGain = this.maxStats.attack * (this.level / 10);
+            this.stats.attack += attGain;
+            this.maxStats.attack += attGain;
+            // Update new level
+            this.level += 1;
+          }
         }
       }
     }
@@ -223,10 +241,18 @@ export default class Pokemon {
     const barsSize = 28;
     // Hit points
     context.fillStyle = 'tomato';
-    context.fillRect(barsX, barY + 1, ((this.hp / 10) / this.stats.hitpoints) * barsSize, 2);
+    context.fillRect(barsX, barY + 1, (this.stats.hitpoints / this.maxStats.hitpoints) * barsSize, 2);
     // Experience
-    // TODO: calculate levels etc
     context.fillStyle = 'deepskyblue';
-    context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / 100) * barsSize), 2);
+    context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / (this.level * 100)) * barsSize), 2);
+    CanvasTinyNumber.draw(this.level.toString().padStart(2, '0'), barX + 8, barY + 1);
+  }
+
+  heal(amount: number) {
+    this.stats.hitpoints = Math.min(this.maxStats.hitpoints, this.stats.hitpoints + amount);
+  }
+
+  damage(amount: number) {
+    this.stats.hitpoints = Math.max(0, this.stats.hitpoints - amount);
   }
 }
