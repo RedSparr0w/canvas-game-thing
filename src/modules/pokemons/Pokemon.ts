@@ -67,12 +67,12 @@ export default class Pokemon {
     }
 
     this.pokemon = pokemonMap[name];
+    this.shiny = Rand.chance(20);
     this.loadImage();
     this.speed = 1000 - (this.pokemon.base.speed * 5);
     this.stats = { ...this.pokemon.base };
     this.stats.hitpoints = this.pokemon.base.hitpoints * 10;
     this.maxStats = { ...this.stats };
-    this.shiny = Rand.chance(20);
   }
 
   async loadImage() {
