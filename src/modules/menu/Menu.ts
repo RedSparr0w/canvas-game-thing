@@ -15,4 +15,11 @@ export default class Menu {
     });
     this.buttons.push(element);
   }
+
+  addEventsToElement(element: HTMLAnchorElement, events: Record<string, () => void>): void {
+    Object.entries(events).forEach(([event, callback]) => {
+      element.addEventListener(event, callback);
+    });
+    this.buttons.push(element);
+  }
 }
