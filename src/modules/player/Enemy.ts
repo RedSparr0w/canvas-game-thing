@@ -47,7 +47,8 @@ export default class Enemy extends Player {
       name,
       { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
       PokemonDirection.left,
-      { x: this.map.player.spawn.x, y: this.map.player.spawn.y }
+      { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
+      1
     ));
   }
 }
