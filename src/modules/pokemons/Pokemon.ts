@@ -123,8 +123,7 @@ export default class Pokemon {
 
   moveToNewPosition() {
     this.getEnemy();
-    const x = (this.paths[0]?.[0] || this.currentPosition.x);
-    const y = (this.paths[0]?.[1] || this.currentPosition.y);
+    const { x, y } = this.currentPosition;
     const destX = this.destination.x;
     const destY = this.destination.y;
     const distX = Math.abs(x - destX);
