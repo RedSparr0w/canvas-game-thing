@@ -1,4 +1,3 @@
-import './temporaryWindowInjection';
 import App from './App';
 
 const MyApp = new App();
