@@ -72,7 +72,6 @@ export default class Pokemon {
     this.pokemon = pokemonMap[name];
     this.shiny = Rand.chance(20);
     this.loadImage();
-    this.speed = 1000 - (this.pokemon.base.speed * 5);
     this.calcStats();
     this.nextLevel = PokemonLevelRequirements[this.pokemon.levelType][this.level] - PokemonLevelRequirements[this.pokemon.levelType][this.level - 1];
   }
@@ -278,6 +277,7 @@ export default class Pokemon {
         this.stats[stat] = this.maxStats[stat];
       }
     });
+    this.speed = 1000 - (this.pokemon.base.speed * 5);
   }
 
   heal(amount: number): void {
