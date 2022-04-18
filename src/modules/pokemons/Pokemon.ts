@@ -25,7 +25,7 @@ export enum PokemonAction {
 }
 
 export default class Pokemon {
-  parent: Player;
+  team: Player;
   image: HTMLImageElement;
   pokemon: PokemonListData;
   enemy: Pokemon;
@@ -91,50 +91,78 @@ export default class Pokemon {
 
   // eslint-disable-next-line class-methods-use-this
   getEnemy() {
-    if (!this.enemy?.stats?.hitpoints) {
-      this.enemy = null;
-    }
-  }
+    let enemy = null;
+    let distance = Infinity;
+    let destX;
+    let destY;
+    MyApp.game.teams.forEach((team) => {
+      if (team === this.team) return;
+      team.pokemon.forEach((e) => {
+        const [x, y] = e.paths[0] ?? [e.currentPosition.x, e.currentPosition.y];
+        const distX = Math.abs(this.currentPosition.x - x);
+        const distY = Math.abs(this.currentPosition.y - y);
+        const dist = distX + distY;
+        if (dist < distance) {
+          enemy = e;
+          distance = dist;
+          destX = x;
+          destY = y;
+        }
+      });
+    });
 
-  getEnemyPos() {
-    const x = (this.enemy.paths[0]?.[0] || this.enemy.currentPosition.x);
-    const y = (this.enemy.paths[0]?.[1] || this.enemy.currentPosition.y);
-    return { x, y };
+    this.destination.x = destX;
+    this.destination.y = destY;
+    this.enemy = enemy;
   }
 
   updateCollisionMap() {
     this.collisions = [...MyApp.game.map.current.collisions.map((a) => [...a])];
+    // Only find collisions within this distance from ourselves
     const maxDist = 2;
-    [
-      ...MyApp.game.player.pokemon,
-      ...MyApp.game.enemy.pokemon,
-    ].forEach((p) => {
-      if (p === this.enemy) return;
-      const x = (p.paths[0]?.[0] || p.currentPosition.x);
-      const y = (p.paths[0]?.[1] || p.currentPosition.y);
-      if (x === this.currentPosition.x && y === this.currentPosition.y) return;
-      if (x >= this.currentPosition.x - maxDist && x <= this.currentPosition.x + maxDist && y >= this.currentPosition.y - maxDist && y <= this.currentPosition.y + maxDist) {
-        this.collisions[y][x] = 1;
-      }
+    MyApp.game.teams.forEach((team) => {
+      team.pokemon.forEach((p) => {
+        // Don't include ourselves
+        if (p === this) return;
+        // Don't include the enemy (as it won't let us find a path to the tile)
+        if (p === this.enemy) return;
+        const x = (p.paths[0]?.[0] || p.currentPosition.x);
+        const y = (p.paths[0]?.[1] || p.currentPosition.y);
+        if (x === this.currentPosition.x && y === this.currentPosition.y) return;
+        if (x >= this.currentPosition.x - maxDist && x <= this.currentPosition.x + maxDist && y >= this.currentPosition.y - maxDist && y <= this.currentPosition.y + maxDist) {
+          this.collisions[y][x] = 1;
+        }
+      });
     });
     this.collisionMap = new PF.Grid(this.collisions);
   }
 
+  getRandomDest() {
+    this.destination.x = this.currentPosition.x + Rand.intBetween(-1, 1);
+    this.destination.y = this.currentPosition.y + Rand.intBetween(-1, 1);
+  }
+
   moveToNewPosition() {
     this.getEnemy();
+    if (!this.enemy) this.getRandomDest();
+
     const { x, y } = this.currentPosition;
     const destX = this.destination.x;
     const destY = this.destination.y;
-    const distX = Math.abs(x - destX);
-    const distY = Math.abs(y - destY);
-    // If next to an enemy, face them, and do nothing else
-    if (distX + distY <= 1) {
-      if (y - destY === 1) this.direction = PokemonDirection.up;
-      else if (y - destY === -1) this.direction = PokemonDirection.down;
-      else if (x - destX === 1) this.direction = PokemonDirection.left;
-      else if (x - destX === -1) this.direction = PokemonDirection.right;
-      this.action = PokemonAction.attacking;
-      return;
+
+    // If we have an enemy, calculate our distance and if we should attack
+    if (this.enemy) {
+      const distX = Math.abs(x - destX);
+      const distY = Math.abs(y - destY);
+      // If next to an enemy, face them, and do nothing else
+      if (distX + distY <= 1) {
+        if (y - destY === 1) this.direction = PokemonDirection.up;
+        else if (y - destY === -1) this.direction = PokemonDirection.down;
+        else if (x - destX === 1) this.direction = PokemonDirection.left;
+        else if (x - destX === -1) this.direction = PokemonDirection.right;
+        this.action = PokemonAction.attacking;
+        return;
+      }
     }
 
     // Move towards the enemy/target
@@ -179,9 +207,9 @@ export default class Pokemon {
           // If enemy dies from your hit
           if (this.enemy.stats.hitpoints <= 0) {
             // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
-            this.enemy.parent.pokemon.delete(this.enemy);
+            this.enemy.team.pokemon.delete(this.enemy);
             this.gainExp(this.enemy);
-            this.parent.updateMoney(10);
+            this.team.updateMoney(10);
             this.action = PokemonAction.idle;
             this.enemy = null;
           }
@@ -297,7 +325,7 @@ export default class Pokemon {
   gainExp(enemy: Pokemon) {
     let xp = enemy.pokemon.exp;
     xp *= enemy.level;
-    xp *= enemy.parent ? 1.5 : 1;
+    xp *= enemy.team ? 1.5 : 1;
     xp /= 7;
     xp = Math.max(1, Math.round(xp));
     this.xp += xp;

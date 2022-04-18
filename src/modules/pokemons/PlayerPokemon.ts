@@ -15,7 +15,7 @@ export default class PlayerPokemon extends Pokemon {
   };
 
   constructor(
-    public parent: Player,
+    public team: Player,
     name: PokemonNameType,
     spawn: { x: number, y: number },
     direction = PokemonDirection.right,
@@ -24,34 +24,5 @@ export default class PlayerPokemon extends Pokemon {
     level = 1
   ) {
     super(name, spawn, direction, destination, level);
-  }
-
-  getEnemy() {
-    super.getEnemy();
-    let enemy = null;
-    let distance = Infinity;
-    let destX;
-    let destY;
-    MyApp.game.enemy.pokemon.forEach((e) => {
-      const [x, y] = e.paths[0] ?? [e.currentPosition.x, e.currentPosition.y];
-      const distX = Math.abs(this.currentPosition.x - x);
-      const distY = Math.abs(this.currentPosition.y - y);
-      const dist = distX + distY;
-      if (dist < distance) {
-        enemy = e;
-        distance = dist;
-        destX = x;
-        destY = y;
-      }
-    });
-    if (enemy) {
-      this.destination.x = destX;
-      this.destination.y = destY;
-      this.enemy = enemy;
-    } else {
-      // TODO: remove once boss/base pokemon added as once that is defeated, the game should end
-      this.destination.x = MyApp.game.map.current.enemy.spawn.x;
-      this.destination.y = MyApp.game.map.current.enemy.spawn.y;
-    }
   }
 }

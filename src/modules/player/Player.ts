@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import type Game from '../Game';
 import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
 import PlayerBossPokemon from '../pokemons/PlayerBossPokemon';
 import PlayerPokemon from '../pokemons/PlayerPokemon';
@@ -12,6 +13,8 @@ export default class Player {
   money = 0;
   moneyTick = 0;
   moneyEl = document.getElementById('player-money');
+
+  constructor(public parent: Game) {}
 
   // eslint-disable-next-line class-methods-use-this
   async load() {

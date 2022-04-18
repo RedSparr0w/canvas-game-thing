@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import PF from 'pathfinding';
 import { canvas } from './Canvas';
+import type Game from './Game';
 import { MAP_TILE_SIZE } from './GameConstants';
 import { loadImage } from './utilities/Functions';
 import { Settings } from './utilities/Settings';
@@ -139,6 +140,8 @@ export default class GameMap {
   current = Maps.route1;
   collisions: Array<Array<number>>;
   collisionMap: any;
+
+  constructor(public parent: Game) {}
 
   // TODO: map type?
   async load() {

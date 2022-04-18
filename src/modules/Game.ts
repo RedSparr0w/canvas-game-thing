@@ -7,26 +7,33 @@ import { Settings } from './utilities/Settings';
 
 export default class Game {
   public running = false;
+  public map: GameMap;
+  public teams: Set<Player>;
+  public player: Player;
+  public enemy: Enemy;
 
   constructor(
-    public map = new GameMap(),
-    public player = new Player(),
-    public enemy = new Enemy()
-  ) {}
+  ) {
+    this.map = new GameMap(this);
+    this.player = new Player(this);
+    this.enemy = new Enemy(this);
+    this.teams = new Set([
+      this.player,
+      this.enemy,
+    ]);
+  }
 
   // TODO: map types?
   async load() {
     await this.map.load();
-    await this.player.load();
-    await this.enemy.load();
+    this.teams.forEach((team) => team.load());
   }
 
   async start(map: string) {
     // Load our map
     await this.map.setMap(map);
     // Setup the players
-    this.player.setup(this.map.current);
-    this.enemy.setup(this.map.current);
+    this.teams.forEach((team) => team.setup(this.map.current));
     this.running = true;
   }
 
@@ -41,8 +48,7 @@ export default class Game {
     // Draw our map
     context.drawImage(MyApp.game.map.current.image, -Settings.camera.x, -Settings.camera.y);
     // Process our player/enemy
-    this.player.draw(delta);
-    this.enemy.draw(delta);
+    this.teams.forEach((team) => team.draw(delta));
     // overlayed images (should appear above stuff on the map)
     context.drawImage(MyApp.game.map.current.image_top, -Settings.camera.x, -Settings.camera.y);
 
