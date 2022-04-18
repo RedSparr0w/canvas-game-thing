@@ -19,10 +19,8 @@ export default class EnemyPokemon extends Pokemon {
     name: PokemonNameType,
     spawn: { x: number, y: number },
     direction = PokemonDirection.right,
-    // TODO: calculate based on enemy position/spawn
-    destination: { x: number, y: number },
     level = 1
   ) {
-    super(name, spawn, direction, destination, level);
+    super(name, spawn, direction, level);
   }
 }

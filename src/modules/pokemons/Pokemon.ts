@@ -35,6 +35,7 @@ export default class Pokemon {
   collisions: Array<Array<number>>;
   collisionMap: any;
   currentPosition: { x: number, y: number } = { x: 0, y: 0 };
+  destination: { x: number, y: number } = { x: 0, y: 0 };
   paths: Array<number[]> = [];
   startMovementFrame = 0;
   startAttackFrame = 0;
@@ -51,8 +52,6 @@ export default class Pokemon {
     name: PokemonNameType,
     spawn: { x: number, y: number },
     public direction = PokemonDirection.right,
-    // TODO: calculate based on enemy position/spawn
-    public destination: { x: number, y: number },
     public level = 1
   ) {
     this.paths.push([spawn.x, spawn.y]);

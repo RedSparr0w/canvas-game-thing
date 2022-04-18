@@ -9,11 +9,9 @@ export default class PlayerBossPokemon extends PlayerPokemon {
     name: PokemonNameType,
     spawn: { x: number, y: number },
     direction = PokemonDirection.right,
-    // TODO: calculate based on enemy position/spawn
-    destination: { x: number, y: number },
     level = 1
   ) {
-    super(parent, name, spawn, direction, destination, level);
+    super(parent, name, spawn, direction, level);
     this.currentPosition.x = spawn.x;
     this.currentPosition.y = spawn.y;
     this.startMovementFrame = Infinity;

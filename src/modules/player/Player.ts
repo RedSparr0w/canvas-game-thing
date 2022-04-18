@@ -35,7 +35,6 @@ export default class Player {
       'Charizard',
       { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
       PokemonDirection.right,
-      { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
       15
     ));
   }
@@ -81,7 +80,6 @@ export default class Player {
       name,
       { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
       PokemonDirection.right,
-      { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
       1
     ));
   }
