@@ -9,6 +9,7 @@ import { PokemonNameType } from './PokemonNameType';
 import { PokemonListData, pokemonMap } from './PokemonList';
 import type Player from '../player/Player';
 import CanvasTinyNumber from '../ui/CanvasTinyNumber';
+import { PokemonLevelRequirements } from './PokemonEnums';
 
 export enum PokemonDirection {
   down = 0,
@@ -38,8 +39,8 @@ export default class Pokemon {
   startMovementFrame = 0;
   startAttackFrame = 0;
   // TODO: Stats
-  stats: Record<string, number>;
-  maxStats: Record<string, number>;
+  stats: Record<string, number> = {};
+  maxStats: Record<string, number> = {};
   xp: number = 0;
   level: number = 1;
   nextLevel: number;
@@ -72,9 +73,8 @@ export default class Pokemon {
     this.shiny = Rand.chance(20);
     this.loadImage();
     this.speed = 1000 - (this.pokemon.base.speed * 5);
-    this.stats = { ...this.pokemon.base };
     this.calcStats();
-    this.nextLevel = this.pokemon.exp;
+    this.nextLevel = PokemonLevelRequirements[this.pokemon.levelType][this.level] - PokemonLevelRequirements[this.pokemon.levelType][this.level - 1];
   }
 
   async loadImage() {
@@ -180,7 +180,7 @@ export default class Pokemon {
           if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
           // If enemy dies from your hit
           if (this.enemy.stats.hitpoints <= 0) {
-            this.gainExp(this.enemy.pokemon.exp);
+            this.gainExp(this.enemy);
             this.parent.updateMoney(10);
             // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
             this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
@@ -270,13 +270,15 @@ export default class Pokemon {
   }
 
   calcStats(): void {
-    Object.keys(this.stats).forEach((stat) => {
-      this.stats[stat] = 2 * this.pokemon.base[stat] * this.level;
-      this.stats[stat] /= 100;
-      this.stats[stat] += (stat === 'hitpoints' ? this.level + 10 : 5);
-      this.stats[stat] = Math.round(this.stats[stat]);
+    Object.keys(this.pokemon.base).forEach((stat) => {
+      this.maxStats[stat] = 2 * this.pokemon.base[stat] * this.level;
+      this.maxStats[stat] /= 100;
+      this.maxStats[stat] += (stat === 'hitpoints' ? this.level + 10 : 5);
+      this.maxStats[stat] = Math.round(this.maxStats[stat]);
+      if (stat !== 'hitpoints' || this.stats[stat] === undefined) {
+        this.stats[stat] = this.maxStats[stat];
+      }
     });
-    this.maxStats = { ...this.stats };
   }
 
   heal(amount: number): void {
@@ -287,23 +289,23 @@ export default class Pokemon {
     this.stats.hitpoints = Math.max(0, this.stats.hitpoints - amount);
   }
 
-  gainExp(amount: number): void {
-    this.xp += amount;
+  gainExp(enemy: Pokemon): void {
+    let xp = enemy.pokemon.exp;
+    xp *= enemy.level;
+    xp *= enemy.parent ? 1.5 : 1;
+    xp /= 7;
+    xp = Math.max(1, Math.round(xp));
+    this.xp += xp;
 
     // TODO: calculate levels etc
     while (this.xp >= this.nextLevel && this.level < 99) {
-      // Reset our xp back to the start for our next level up
       this.xp -= this.nextLevel;
-      // Heal a little bit on level up?
       // Increase attack?
       this.nextLevel = this.pokemon.exp + ((this.pokemon.exp * this.level) * 0.5);
       // Update new level
       this.level += 1;
-      // Re calculate stats
-      this.calcStats();
-      const hpGain = this.maxStats.hitpoints * 0.1;
-      this.heal(hpGain);
 
+      // Evolve if we can
       if (this.level === 3 && this.pokemon.evolution) {
         this.pokemon = pokemonMap[this.pokemon.evolution];
         this.loadImage();
@@ -313,6 +315,16 @@ export default class Pokemon {
         this.pokemon = pokemonMap[this.pokemon.evolution];
         this.loadImage();
       }
+
+      // Calculate xp needed for next level up
+      this.nextLevel = PokemonLevelRequirements[this.pokemon.levelType][this.level] - PokemonLevelRequirements[this.pokemon.levelType][this.level - 1];
+
+      // Re calculate stats
+      this.calcStats();
+
+      // Heal a little bit on level up?
+      const hpGain = this.maxStats.hitpoints * 0.1;
+      this.heal(hpGain);
     }
   }
 }
