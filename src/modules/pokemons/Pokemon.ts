@@ -225,7 +225,7 @@ export default class Pokemon {
 
     // If pokemon out of frame, we don't need to draw it
     if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
-    const column = Math.floor(this.frame / (this.speed / 4)) % 4;
+    const column = Math.floor(this.frame / Math.max(150, this.speed / 4)) % 4;
     context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
     if (this.shiny) {
       context.drawImage(MyApp.images.list.sparkle, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
@@ -283,7 +283,7 @@ export default class Pokemon {
         this.heal(healAmount);
       }
     });
-    this.speed = 1000 - (this.pokemon.base.speed * 5);
+    this.speed = 1100 - (this.pokemon.base.speed * 5);
   }
 
   heal(amount: number): void {
