@@ -36,6 +36,7 @@ export default class Pokemon {
   currentPosition: { x: number, y: number } = { x: 0, y: 0 };
   paths: Array<number[]> = [];
   startMovementFrame = 0;
+  startAttackFrame = 0;
   // TODO: Stats
   stats: Record<string, number>;
   maxStats: Record<string, number>;
@@ -96,6 +97,12 @@ export default class Pokemon {
     }
   }
 
+  getEnemyPos() {
+    const x = (this.enemy.paths[0]?.[0] || this.enemy.currentPosition.x);
+    const y = (this.enemy.paths[0]?.[1] || this.enemy.currentPosition.y);
+    return { x, y };
+  }
+
   updateCollisionMap() {
     this.collisions = [...MyApp.game.map.current.collisions.map((a) => [...a])];
     const maxDist = 2;
@@ -116,7 +123,8 @@ export default class Pokemon {
 
   moveToNewPosition() {
     this.getEnemy();
-    const { x, y } = this.currentPosition;
+    const x = (this.paths[0]?.[0] || this.currentPosition.x);
+    const y = (this.paths[0]?.[1] || this.currentPosition.y);
     const destX = this.destination.x;
     const destY = this.destination.y;
     const distX = Math.abs(x - destX);
@@ -159,22 +167,26 @@ export default class Pokemon {
     }
 
     if (this.action === PokemonAction.attacking) {
-      // If enemy already dead
-      if (!this.enemy?.stats?.hitpoints) {
-        this.action = PokemonAction.idle;
-        this.enemy = null;
-      } else {
-        // Attack
-        // TODO: Calculate damage (move, typing, level etc)
-        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
-        // If enemy dies from your hit
-        if (this.enemy.stats.hitpoints <= 0) {
-          this.gainExp(this.enemy.pokemon.exp);
-          this.parent.updateMoney(10);
-          // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
-          this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
+      const timePassed = this.frame - this.startAttackFrame;
+      if (timePassed >= this.speed) {
+        this.startAttackFrame = this.frame;
+        // If enemy already dead
+        if (!this.enemy?.stats?.hitpoints) {
           this.action = PokemonAction.idle;
           this.enemy = null;
+        } else {
+          // Attack
+          // TODO: Calculate damage (move, typing, level etc)
+          if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
+          // If enemy dies from your hit
+          if (this.enemy.stats.hitpoints <= 0) {
+            this.gainExp(this.enemy.pokemon.exp);
+            this.parent.updateMoney(10);
+            // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
+            this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
+            this.action = PokemonAction.idle;
+            this.enemy = null;
+          }
         }
       }
     }
