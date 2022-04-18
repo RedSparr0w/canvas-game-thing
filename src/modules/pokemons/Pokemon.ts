@@ -294,7 +294,7 @@ export default class Pokemon {
     this.stats.hitpoints = Math.max(0, this.stats.hitpoints - amount);
   }
 
-  gainExp(enemy: Pokemon): void {
+  gainExp(enemy: Pokemon) {
     let xp = enemy.pokemon.exp;
     xp *= enemy.level;
     xp *= enemy.parent ? 1.5 : 1;
@@ -303,6 +303,7 @@ export default class Pokemon {
     this.xp += xp;
 
     // TODO: calculate levels etc
+    let evolve = false;
     while (this.xp >= this.nextLevel && this.level < 99) {
       this.xp -= this.nextLevel;
       // Increase attack?
@@ -313,12 +314,12 @@ export default class Pokemon {
       // Evolve if we can
       if (this.level === 3 && this.pokemon.evolution) {
         this.pokemon = pokemonMap[this.pokemon.evolution];
-        this.loadImage();
+        evolve = true;
       }
 
       if (this.level === 6 && this.pokemon.evolution) {
         this.pokemon = pokemonMap[this.pokemon.evolution];
-        this.loadImage();
+        evolve = true;
       }
 
       // Calculate xp needed for next level up
@@ -327,5 +328,7 @@ export default class Pokemon {
       // Re calculate stats
       this.calcStats();
     }
+    // If we evolved, load our new image
+    if (evolve) this.loadImage();
   }
 }
