@@ -72,8 +72,7 @@ export default class Pokemon {
     this.loadImage();
     this.speed = 1000 - (this.pokemon.base.speed * 5);
     this.stats = { ...this.pokemon.base };
-    this.stats.hitpoints = this.pokemon.base.hitpoints * 10;
-    this.maxStats = { ...this.stats };
+    this.calcStats();
     this.nextLevel = this.pokemon.exp;
   }
 
@@ -167,7 +166,7 @@ export default class Pokemon {
       } else {
         // Attack
         // TODO: Calculate damage (move, typing, level etc)
-        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= (Math.max(this.pokemon.base.attack, this.pokemon.base.specialAttack) / 10);
+        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
         // If enemy dies from your hit
         if (this.enemy.stats.hitpoints <= 0) {
           this.gainExp(this.enemy.pokemon.exp);
@@ -241,6 +240,33 @@ export default class Pokemon {
     CanvasTinyNumber.draw(this.level.toString().padStart(2, '0'), barX + 8, barY + 1);
   }
 
+  calcDamage(enemy: Pokemon): number {
+    // TODO:
+    // Factor in enemy type
+    // Move power?
+    // STAB?
+    // Critical chance?
+    // Use move types (physical/special)
+    const power = 10;
+    // let damage = (2 * this.level);
+    let damage = (2 * this.level);
+    damage *= power;
+    damage *= Math.max(this.stats.attack, this.stats.specialAttack) / Math.max(enemy.stats.defense, enemy.stats.specialDefense);
+    damage /= 50;
+    damage += 2;
+    return Math.max(1, Math.round(damage));
+  }
+
+  calcStats(): void {
+    Object.keys(this.stats).forEach((stat) => {
+      this.stats[stat] = 2 * this.pokemon.base[stat] * this.level;
+      this.stats[stat] /= 100;
+      this.stats[stat] += (stat === 'hitpoints' ? this.level + 10 : 5);
+      this.stats[stat] = Math.round(this.stats[stat]);
+    });
+    this.maxStats = { ...this.stats };
+  }
+
   heal(amount: number): void {
     this.stats.hitpoints = Math.min(this.maxStats.hitpoints, this.stats.hitpoints + amount);
   }
@@ -257,16 +283,14 @@ export default class Pokemon {
       // Reset our xp back to the start for our next level up
       this.xp -= this.nextLevel;
       // Heal a little bit on level up?
-      const hpGain = this.pokemon.base.hitpoints * this.level;
-      this.maxStats.hitpoints += hpGain;
-      this.heal(hpGain * 2);
       // Increase attack?
-      const attGain = this.maxStats.attack * (this.level / 10);
-      this.stats.attack += attGain;
-      this.maxStats.attack += attGain;
       this.nextLevel = this.pokemon.exp + ((this.pokemon.exp * this.level) * 0.5);
       // Update new level
       this.level += 1;
+      // Re calculate stats
+      this.calcStats();
+      const hpGain = this.maxStats.hitpoints * 0.1;
+      this.heal(hpGain);
 
       if (this.level === 3 && this.pokemon.evolution) {
         this.pokemon = pokemonMap[this.pokemon.evolution];
