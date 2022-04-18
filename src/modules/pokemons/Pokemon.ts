@@ -178,10 +178,10 @@ export default class Pokemon {
           if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
           // If enemy dies from your hit
           if (this.enemy.stats.hitpoints <= 0) {
+            // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
+            this.enemy.parent.pokemon.delete(this.enemy);
             this.gainExp(this.enemy);
             this.parent.updateMoney(10);
-            // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
-            this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
             this.action = PokemonAction.idle;
             this.enemy = null;
           }

@@ -7,7 +7,7 @@ import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 
 export default class Player {
-  pokemon: PlayerPokemon[] = [];
+  pokemon: Set<PlayerPokemon> = new Set();
   map: any;
   money = 0;
   moneyTick = 0;
@@ -22,12 +22,12 @@ export default class Player {
     this.map = details;
     this.moneyTick = 0;
     this.money = 0;
-    this.pokemon = [];
+    this.pokemon = new Set();
     this.loadBoss();
   }
 
   loadBoss() {
-    this.pokemon.push(new PlayerBossPokemon(
+    this.pokemon.add(new PlayerBossPokemon(
       this,
       'Charizard',
       { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
@@ -58,7 +58,7 @@ export default class Player {
   }
 
   canAddPokemon(name: PokemonNameType): boolean {
-    if (this.pokemon.length >= 50) return false;
+    if (this.pokemon.size >= 50) return false;
 
     const pokemon = pokemonMap[name];
 
@@ -73,7 +73,7 @@ export default class Player {
     const pokemon = pokemonMap[name];
     this.updateMoney(-pokemon.cost);
 
-    this.pokemon.push(new PlayerPokemon(
+    this.pokemon.add(new PlayerPokemon(
       this,
       name,
       { x: this.map.player.spawn.x, y: this.map.player.spawn.y },

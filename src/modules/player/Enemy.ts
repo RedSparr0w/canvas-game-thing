@@ -8,11 +8,11 @@ import Rand from '../utilities/Rand';
 import Player from './Player';
 
 export default class Enemy extends Player {
-  pokemon: EnemyPokemon[] = [];
+  pokemon: Set<EnemyPokemon> = new Set();
   spawnTick = 0;
 
   loadBoss() {
-    this.pokemon.push(new EnemyBossPokemon(
+    this.pokemon.add(new EnemyBossPokemon(
       this,
       'Charizard',
       { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
@@ -42,7 +42,7 @@ export default class Enemy extends Player {
     const pokemon = pokemonMap[name];
     this.updateMoney(-pokemon.cost);
 
-    this.pokemon.push(new EnemyPokemon(
+    this.pokemon.add(new EnemyPokemon(
       this,
       name,
       { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
