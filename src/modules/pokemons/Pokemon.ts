@@ -41,10 +41,10 @@ export default class Pokemon {
   maxStats: Record<string, number>;
   xp: number = 0;
   level: number = 1;
+  nextLevel: number;
 
   private frame = 0;
   private action = PokemonAction.moving;
-  nextLevel: any;
 
   constructor(
     name: PokemonNameType,
