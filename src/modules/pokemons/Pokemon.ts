@@ -42,7 +42,6 @@ export default class Pokemon {
   stats: Record<string, number> = {};
   maxStats: Record<string, number> = {};
   xp: number = 0;
-  level: number = 1;
   nextLevel: number;
 
   private frame = 0;
@@ -53,7 +52,8 @@ export default class Pokemon {
     spawn: { x: number, y: number },
     public direction = PokemonDirection.right,
     // TODO: calculate based on enemy position/spawn
-    public destination: { x: number, y: number }
+    public destination: { x: number, y: number },
+    public level = 1
   ) {
     this.paths.push([spawn.x, spawn.y]);
     this.currentPosition.x = spawn.x;

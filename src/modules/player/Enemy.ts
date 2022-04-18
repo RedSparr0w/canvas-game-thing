@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import EnemyBossPokemon from '../pokemons/EnemyBossPokemon';
 import EnemyPokemon from '../pokemons/EnemyPokemon';
 import { PokemonDirection } from '../pokemons/Pokemon';
 import { pokemonMap } from '../pokemons/PokemonList';
@@ -9,6 +10,17 @@ import Player from './Player';
 export default class Enemy extends Player {
   pokemon: EnemyPokemon[] = [];
   spawnTick = 0;
+
+  loadBoss() {
+    this.pokemon.push(new EnemyBossPokemon(
+      this,
+      'Charizard',
+      { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
+      PokemonDirection.left,
+      { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
+      15
+    ));
+  }
 
   draw(delta: number) {
     super.draw(delta);

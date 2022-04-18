@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
+import PlayerBossPokemon from '../pokemons/PlayerBossPokemon';
 import PlayerPokemon from '../pokemons/PlayerPokemon';
 import { PokemonDirection } from '../pokemons/Pokemon';
 import { pokemonMap } from '../pokemons/PokemonList';
@@ -21,6 +22,19 @@ export default class Player {
     this.map = details;
     this.moneyTick = 0;
     this.money = 0;
+    this.pokemon = [];
+    this.loadBoss();
+  }
+
+  loadBoss() {
+    this.pokemon.push(new PlayerBossPokemon(
+      this,
+      'Charizard',
+      { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
+      PokemonDirection.right,
+      { x: this.map.enemy.spawn.x, y: this.map.enemy.spawn.y },
+      15
+    ));
   }
 
   draw(delta: number) {
