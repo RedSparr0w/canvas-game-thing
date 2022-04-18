@@ -3,6 +3,7 @@ import PF from 'pathfinding';
 import { canvas } from './Canvas';
 import type Game from './Game';
 import { MAP_TILE_SIZE } from './GameConstants';
+import { PokemonDirection } from './pokemons/PokemonEnums';
 import { loadImage } from './utilities/Functions';
 import { Settings } from './utilities/Settings';
 
@@ -41,18 +42,22 @@ export const Maps = {
       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ],
-    player: {
-      spawn: {
-        x: 0,
-        y: 5,
+    teams: [
+      {
+        spawn: {
+          x: 0,
+          y: 5,
+          direction: PokemonDirection.right,
+        },
       },
-    },
-    enemy: {
-      spawn: {
-        x: 99,
-        y: 5,
+      {
+        spawn: {
+          x: 99,
+          y: 5,
+          direction: PokemonDirection.left,
+        },
       },
-    },
+    ],
   },
   kanto: {
     image: new Image(),
@@ -121,18 +126,22 @@ export const Maps = {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
-    player: {
-      spawn: {
-        x: 90,
-        y: 24,
+    teams: [
+      {
+        spawn: {
+          x: 90,
+          y: 24,
+          direction: PokemonDirection.right,
+        },
       },
-    },
-    enemy: {
-      spawn: {
-        x: 8,
-        y: 4,
+      {
+        spawn: {
+          x: 8,
+          y: 4,
+          direction: PokemonDirection.left,
+        },
       },
-    },
+    ],
   },
 };
 

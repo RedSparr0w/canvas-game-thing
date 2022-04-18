@@ -38,3 +38,17 @@ export enum PokemonType {
   'Steel' = 16,
   'Fairy' = 17,
 }
+
+export enum PokemonDirection {
+  down = 0,
+  left = 1,
+  right = 2,
+  up = 3,
+}
+
+export enum PokemonAction {
+  idle = 0,
+  moving = 1,
+  attacking = 2,
+  defending = 3,
+}

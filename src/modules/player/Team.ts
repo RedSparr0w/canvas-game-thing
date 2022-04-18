@@ -1,18 +1,26 @@
 /* eslint-disable max-classes-per-file */
 import type Game from '../Game';
 import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
-import PlayerBossPokemon from '../pokemons/PlayerBossPokemon';
-import PlayerPokemon from '../pokemons/PlayerPokemon';
-import { PokemonDirection } from '../pokemons/Pokemon';
+import PlayerBossPokemon from '../pokemons/BossPokemon';
+import Pokemon from '../pokemons/Pokemon';
+import { PokemonDirection } from '../pokemons/PokemonEnums';
 import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 
-export default class Player {
-  pokemon: Set<PlayerPokemon> = new Set();
-  map: any;
+export default class Team {
+  pokemon: Set<Pokemon> = new Set();
   money = 0;
   moneyTick = 0;
   moneyEl = document.getElementById('player-money');
+  spawn: {
+    x: number,
+    y: number,
+    direction: PokemonDirection,
+  } = {
+    x: 0,
+    y: 0,
+    direction: PokemonDirection.right,
+  };
 
   constructor(public parent: Game) {}
 
@@ -21,8 +29,8 @@ export default class Player {
     // load our assets?
   }
 
-  setup(details: any) {
-    this.map = details;
+  setup(spawn: { x: number, y: number, direction: PokemonDirection }) {
+    this.spawn = spawn;
     this.moneyTick = 0;
     this.money = 0;
     this.pokemon = new Set();
@@ -33,8 +41,7 @@ export default class Player {
     this.pokemon.add(new PlayerBossPokemon(
       this,
       'Charizard',
-      { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
-      PokemonDirection.right,
+      { x: this.spawn.x, y: this.spawn.y, direction: this.spawn.direction },
       15
     ));
   }
@@ -56,7 +63,6 @@ export default class Player {
 
   updateMoney(amount: number) {
     this.money += amount;
-    this.moneyEl.innerText = `Money: $${this.money}`;
   }
 
   canAddPokemon(name: PokemonNameType): boolean {
@@ -75,11 +81,10 @@ export default class Player {
     const pokemon = pokemonMap[name];
     this.updateMoney(-pokemon.cost);
 
-    this.pokemon.add(new PlayerPokemon(
+    this.pokemon.add(new Pokemon(
       this,
       name,
-      { x: this.map.player.spawn.x, y: this.map.player.spawn.y },
-      PokemonDirection.right,
+      { x: this.spawn.x, y: this.spawn.y, direction: this.spawn.direction },
       1
     ));
   }

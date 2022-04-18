@@ -1,22 +1,23 @@
 import { canvas, context } from './Canvas';
 import GameMap from './Maps';
-import Player from './player/Player';
-import Enemy from './player/Enemy';
+import Team from './player/Team';
 import { drawFrame } from './utilities/CanvasFunctions';
 import { Settings } from './utilities/Settings';
+import PlayerTeam from './player/PlayerTeam';
+import EnemyTeam from './player/EnemyTeam';
 
 export default class Game {
   public running = false;
   public map: GameMap;
-  public teams: Set<Player>;
-  public player: Player;
-  public enemy: Enemy;
+  public teams: Set<Team>;
+  public player: Team;
+  public enemy: Team;
 
   constructor(
   ) {
     this.map = new GameMap(this);
-    this.player = new Player(this);
-    this.enemy = new Enemy(this);
+    this.player = new PlayerTeam(this);
+    this.enemy = new EnemyTeam(this);
     this.teams = new Set([
       this.player,
       this.enemy,
@@ -33,7 +34,11 @@ export default class Game {
     // Load our map
     await this.map.setMap(map);
     // Setup the players
-    this.teams.forEach((team) => team.setup(this.map.current));
+    let teamIndex = 0;
+    this.teams.forEach((team) => {
+      team.setup(this.map.current.teams[teamIndex].spawn);
+      teamIndex += 1;
+    });
     this.running = true;
   }
 

@@ -7,25 +7,11 @@ import { PathFinders } from '../Maps';
 import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
 import { PokemonNameType } from './PokemonNameType';
 import { PokemonListData, pokemonMap } from './PokemonList';
-import type Player from '../player/Player';
+import type Team from '../player/Team';
 import CanvasTinyNumber from '../ui/CanvasTinyNumber';
-import { PokemonLevelRequirements } from './PokemonEnums';
-
-export enum PokemonDirection {
-  down = 0,
-  left = 1,
-  right = 2,
-  up = 3,
-}
-export enum PokemonAction {
-  idle = 0,
-  moving = 1,
-  attacking = 2,
-  defending = 3,
-}
+import { PokemonAction, PokemonDirection, PokemonLevelRequirements } from './PokemonEnums';
 
 export default class Pokemon {
-  team: Player;
   image: HTMLImageElement;
   pokemon: PokemonListData;
   enemy: Pokemon;
@@ -36,6 +22,7 @@ export default class Pokemon {
   collisionMap: any;
   currentPosition: { x: number, y: number } = { x: 0, y: 0 };
   destination: { x: number, y: number } = { x: 0, y: 0 };
+  direction: PokemonDirection = PokemonDirection.right;
   paths: Array<number[]> = [];
   startMovementFrame = 0;
   startAttackFrame = 0;
@@ -49,9 +36,17 @@ export default class Pokemon {
   private action = PokemonAction.moving;
 
   constructor(
+    public team: Team,
     name: PokemonNameType,
-    spawn: { x: number, y: number },
-    public direction = PokemonDirection.right,
+    public spawn: {
+      x: number,
+      y: number,
+      direction: PokemonDirection,
+    } = {
+      x: 0,
+      y: 0,
+      direction: PokemonDirection.right,
+    },
     public level = 1
   ) {
     this.paths.push([spawn.x, spawn.y]);
@@ -59,7 +54,7 @@ export default class Pokemon {
     this.currentPosition.y = spawn.y;
 
     // eslint-disable-next-line default-case
-    switch (this.direction) {
+    switch (spawn.direction) {
       case PokemonDirection.right:
         this.currentPosition.x -= 1;
         break;
@@ -67,6 +62,7 @@ export default class Pokemon {
         this.currentPosition.x += 1;
         break;
     }
+    this.direction = spawn.direction;
 
     this.pokemon = pokemonMap[name];
     this.shiny = Rand.chance(20);
