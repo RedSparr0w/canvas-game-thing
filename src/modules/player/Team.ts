@@ -29,8 +29,8 @@ export default class Team {
     // load our assets?
   }
 
-  setup(spawn: { x: number, y: number, direction: PokemonDirection }) {
-    this.spawn = spawn;
+  setup(mapData: { spawn: { x: number, y: number, direction: PokemonDirection }}) {
+    this.spawn = mapData.spawn;
     this.moneyTick = 0;
     this.money = 0;
     this.pokemon = new Set();

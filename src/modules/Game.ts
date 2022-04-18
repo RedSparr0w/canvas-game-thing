@@ -36,7 +36,7 @@ export default class Game {
     // Setup the players
     let teamIndex = 0;
     this.teams.forEach((team) => {
-      team.setup(this.map.current.teams[teamIndex].spawn);
+      team.setup(this.map.current.teams[teamIndex]);
       teamIndex += 1;
     });
     this.running = true;
