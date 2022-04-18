@@ -269,12 +269,18 @@ export default class Pokemon {
 
   calcStats(): void {
     Object.keys(this.pokemon.base).forEach((stat) => {
-      this.maxStats[stat] = 2 * this.pokemon.base[stat] * this.level;
-      this.maxStats[stat] /= 100;
-      this.maxStats[stat] += (stat === 'hitpoints' ? this.level + 10 : 5);
-      this.maxStats[stat] = Math.round(this.maxStats[stat]);
+      let newMax = 2 * this.pokemon.base[stat] * this.level;
+      newMax /= 100;
+      newMax += (stat === 'hitpoints' ? this.level + 10 : 5);
+      newMax = Math.round(newMax);
       if (stat !== 'hitpoints' || this.stats[stat] === undefined) {
-        this.stats[stat] = this.maxStats[stat];
+        this.stats[stat] = newMax;
+        this.maxStats[stat] = newMax;
+      } else {
+        // Calculte the difference of old max vs new max
+        const healAmount = (newMax - this.maxStats[stat]);
+        this.maxStats[stat] = newMax;
+        this.heal(healAmount);
       }
     });
     this.speed = 1000 - (this.pokemon.base.speed * 5);
@@ -320,10 +326,6 @@ export default class Pokemon {
 
       // Re calculate stats
       this.calcStats();
-
-      // Heal a little bit on level up?
-      const hpGain = this.maxStats.hitpoints * 0.1;
-      this.heal(hpGain);
     }
   }
 }
