@@ -44,6 +44,7 @@ export default class Pokemon {
 
   private frame = 0;
   private action = PokemonAction.moving;
+  nextLevel: any;
 
   constructor(
     name: PokemonNameType,
@@ -73,6 +74,7 @@ export default class Pokemon {
     this.stats = { ...this.pokemon.base };
     this.stats.hitpoints = this.pokemon.base.hitpoints * 10;
     this.maxStats = { ...this.stats };
+    this.nextLevel = this.pokemon.exp;
   }
 
   async loadImage() {
@@ -168,7 +170,8 @@ export default class Pokemon {
         if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= (Math.max(this.pokemon.base.attack, this.pokemon.base.specialAttack) / 10);
         // If enemy dies from your hit
         if (this.enemy.stats.hitpoints <= 0) {
-          this.gainExp(this.enemy.pokemon.base.hitpoints);
+          this.gainExp(this.enemy.pokemon.exp);
+          this.parent.updateMoney(10);
           // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
           this.enemy.parent.pokemon.splice(this.enemy.parent.pokemon.findIndex((p) => p === this.enemy), 1);
           this.action = PokemonAction.idle;
@@ -230,7 +233,7 @@ export default class Pokemon {
     // Experience
     if (this.level < 99) {
       context.fillStyle = 'deepskyblue';
-      context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / (this.level * 100)) * barsSize), 2);
+      context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / this.nextLevel) * barsSize), 2);
     } else {
       context.fillStyle = '#555';
       context.fillRect(barsX, barY + 4, barsSize, 2);
@@ -250,8 +253,9 @@ export default class Pokemon {
     this.xp += amount;
 
     // TODO: calculate levels etc
-    while (this.xp >= this.level * 100 && this.level < 99) {
-      this.xp -= this.level * 100;
+    while (this.xp >= this.nextLevel && this.level < 99) {
+      // Reset our xp back to the start for our next level up
+      this.xp -= this.nextLevel;
       // Heal a little bit on level up?
       const hpGain = this.pokemon.base.hitpoints * this.level;
       this.maxStats.hitpoints += hpGain;
@@ -260,6 +264,7 @@ export default class Pokemon {
       const attGain = this.maxStats.attack * (this.level / 10);
       this.stats.attack += attGain;
       this.maxStats.attack += attGain;
+      this.nextLevel = this.pokemon.exp + ((this.pokemon.exp * this.level) * 0.5);
       // Update new level
       this.level += 1;
 
