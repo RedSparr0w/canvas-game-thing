@@ -207,3 +207,10 @@ export const KeyCodeToDirection = {
   KeyS: 'down',
   KeyD: 'right',
 };
+
+export enum GameStatus {
+  stopped,
+  started,
+  paused,
+  ended,
+}

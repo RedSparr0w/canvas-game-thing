@@ -1,4 +1,4 @@
-import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
+import { GameStatus, MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
 import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Rand from '../utilities/Rand';
@@ -11,6 +11,9 @@ export default class EnemyTeam extends Team {
 
   draw(delta: number) {
     super.draw(delta);
+
+    // We don't want to spawn more pokemon once the game has ended
+    if (this.parent.status === GameStatus.ended) return;
 
     // Don't bother doing anything if we already have 50 pokemon
     if (this.pokemon.size >= 50) return;
@@ -26,7 +29,7 @@ export default class EnemyTeam extends Team {
 
       const pokemon = pokemonMap[this.nextSpawnPokemon];
       const moneyRequired = pokemon.cost - this.money;
-      if (!moneyRequired) {
+      if (moneyRequired <= 0) {
         // If we can afford it already, just wait some time before spawning it in
         this.nextSpawnTick = this.spawnTick + Rand.intBetween(500, 5000);
         return;

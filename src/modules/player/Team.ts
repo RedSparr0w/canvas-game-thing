@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import type Game from '../Game';
 import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
-import PlayerBossPokemon from '../pokemons/BossPokemon';
+import BossPokemon from '../pokemons/BossPokemon';
 import Pokemon from '../pokemons/Pokemon';
 import { SpawnPosition } from '../pokemons/PokemonEnums';
 import { pokemonMap } from '../pokemons/PokemonList';
@@ -13,6 +13,7 @@ export default class Team {
   moneyTick = 0;
   moneyEl = document.getElementById('player-money');
   map: { spawn: SpawnPosition, boss: SpawnPosition };
+  boss: BossPokemon;
 
   constructor(public parent: Game) {}
 
@@ -30,7 +31,7 @@ export default class Team {
   }
 
   loadBoss() {
-    this.pokemon.add(new PlayerBossPokemon(
+    this.boss = new BossPokemon(
       this,
       'Charizard',
       {
@@ -39,7 +40,8 @@ export default class Team {
         direction: this.map.boss.direction,
         level: this.map.boss.level || 15,
       }
-    ));
+    );
+    this.pokemon.add(this.boss);
   }
 
   draw(delta: number) {

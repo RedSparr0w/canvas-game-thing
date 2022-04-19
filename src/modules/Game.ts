@@ -6,14 +6,15 @@ import { Settings } from './utilities/Settings';
 import PlayerTeam from './player/PlayerTeam';
 import EnemyTeam from './player/EnemyTeam';
 import AttackSprite from './attack/AttackSprite';
+import { GameStatus } from './GameConstants';
 
 export default class Game {
-  public running = false;
   public map: GameMap;
   public teams: Set<Team>;
   public player: Team;
   public enemy: Team;
   public attacks: Set<AttackSprite>;
+  public status: GameStatus;
 
   constructor(
   ) {
@@ -25,6 +26,7 @@ export default class Game {
       this.enemy,
     ]);
     this.attacks = new Set();
+    this.status = GameStatus.stopped;
   }
 
   // TODO: map types?
@@ -42,16 +44,19 @@ export default class Game {
       team.setup(this.map.current.teams[teamIndex]);
       teamIndex += 1;
     });
-    this.running = true;
+    this.status = GameStatus.started;
   }
 
   async stop() {
-    this.running = false;
+    this.status = GameStatus.stopped;
   }
 
   draw(delta: number) {
-    // If our game isn't started/runnign return
-    if (!this.running) return;
+    // If our game isn't running return
+    if (this.status === GameStatus.stopped) return;
+    // If the game is paused, our delta should be 0
+    // eslint-disable-next-line no-param-reassign
+    if (this.status === GameStatus.paused) delta = 0;
 
     // Draw our map
     context.drawImage(MyApp.game.map.current.image, -Settings.camera.x, -Settings.camera.y);

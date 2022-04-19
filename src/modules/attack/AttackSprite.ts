@@ -1,4 +1,4 @@
-import { canvas, context } from '../Canvas';
+import { context } from '../Canvas';
 import { MAP_TILE_SIZE } from '../GameConstants';
 import { SpawnPosition } from '../pokemons/PokemonEnums';
 import { tileToCanvas } from '../utilities/CanvasFunctions';

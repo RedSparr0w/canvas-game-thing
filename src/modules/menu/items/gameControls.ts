@@ -13,7 +13,7 @@ const template = document.querySelector('#template-spawn-pokemon') as HTMLTempla
   const title = clone.querySelector('.card-title') as HTMLTitleElement;
   title.innerText = pokemon.name;
   const cost = clone.querySelector('.cost') as HTMLTitleElement;
-  cost.innerText = `Cost: $${pokemon.cost}`;
+  cost.innerText = `$${pokemon.cost}`;
   const spawnButton = clone.querySelector('.spawn') as HTMLAnchorElement;
   spawnButton.dataset.spawn = pokemon.name;
 
