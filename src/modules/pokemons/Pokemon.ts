@@ -9,7 +9,12 @@ import { PokemonNameType } from './PokemonNameType';
 import { PokemonListData, pokemonMap } from './PokemonList';
 import type Team from '../player/Team';
 import CanvasTinyNumber from '../ui/CanvasTinyNumber';
-import { PokemonAction, PokemonDirection, PokemonLevelRequirements } from './PokemonEnums';
+import {
+  PokemonAction,
+  PokemonDirection,
+  PokemonLevelRequirements,
+  SpawnPosition,
+} from './PokemonEnums';
 
 export default class Pokemon {
   image: HTMLImageElement;
@@ -27,6 +32,7 @@ export default class Pokemon {
   startMovementFrame = 0;
   startAttackFrame = 0;
   // Stats
+  level = 1;
   stats: Record<string, number> = {};
   maxStats: Record<string, number> = {};
   xp: number = 0;
@@ -38,20 +44,12 @@ export default class Pokemon {
   constructor(
     public team: Team,
     name: PokemonNameType,
-    public spawn: {
-      x: number,
-      y: number,
-      direction: PokemonDirection,
-    } = {
-      x: 0,
-      y: 0,
-      direction: PokemonDirection.right,
-    },
-    public level = 1
+    public spawn: SpawnPosition
   ) {
     this.paths.push([spawn.x, spawn.y]);
     this.currentPosition.x = spawn.x;
     this.currentPosition.y = spawn.y;
+    this.level = spawn.level || this.level;
 
     // eslint-disable-next-line default-case
     switch (spawn.direction) {

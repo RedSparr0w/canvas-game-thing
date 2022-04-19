@@ -57,4 +57,5 @@ export type SpawnPosition = {
   x: number,
   y: number,
   direction: PokemonDirection,
+  level?: number,
 };

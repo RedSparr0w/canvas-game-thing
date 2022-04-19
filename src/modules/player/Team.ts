@@ -33,8 +33,12 @@ export default class Team {
     this.pokemon.add(new PlayerBossPokemon(
       this,
       'Charizard',
-      { x: this.map.boss.x, y: this.map.boss.y, direction: this.map.boss.direction },
-      15
+      {
+        x: this.map.boss.x,
+        y: this.map.boss.y,
+        direction: this.map.boss.direction,
+        level: this.map.boss.level || 15,
+      }
     ));
   }
 
@@ -76,8 +80,12 @@ export default class Team {
     this.pokemon.add(new Pokemon(
       this,
       name,
-      { x: this.map.spawn.x, y: this.map.spawn.y, direction: this.map.spawn.direction },
-      1
+      {
+        x: this.map.spawn.x,
+        y: this.map.spawn.y,
+        direction: this.map.spawn.direction,
+        level: this.map.spawn.level || 1,
+      }
     ));
   }
 }

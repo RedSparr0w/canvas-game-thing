@@ -1,24 +1,15 @@
 import type Team from '../player/Team';
 import Pokemon from './Pokemon';
-import { PokemonDirection } from './PokemonEnums';
+import { SpawnPosition } from './PokemonEnums';
 import { PokemonNameType } from './PokemonNameType';
 
 export default class BossPokemon extends Pokemon {
   constructor(
     parent: Team,
     name: PokemonNameType,
-    spawn: {
-      x: number,
-      y: number,
-      direction: PokemonDirection,
-    } = {
-      x: 0,
-      y: 0,
-      direction: PokemonDirection.right,
-    },
-    level = 1
+    spawn: SpawnPosition
   ) {
-    super(parent, name, spawn, level);
+    super(parent, name, spawn);
     this.currentPosition.x = spawn.x;
     this.currentPosition.y = spawn.y;
     this.startMovementFrame = Infinity;
