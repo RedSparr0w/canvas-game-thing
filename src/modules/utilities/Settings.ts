@@ -11,6 +11,8 @@ export const Settings = {
     x: 0,
     y: 0,
   },
+  // Display
+  theme: 'darkly',
 };
 
 // Create our settings GUI
@@ -19,6 +21,44 @@ const SettingsPane = new Pane({
   expanded: true,
 });
 SettingsPane.registerPlugin(EssentialsPlugin);
+
+// Display
+const Display = SettingsPane.addFolder({
+  title: 'Display',
+  expanded: true,
+});
+const Theme = Display.addInput(Settings, 'theme', {
+  options: {
+    Cerulean: 'cerulean',
+    Cosmo: 'cosmo',
+    Cyborg: 'cyborg',
+    Darkly: 'darkly',
+    Flatly: 'flatly',
+    Journal: 'journal',
+    Litera: 'litera',
+    Lumen: 'lumen',
+    Lux: 'lux',
+    Materia: 'materia',
+    Minty: 'minty',
+    Morph: 'morph',
+    Pulse: 'pulse',
+    Quartz: 'quartz',
+    Sandstone: 'sandstone',
+    Simplex: 'simplex',
+    Sketchy: 'sketchy',
+    Slate: 'slate',
+    Solar: 'solar',
+    Spacelab: 'spacelab',
+    Superhero: 'superhero',
+    United: 'united',
+    Vapor: 'vapor',
+    Yeti: 'yeti',
+    Zephyr: 'zephyr',
+  },
+});
+Theme.on('change', (ev) => {
+  (document.getElementById('theme') as HTMLLinkElement).href = `https://bootswatch.com/5/${ev.value}/bootstrap.min.css`;
+});
 
 // Performance settings
 const Performance = SettingsPane.addFolder({
