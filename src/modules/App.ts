@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-import { canvas, context } from './Canvas';
 import Cursor from './Cursor';
 import Game from './Game';
 import Images from './Images';
@@ -36,11 +35,18 @@ export default class App {
       requestAnimationFrame(this.draw.bind(this));
       return;
     }
+    // Update last frame time
+    this.frame = time;
+    // If tab has been out of focus or major lag, don't try to compensate
+    if (delta >= 500) {
+      requestAnimationFrame(this.draw.bind(this));
+      return;
+    }
     fpsGraph.begin();
 
     // Set our background color
-    context.fillStyle = '#333';
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    // context.fillStyle = '#333';
+    // context.fillRect(0, 0, canvas.width, canvas.height);
     // context.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw to our canvas using whatever our current draw function is
@@ -49,8 +55,6 @@ export default class App {
     // Draw our cursor last so it is on top of everything
     this.cursor.draw(delta);
 
-    // Update last frame time
-    this.frame = time;
     fpsGraph.end();
     // start next frame
     requestAnimationFrame(this.draw.bind(this));
