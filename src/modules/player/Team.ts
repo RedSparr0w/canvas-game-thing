@@ -33,7 +33,7 @@ export default class Team {
     this.spawn = mapData.spawn;
     this.moneyTick = 0;
     this.money = 0;
-    this.pokemon = new Set();
+    this.pokemon.clear();
     this.loadBoss();
   }
 
