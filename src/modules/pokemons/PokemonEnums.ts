@@ -52,3 +52,9 @@ export enum PokemonAction {
   attacking = 2,
   defending = 3,
 }
+
+export type SpawnPosition = {
+  x: number,
+  y: number,
+  direction: PokemonDirection,
+};

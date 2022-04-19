@@ -49,10 +49,20 @@ export const Maps = {
           y: 5,
           direction: PokemonDirection.right,
         },
+        boss: {
+          x: 4,
+          y: 5,
+          direction: PokemonDirection.right,
+        },
       },
       {
         spawn: {
           x: 99,
+          y: 5,
+          direction: PokemonDirection.left,
+        },
+        boss: {
+          x: 95,
           y: 5,
           direction: PokemonDirection.left,
         },
@@ -131,6 +141,11 @@ export const Maps = {
         spawn: {
           x: 90,
           y: 24,
+          direction: PokemonDirection.down,
+        },
+        boss: {
+          x: 86,
+          y: 21,
           direction: PokemonDirection.left,
         },
       },
@@ -138,6 +153,11 @@ export const Maps = {
         spawn: {
           x: 8,
           y: 4,
+          direction: PokemonDirection.down,
+        },
+        boss: {
+          x: 8,
+          y: 8,
           direction: PokemonDirection.down,
         },
       },

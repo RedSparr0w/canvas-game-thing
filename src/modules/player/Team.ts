@@ -3,7 +3,7 @@ import type Game from '../Game';
 import { MONEY_PER_TICK, MONEY_TICK } from '../GameConstants';
 import PlayerBossPokemon from '../pokemons/BossPokemon';
 import Pokemon from '../pokemons/Pokemon';
-import { PokemonDirection } from '../pokemons/PokemonEnums';
+import { SpawnPosition } from '../pokemons/PokemonEnums';
 import { pokemonMap } from '../pokemons/PokemonList';
 import { PokemonNameType } from '../pokemons/PokemonNameType';
 
@@ -12,15 +12,7 @@ export default class Team {
   money = 0;
   moneyTick = 0;
   moneyEl = document.getElementById('player-money');
-  spawn: {
-    x: number,
-    y: number,
-    direction: PokemonDirection,
-  } = {
-    x: 0,
-    y: 0,
-    direction: PokemonDirection.right,
-  };
+  map: { spawn: SpawnPosition, boss: SpawnPosition };
 
   constructor(public parent: Game) {}
 
@@ -29,8 +21,8 @@ export default class Team {
     // load our assets?
   }
 
-  setup(mapData: { spawn: { x: number, y: number, direction: PokemonDirection }}) {
-    this.spawn = mapData.spawn;
+  setup(mapData: { spawn: SpawnPosition, boss: SpawnPosition }) {
+    this.map = mapData;
     this.moneyTick = 0;
     this.money = 0;
     this.pokemon.clear();
@@ -41,7 +33,7 @@ export default class Team {
     this.pokemon.add(new PlayerBossPokemon(
       this,
       'Charizard',
-      { x: this.spawn.x, y: this.spawn.y, direction: this.spawn.direction },
+      { x: this.map.boss.x, y: this.map.boss.y, direction: this.map.boss.direction },
       15
     ));
   }
@@ -84,7 +76,7 @@ export default class Team {
     this.pokemon.add(new Pokemon(
       this,
       name,
-      { x: this.spawn.x, y: this.spawn.y, direction: this.spawn.direction },
+      { x: this.map.spawn.x, y: this.map.spawn.y, direction: this.map.spawn.direction },
       1
     ));
   }
