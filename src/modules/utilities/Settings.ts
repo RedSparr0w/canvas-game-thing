@@ -64,11 +64,16 @@ const Performance = SettingsPane.addFolder({
   title: 'Performance',
   expanded: true,
 });
-Performance.addInput(Settings, 'fps', { min: 10, max: 144, step: 1 }).on('change', (ev) => {
+Performance.addInput(Settings, 'fps', {
+  label: 'fps limit',
+  min: 10,
+  max: 144,
+  step: 1,
+}).on('change', (ev) => {
   Settings.mspf = Math.floor(1000 / ev.value) - 1;
 });
 export const fpsGraph: any = Performance.addBlade({
   view: 'fpsgraph',
-  label: 'current',
+  label: 'fps current',
   lineCount: 3,
 });
