@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Overlay Template</title>
-  <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css">
+  <title>Canvas Game Thing</title>
+  <link id="theme" rel="stylesheet" href="https://bootswatch.com/5/united/bootstrap.min.css">
   <!--Minified styles-->
-  <link href="styles/styles.min.css?v=0.0.3" rel="stylesheet">
+  <link href="styles/styles.min.css?v=0.0.4" rel="stylesheet">
 </head>
 <body>
     <canvas></canvas>
@@ -15,32 +15,38 @@
     <!-- Menus -->
     <div id="settingsMenu" class="menu bg-secondary">
   <div class="text-center">
-    <a data-button="setting1" class="btn btn-big btn-primary btn-lg" href="#">Setting1</a>
+    <a data-button="setting1" class="btn btn-primary btn-lg" href="#">Setting1</a>
     <br/>
     <br/>
-    <a data-button="setting2" class="btn btn-big btn-primary btn-lg" href="#">Setting2</a>
+    <a data-button="setting2" class="btn btn-primary btn-lg" href="#">Setting2</a>
     <br/>
     <br/>
-    <a data-button="back" class="btn btn-big btn-primary btn-lg" href="#">Back</a>
+    <a data-button="back" class="btn btn-primary btn-lg" href="#">Back</a>
   </div>
 </div>
     <div id="mainMenu" class="menu bg-secondary visible">
   <div class="text-center">
-    <a data-button="startGame" class="btn btn-big btn-primary btn-lg" href="#">Start Game</a>
+    <img src="assets/images/logo.png" />
     <br/>
     <br/>
-    <a data-button="settings" class="btn btn-big btn-primary btn-lg" href="#">Settings</a>
+    <a data-button="startGame" class="btn btn-primary btn-lg" href="#">Start Game</a>
+    <br/>
+    <br/>
+    <a data-button="settings" class="btn btn-primary btn-lg" href="#">Settings</a>
   </div>
 </div>
+
     <!-- Game controls -->
     <div id="gameControls" class="menu">
   <div class="wrapper">
     <div class="controlsContainer bg-secondary">
       <div class="card d-inline-block" style="width: 120px;">
+        <div class="card-title text-center p-0">
+          <h5 id="player-name" class="card-title text-nowrap">Player X</h5>
+        </div>
         <div class="card-body text-center p-0">
-          <span id="player-name" class="card-title text-nowrap">Player X</span>
-          <br/>
           <span id="player-money" class="card-text">Money: $0</span>
+          <span id="player-pokemon" class="card-text">Pokemon: 0</span>
         </div>
       </div>
       <a data-spawn="Caterpie" class="btn btn-primary btn-lg" href="#"></a>
@@ -58,17 +64,32 @@
 </div>
 
 <template id="template-spawn-pokemon">
-  <div class="card d-inline-block" style="width: 120px;">
-    <img class="card-img-top" src="" alt="Card image cap">
-    <div class="card-body text-center p-0">
-      <span class="card-title text-nowrap">Pokemon</span>
+  <a href="#" class="btn btn-primary spawn" style="width: 120px">
+    <img src="" width="80%">
+    <div class="text-center p-0">
+      <span class="card-title text-nowrap fw-bold">Pokemon</span>
       <br/>
-      <span class="card-text cost">Cost: $150</span>
-      <a href="#" class="btn btn-primary col-12 spawn">Spawn</a>
+      <span class="card-text cost">$150</span>
+    </div>
+  </a>
+</template>
+
+    <!-- Modals -->
+    <div id="endGame" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-secondary">
+      <div class="modal-body">
+        <img class="victory-text" src="assets/images/text/victory.png" width="100%" />
+        <img class="defeat-text" src="assets/images/text/defeat.png" width="100%" />
+        <div class="d-grid gap-2">
+          <a data-button="end-game-main-menu" href="#" class="btn btn-primary btn-block" data-bs-dismiss="modal" aria-label="Menu">Menu</a>
+        </div>
+      </div>
     </div>
   </div>
-</template>
+</div>
+
     <!-- our generated code -->
-    <script src="scripts/modules.min.js?v=0.0.3"></script>
+    <script src="scripts/modules.min.js?v=0.0.4"></script>
 </body>
 </html>
