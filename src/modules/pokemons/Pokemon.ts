@@ -1,6 +1,5 @@
 import PF from 'pathfinding';
 import { loadImage } from '../utilities/Functions';
-import { Settings } from '../utilities/Settings';
 import Rand from '../utilities/Rand';
 import { canvas, context } from '../Canvas';
 import { PathFinders } from '../Maps';
@@ -15,6 +14,8 @@ import {
   PokemonLevelRequirements,
   SpawnPosition,
 } from './PokemonEnums';
+import { Settings } from '../utilities/Settings';
+import { Attacks } from '../attack/Attacks';
 
 export default class Pokemon {
   image: HTMLImageElement;
@@ -77,15 +78,6 @@ export default class Pokemon {
 
   async loadImage() {
     this.image = await loadImage(`./assets/images/pokemon/${`${this.pokemon.id}`.padStart(3, '0')}${this.shiny ? 's' : ''}.png`);
-  }
-
-  posToCanvas(x_?: number, y_?: number) {
-    const x = x_ ?? this.currentPosition.x;
-    const y = y_ ?? this.currentPosition.y;
-    return {
-      x: Math.floor((x + 0.5) * MAP_TILE_SIZE) - (POKEMON_TILE_SIZE * 0.5) - Settings.camera.x,
-      y: Math.floor((y - 0.4) * MAP_TILE_SIZE) - Settings.camera.y,
-    };
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -180,11 +172,19 @@ export default class Pokemon {
     this.moveToNewPosition();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  tileToCanvas(x: number, y: number): { x: number, y: number } {
+    return {
+      x: Math.floor((x + 0.5) * MAP_TILE_SIZE) - (POKEMON_TILE_SIZE * 0.5) - Settings.camera.x,
+      y: Math.floor((y - 0.4) * MAP_TILE_SIZE) - Settings.camera.y,
+    };
+  }
+
   draw(delta) {
     if (!this.image) return;
     this.frame += delta;
 
-    let { x, y } = this.posToCanvas(this.currentPosition.x, this.currentPosition.y);
+    let { x, y } = this.tileToCanvas(this.currentPosition.x, this.currentPosition.y);
 
     // If we aren't doing anything, check what we should do
     if (this.action === PokemonAction.idle) {
@@ -201,6 +201,7 @@ export default class Pokemon {
           this.enemy = null;
         } else {
           // Attack
+          Attacks[0].Cut.use({ ...this.destination, direction: this.direction });
           // TODO: Calculate damage (move, typing, level etc)
           if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
           // If enemy dies from your hit

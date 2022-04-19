@@ -5,6 +5,7 @@ import { drawFrame } from './utilities/CanvasFunctions';
 import { Settings } from './utilities/Settings';
 import PlayerTeam from './player/PlayerTeam';
 import EnemyTeam from './player/EnemyTeam';
+import AttackSprite from './attack/AttackSprite';
 
 export default class Game {
   public running = false;
@@ -12,6 +13,7 @@ export default class Game {
   public teams: Set<Team>;
   public player: Team;
   public enemy: Team;
+  public attacks: Set<AttackSprite>;
 
   constructor(
   ) {
@@ -22,6 +24,7 @@ export default class Game {
       this.player,
       this.enemy,
     ]);
+    this.attacks = new Set();
   }
 
   // TODO: map types?
@@ -54,6 +57,8 @@ export default class Game {
     context.drawImage(MyApp.game.map.current.image, -Settings.camera.x, -Settings.camera.y);
     // Process our player/enemy
     this.teams.forEach((team) => team.draw(delta));
+    // Process our attacks
+    this.attacks.forEach((attack) => attack.draw(delta));
     // overlayed images (should appear above stuff on the map)
     context.drawImage(MyApp.game.map.current.image_top, -Settings.camera.x, -Settings.camera.y);
 

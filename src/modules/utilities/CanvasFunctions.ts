@@ -1,4 +1,6 @@
 import { context } from '../Canvas';
+import { MAP_TILE_SIZE } from '../GameConstants';
+import { Settings } from './Settings';
 
 export const drawFrame = (x, y, width, height, color = '#1EA7E1', borderWidth = 2): void => {
   context.fillStyle = color;
@@ -42,3 +44,10 @@ export const alignImage = (image: HTMLImageElement, posX: number, posY: number, 
   y = Math.round(y);
   return { x, y };
 };
+
+export function tileToCanvas(x: number, y: number): { x: number, y: number } {
+  return {
+    x: Math.floor(x * MAP_TILE_SIZE) - Settings.camera.x,
+    y: Math.floor(y * MAP_TILE_SIZE) - Settings.camera.y,
+  };
+}
