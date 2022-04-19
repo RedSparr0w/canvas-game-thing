@@ -1,15 +1,17 @@
+/* eslint-disable no-bitwise */
 import { MINUTE, HOUR } from '../GameConstants';
 import { clipNumber } from './Functions';
 
 export default class SeededRand {
   private static state = 12345;
-  private static readonly MOD: number = 233280;
-  private static readonly OFFSET: number = 49297;
-  private static readonly MULTIPLIER: number = 9301;
 
   public static next(): number {
-    this.state = (this.state * this.MULTIPLIER + this.OFFSET) % this.MOD;
-    return this.state / this.MOD;
+    // mulberry32
+    this.state = this.state + 0x6D2B79F5 | 0;
+    let t = this.state;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
   }
 
   public static seedWithDate(d: Date): void {
@@ -31,7 +33,7 @@ export default class SeededRand {
   }
 
   public static seed(state: number): void {
-    this.state = Math.abs(state);
+    this.state = state;
   }
 
   // get a number between min and max (both inclusive)
