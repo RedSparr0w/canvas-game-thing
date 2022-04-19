@@ -8,7 +8,7 @@ const template = document.querySelector('#template-spawn-pokemon') as HTMLTempla
   const pokemon = pokemonMap[element.dataset.spawn];
   // Clone the new row and insert it into the table
   const clone = template.content.cloneNode(true) as HTMLElement;
-  const img = clone.querySelector('.card-img-top') as HTMLImageElement;
+  const img = clone.querySelector('img') as HTMLImageElement;
   img.src = `assets/images/pokemonIcons/${pokemon.id.toString().padStart(3, '0')}.png`;
   const title = clone.querySelector('.card-title') as HTMLTitleElement;
   title.innerText = pokemon.name;

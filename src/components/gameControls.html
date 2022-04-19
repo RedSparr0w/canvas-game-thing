@@ -2,10 +2,12 @@
   <div class="wrapper">
     <div class="controlsContainer bg-secondary">
       <div class="card d-inline-block" style="width: 120px;">
+        <div class="card-title text-center p-0">
+          <h5 id="player-name" class="card-title text-nowrap">Player X</h5>
+        </div>
         <div class="card-body text-center p-0">
-          <span id="player-name" class="card-title text-nowrap">Player X</span>
-          <br/>
           <span id="player-money" class="card-text">Money: $0</span>
+          <span id="player-pokemon" class="card-text">Pokemon: 0</span>
         </div>
       </div>
       <a data-spawn="Caterpie" class="btn btn-primary btn-lg" href="#"></a>
@@ -23,13 +25,12 @@
 </div>
 
 <template id="template-spawn-pokemon">
-  <div class="card d-inline-block" style="width: 120px;">
-    <img class="card-img-top" src="" alt="Card image cap">
-    <div class="card-body text-center p-0">
-      <span class="card-title text-nowrap">Pokemon</span>
+  <a href="#" class="btn btn-primary col-1 spawn">
+    <img src="" width="80%">
+    <div class="text-center p-0">
+      <span class="card-title text-nowrap fw-bold">Pokemon</span>
       <br/>
       <span class="card-text cost">Cost: $150</span>
-      <a href="#" class="btn btn-primary col-12 spawn">Spawn</a>
     </div>
-  </div>
+  </a>
 </template>
