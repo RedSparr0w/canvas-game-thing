@@ -12,6 +12,9 @@ export default class EnemyTeam extends Team {
   draw(delta: number) {
     super.draw(delta);
 
+    // Don't bother doing anything if we already have 50 pokemon
+    if (this.pokemon.size >= 50) return;
+
     // Spawn a pokemon in every x ms
     this.spawnTick += delta;
     if (this.spawnTick >= this.nextSpawnTick) {
