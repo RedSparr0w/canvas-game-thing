@@ -12,7 +12,7 @@ export const Settings = {
     y: 0,
   },
   // Display
-  theme: 'darkly',
+  theme: 'united',
 };
 
 // Create our settings GUI
@@ -27,7 +27,7 @@ const Display = SettingsPane.addFolder({
   title: 'Display',
   expanded: true,
 });
-const Theme = Display.addInput(Settings, 'theme', {
+Display.addInput(Settings, 'theme', {
   options: {
     Cerulean: 'cerulean',
     Cosmo: 'cosmo',
@@ -55,8 +55,7 @@ const Theme = Display.addInput(Settings, 'theme', {
     Yeti: 'yeti',
     Zephyr: 'zephyr',
   },
-});
-Theme.on('change', (ev) => {
+}).on('change', (ev) => {
   (document.getElementById('theme') as HTMLLinkElement).href = `https://bootswatch.com/5/${ev.value}/bootstrap.min.css`;
 });
 
@@ -65,8 +64,7 @@ const Performance = SettingsPane.addFolder({
   title: 'Performance',
   expanded: true,
 });
-const FPS = Performance.addInput(Settings, 'fps', { min: 10, max: 144, step: 1 });
-FPS.on('change', (ev) => {
+Performance.addInput(Settings, 'fps', { min: 10, max: 144, step: 1 }).on('change', (ev) => {
   Settings.mspf = Math.floor(1000 / ev.value) - 1;
 });
 export const fpsGraph: any = Performance.addBlade({
