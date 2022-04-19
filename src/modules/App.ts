@@ -1,4 +1,5 @@
 /* eslint-disable import/no-cycle */
+import { Attacks } from './attack/Attacks';
 import Cursor from './Cursor';
 import Game from './Game';
 import Images from './Images';
@@ -24,6 +25,7 @@ export default class App {
     await this.ui.load();
     await this.menus.load();
     await this.game.load();
+    Object.values(Attacks).forEach((type) => Object.values(type).forEach((attack) => attack.load()));
     // Start drawing our game
     requestAnimationFrame(this.draw.bind(this));
   }
