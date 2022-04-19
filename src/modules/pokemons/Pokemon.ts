@@ -26,7 +26,7 @@ export default class Pokemon {
   paths: Array<number[]> = [];
   startMovementFrame = 0;
   startAttackFrame = 0;
-  // TODO: Stats
+  // Stats
   stats: Record<string, number> = {};
   maxStats: Record<string, number> = {};
   xp: number = 0;

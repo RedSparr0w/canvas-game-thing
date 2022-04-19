@@ -131,14 +131,14 @@ export const Maps = {
         spawn: {
           x: 90,
           y: 24,
-          direction: PokemonDirection.right,
+          direction: PokemonDirection.left,
         },
       },
       {
         spawn: {
           x: 8,
           y: 4,
-          direction: PokemonDirection.left,
+          direction: PokemonDirection.down,
         },
       },
     ],
