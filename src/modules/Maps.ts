@@ -142,11 +142,13 @@ export const Maps = {
           x: 90,
           y: 24,
           direction: PokemonDirection.down,
+          level: 15,
         },
         boss: {
           x: 86,
           y: 21,
           direction: PokemonDirection.left,
+          level: 30,
         },
       },
       {
@@ -154,11 +156,13 @@ export const Maps = {
           x: 8,
           y: 4,
           direction: PokemonDirection.down,
+          level: 15,
         },
         boss: {
           x: 8,
           y: 8,
           direction: PokemonDirection.down,
+          level: 30,
         },
       },
     ],

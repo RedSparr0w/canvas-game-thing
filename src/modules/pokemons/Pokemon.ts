@@ -59,6 +59,12 @@ export default class Pokemon {
       case PokemonDirection.left:
         this.currentPosition.x += 1;
         break;
+      case PokemonDirection.down:
+        this.currentPosition.y -= 1;
+        break;
+      case PokemonDirection.up:
+        this.currentPosition.y += 1;
+        break;
     }
     this.direction = spawn.direction;
 
