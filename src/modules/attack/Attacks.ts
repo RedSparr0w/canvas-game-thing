@@ -9,7 +9,7 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
   [PokemonType.Normal]: {
     Cut: new Attack(
       'Cut',
-      AttackStyle.physical,
+      AttackStyle.Physical,
       PokemonType.Normal,
       50,
       500,
@@ -17,7 +17,7 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     ),
     Cut2: new Attack(
       'Cut2',
-      AttackStyle.physical,
+      AttackStyle.Physical,
       PokemonType.Normal,
       50,
       600,
@@ -25,24 +25,20 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     ),
     Pound: new Attack(
       'Pound',
-      AttackStyle.physical,
+      AttackStyle.Physical,
       PokemonType.Normal,
       40,
       700,
       21
     ),
-    // {
-    //   name: 'pound',
-    //   type: AttackStyle.physical,
-    //   duration: 700,
-    //   cooldown: 950,
-    // },
-    // {
-    //   name: 'swift',
-    //   type: AttackStyle.special,
-    //   duration: 750,
-    //   cooldown: 1000,
-    // },
+    Swift: new Attack(
+      'Swift',
+      AttackStyle.Special,
+      PokemonType.Normal,
+      60,
+      750,
+      11
+    ),
   },
   [PokemonType.Fire]: {
     // {
@@ -65,12 +61,14 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     // },
   },
   [PokemonType.Water]: {
-    // {
-    //   name: 'bubble',
-    //   type: AttackStyle.special,
-    //   duration: 750,
-    //   cooldown: 1000,
-    // },
+    Bubble: new Attack(
+      'Bubble',
+      AttackStyle.Special,
+      PokemonType.Water,
+      40,
+      750,
+      9
+    ),
     // {
     //   name: 'splash',
     //   type: AttackStyle.special,
@@ -85,12 +83,14 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     // },
   },
   [PokemonType.Electric]: {
-    // {
-    //   name: 'spark',
-    //   type: AttackStyle.special,
-    //   duration: 750,
-    //   cooldown: 1000,
-    // },
+    Spark: new Attack(
+      'Spark',
+      AttackStyle.Special,
+      PokemonType.Electric,
+      65,
+      500,
+      4
+    ),
     // {
     //   name: 'thunder-fang',
     //   type: AttackStyle.physical,
@@ -107,18 +107,18 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
   [PokemonType.Grass]: {
     SeedBomb: new Attack(
       'Seed bomb',
-      AttackStyle.physical,
+      AttackStyle.Physical,
       PokemonType.Grass,
       80,
-      750,
+      600,
       5
     ),
     RazorLeaf: new Attack(
       'Razor leaf',
-      AttackStyle.physical,
+      AttackStyle.Physical,
       PokemonType.Grass,
       55,
-      600,
+      500,
       4
     ),
   },
@@ -155,12 +155,14 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     // },
   },
   [PokemonType.Flying]: {
-    // {
-    //   name: 'gust',
-    //   type: AttackStyle.special,
-    //   duration: 750,
-    //   cooldown: 1000,
-    // },
+    Gust: new Attack(
+      'Gust',
+      AttackStyle.Special,
+      PokemonType.Flying,
+      40,
+      750,
+      52
+    ),
     // {
     //   name: 'air-cutter',
     //   type: AttackStyle.special,
@@ -177,12 +179,14 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     // },
   },
   [PokemonType.Bug]: {
-    // {
-    //   name: 'string-shot',
-    //   type: AttackStyle.special,
-    //   duration: 500,
-    //   cooldown: 750,
-    // },
+    StringShot: new Attack(
+      'String shot',
+      AttackStyle.Status,
+      PokemonType.Bug,
+      0,
+      500,
+      11
+    ),
   },
   [PokemonType.Rock]: {
     // {

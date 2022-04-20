@@ -1,6 +1,7 @@
 export enum AttackStyle {
-  physical,
-  special,
+  Physical,
+  Special,
+  Status,
 }
 
 export enum AttackName {
