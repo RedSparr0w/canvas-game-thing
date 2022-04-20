@@ -105,18 +105,22 @@ export const Attacks: Record<PokemonType, Record<string, Attack>> = {
     // },
   },
   [PokemonType.Grass]: {
-    // {
-    //   name: 'seed-bomb',
-    //   type: AttackStyle.physical,
-    //   duration: 750,
-    //   cooldown: 1000,
-    // },
-    // {
-    //   name: 'razor-leaf',
-    //   type: AttackStyle.physical,
-    //   duration: 600,
-    //   cooldown: 850,
-    // },
+    SeedBomb: new Attack(
+      'Seed bomb',
+      AttackStyle.physical,
+      PokemonType.Grass,
+      80,
+      750,
+      5
+    ),
+    RazorLeaf: new Attack(
+      'Razor leaf',
+      AttackStyle.physical,
+      PokemonType.Grass,
+      55,
+      600,
+      4
+    ),
   },
   [PokemonType.Ice]: {
     // {
