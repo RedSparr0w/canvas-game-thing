@@ -1,11 +1,10 @@
-import { canvas, context } from './Canvas';
+import { context } from './Canvas';
 import { GameStatus } from './GameConstants';
 import GameMap from './Maps';
 import AttackSprite from './attack/AttackSprite';
 import EnemyTeam from './player/EnemyTeam';
 import PlayerTeam from './player/PlayerTeam';
 import Team from './player/Team';
-import { drawFrame } from './utilities/CanvasFunctions';
 import { Settings } from './utilities/Settings';
 
 export default class Game {
@@ -66,10 +65,5 @@ export default class Game {
     this.attacks.forEach((attack) => attack.draw(delta));
     // overlayed images (should appear above stuff on the map)
     context.drawImage(MyApp.game.map.current.image_top, -Settings.camera.x, -Settings.camera.y);
-
-    /*
-    Draw our game menu stuff
-    */
-    drawFrame(0, 480, canvas.width, 120);
   }
 }
