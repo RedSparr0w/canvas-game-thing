@@ -25,6 +25,7 @@ export default class Attack {
   }
 
   use(pos: SpawnPosition) {
+    // TODO: Make use of the direction the attack is going
     MyApp.game.attacks.add(new AttackSprite(this, pos));
   }
 }

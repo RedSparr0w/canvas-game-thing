@@ -217,11 +217,22 @@ export default class Pokemon {
     if (timePassed >= this.speed) {
       this.startAttackFrame = this.frame;
       if (!this.enemy?.stats?.hitpoints) {
+        // If our enemy is dead, we just stop attacking
         this.action = PokemonAction.idle;
         this.enemy = null;
       } else {
-        Attacks[0].Cut.use({ ...this.destination, direction: this.direction });
+        // Type 1 attacks
+        let attacks = [...Object.values(Attacks[this.pokemon.type[0]])];
+        // If we have a secondary type, also use those attacks
+        if (this.pokemon.type[1] >= 0) attacks = [...attacks, ...Object.values(Attacks[this.pokemon.type[1]])];
+        // If none of our types have attacks yet, we just use Cut
+        if (!attacks.length) attacks.push(Attacks[0].Cut);
+        // Select a random attack from our available attacks to use
+        Rand.fromArray(attacks).use({ ...this.destination, direction: this.direction });
+
+        // Calculate damage
         if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
+        // If the enemy is dead, remove them from the team
         if (this.enemy.stats.hitpoints <= 0) {
           this.enemy.team.pokemon.delete(this.enemy);
           this.gainExp(this.enemy);
