@@ -356,6 +356,7 @@ export default class Pokemon {
     this.stats.hitpoints = Math.max(0, this.stats.hitpoints - amount);
   }
 
+  // TODO: Figure out why some pokemon don't evolve when summoned
   setLevel(level: number): void {
     const xp = PokemonLevelRequirements[this.pokemon.levelType][level - 1] - PokemonLevelRequirements[this.pokemon.levelType][this.level - 1];
     this.gainExp(xp);

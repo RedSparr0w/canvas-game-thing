@@ -31,7 +31,7 @@ export default class App {
   }
 
   public draw(time: number) {
-    const delta = time - this.frame;
+    let delta = time - this.frame;
     // Limit our fps, skip frames where needed
     if (delta < Settings.mspf) {
       requestAnimationFrame(this.draw.bind(this));
@@ -45,6 +45,8 @@ export default class App {
       return;
     }
     fpsGraph.begin();
+
+    delta *= Settings.speed;
 
     // Set our background color
     // context.fillStyle = '#333';

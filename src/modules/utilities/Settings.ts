@@ -6,6 +6,7 @@ export const Settings = {
   // Performance
   fps: 75, // Set this to 75 so we should get at least 60 frames depending on monitor refresh rate
   mspf: Math.floor(1000 / 75),
+  speed: 1,
   // Game
   camera: {
     x: 0,
@@ -77,4 +78,10 @@ export const fpsGraph: any = Performance.addBlade({
   view: 'fpsgraph',
   label: 'fps current',
   lineCount: 3,
+});
+Performance.addInput(Settings, 'speed', {
+  label: 'Game Speed',
+  min: 0.5,
+  max: 5,
+  step: 0.5,
 });
