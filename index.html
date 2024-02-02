@@ -49,29 +49,29 @@
           <span id="player-pokemon" class="card-text">Pokemon: 0</span>
         </div>
       </div>
-      <a data-spawn="Caterpie" class="btn btn-primary btn-lg" href="#"></a>
-      <a data-spawn="Weedle" class="btn btn-primary btn-lg" href="#"></a>
-      <a data-spawn="Pidgey" class="btn btn-primary btn-lg" href="#"></a>
-      <a data-spawn="Rattata" class="btn btn-primary btn-lg" href="#"></a>
       <a data-spawn="Squirtle" class="btn btn-primary btn-lg" href="#"></a>
       <a data-spawn="Charmander" class="btn btn-primary btn-lg" href="#"></a>
       <a data-spawn="Bulbasaur" class="btn btn-primary btn-lg" href="#"></a>
       <a data-spawn="Pikachu" class="btn btn-primary btn-lg" href="#"></a>
-      <a data-spawn="Mankey" class="btn btn-primary btn-lg" href="#"></a>
-      <a data-spawn="Snorlax" class="btn btn-primary btn-lg" href="#"></a>
     </div>
   </div>
 </div>
 
 <template id="template-spawn-pokemon">
-  <a href="#" class="btn btn-primary spawn" style="width: 120px">
-    <img src="" width="80%">
-    <div class="text-center p-0">
+<div class="btn-group-vertical text-center">
+    <img src="" width="80%" style="margin-left:10%">
+    <div class="w-100 p-0">
       <span class="card-title text-nowrap fw-bold">Pokemon</span>
-      <br/>
-      <span class="card-text cost">$150</span>
     </div>
   </a>
+  
+  <a href="#" class="btn btn-primary level-up" style="width: 120px">
+    <span class="card-text level">Level 1</span>
+  </a>
+  <a href="#" class="btn btn-primary spawn" style="width: 120px">
+    <span class="card-text cost">$150</span>
+  </a>
+</div>
 </template>
 
     <!-- Modals -->
