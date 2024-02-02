@@ -1,16 +1,16 @@
 import { canvas, context } from './Canvas';
+import { GameStatus } from './GameConstants';
 import GameMap from './Maps';
+import AttackSprite from './attack/AttackSprite';
+import EnemyTeam from './player/EnemyTeam';
+import PlayerTeam from './player/PlayerTeam';
 import Team from './player/Team';
 import { drawFrame } from './utilities/CanvasFunctions';
 import { Settings } from './utilities/Settings';
-import PlayerTeam from './player/PlayerTeam';
-import EnemyTeam from './player/EnemyTeam';
-import AttackSprite from './attack/AttackSprite';
-import { GameStatus } from './GameConstants';
 
 export default class Game {
   public map: GameMap;
-  public teams: Set<Team>;
+  public teams: Array<Team>;
   public player: Team;
   public enemy: Team;
   public attacks: Set<AttackSprite>;
@@ -21,10 +21,10 @@ export default class Game {
     this.map = new GameMap(this);
     this.player = new PlayerTeam(this);
     this.enemy = new EnemyTeam(this);
-    this.teams = new Set([
+    this.teams = [
       this.player,
       this.enemy,
-    ]);
+    ];
     this.attacks = new Set();
     this.status = GameStatus.stopped;
   }

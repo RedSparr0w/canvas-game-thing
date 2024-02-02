@@ -1,21 +1,21 @@
 import PF from 'pathfinding';
-import { loadImage } from '../utilities/Functions';
-import Rand from '../utilities/Rand';
 import { canvas, context } from '../Canvas';
-import { PathFinders } from '../Maps';
 import { MAP_TILE_SIZE, POKEMON_TILE_SIZE } from '../GameConstants';
-import { PokemonNameType } from './PokemonNameType';
-import { PokemonListData, pokemonMap } from './PokemonList';
+import { PathFinders } from '../Maps';
+import { Attacks } from '../attack/Attacks';
 import type Team from '../player/Team';
 import CanvasTinyNumber from '../ui/CanvasTinyNumber';
+import { loadImage } from '../utilities/Functions';
+import Rand from '../utilities/Rand';
+import { Settings } from '../utilities/Settings';
 import {
   PokemonAction,
   PokemonDirection,
   PokemonLevelRequirements,
   SpawnPosition,
 } from './PokemonEnums';
-import { Settings } from '../utilities/Settings';
-import { Attacks } from '../attack/Attacks';
+import { PokemonListData, pokemonMap } from './PokemonList';
+import { PokemonNameType } from './PokemonNameType';
 
 export default class Pokemon {
   image: HTMLImageElement;
@@ -325,7 +325,7 @@ export default class Pokemon {
   gainExp(enemy: Pokemon) {
     let xp = enemy.pokemon.exp;
     xp *= enemy.level;
-    xp *= enemy.team ? 1.5 : 1;
+    xp *= enemy.shiny ? 1.5 : 1;
     xp /= 7;
     xp = Math.max(1, Math.round(xp));
     this.xp += xp;

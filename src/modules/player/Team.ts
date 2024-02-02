@@ -14,6 +14,7 @@ export default class Team {
   moneyEl = document.getElementById('player-money');
   map: { spawn: SpawnPosition, boss: SpawnPosition };
   boss: BossPokemon;
+  pokemonLevel: Record<string, number> = {};
 
   constructor(public parent: Game) {}
 
@@ -64,11 +65,11 @@ export default class Team {
   }
 
   canAddPokemon(name: PokemonNameType): boolean {
+    // Too many pokemon on field already
     if (this.pokemon.size >= 50) return false;
 
-    const pokemon = pokemonMap[name];
-
-    if (this.money < pokemon.cost) return false;
+    // Not enough money
+    if (this.money < this.getPokemonCost(name)) return false;
 
     return true;
   }
@@ -76,8 +77,8 @@ export default class Team {
   addPokemon(name: PokemonNameType) {
     if (!this.canAddPokemon(name)) return;
 
-    const pokemon = pokemonMap[name];
-    this.updateMoney(-pokemon.cost);
+    // Charge costs to summon pokemon
+    this.updateMoney(-this.getPokemonCost(name));
 
     this.pokemon.add(new Pokemon(
       this,
@@ -86,8 +87,26 @@ export default class Team {
         x: this.map.spawn.x,
         y: this.map.spawn.y,
         direction: this.map.spawn.direction,
-        level: this.map.spawn.level || 1,
+        level: this.getPokemonLevel(name),
       }
     ));
+  }
+
+  addPokemonLevel(name: PokemonNameType) {
+    if (!this.canAddPokemon(name)) return false;
+
+    // Charge costs to level up
+    this.updateMoney(-this.getPokemonCost(name));
+
+    this.pokemonLevel[name] = (this.pokemonLevel[name] ?? 0) + 1;
+    return true;
+  }
+
+  getPokemonLevel(name: PokemonNameType) {
+    return (this.map.spawn.level ?? 1) + (this.pokemonLevel[name] ?? 0);
+  }
+
+  getPokemonCost(name: PokemonNameType) {
+    return pokemonMap[name].cost + (this.getPokemonLevel(name) * 10);
   }
 }

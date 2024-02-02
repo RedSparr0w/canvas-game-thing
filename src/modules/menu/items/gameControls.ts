@@ -13,15 +13,29 @@ const template = document.querySelector('#template-spawn-pokemon') as HTMLTempla
   const title = clone.querySelector('.card-title') as HTMLTitleElement;
   title.innerText = pokemon.name;
   const cost = clone.querySelector('.cost') as HTMLTitleElement;
-  cost.innerText = `$${pokemon.cost}`;
+  cost.innerText = `$${typeof MyApp !== 'undefined' ? MyApp.game.player.getPokemonCost(element.dataset.spawn) : pokemon.cost + 10}`;
+  const level = clone.querySelector('.level') as HTMLTitleElement;
+  level.innerText = `Level ${typeof MyApp !== 'undefined' ? MyApp.game.teams[0].getPokemonLevel(element.dataset.spawn) : 1}`;
   const spawnButton = clone.querySelector('.spawn') as HTMLAnchorElement;
   spawnButton.dataset.spawn = pokemon.name;
+  const levelButton = clone.querySelector('.level-up') as HTMLAnchorElement;
+  levelButton.dataset.spawn = pokemon.name;
 
   element.replaceWith(clone);
 
   gameControls.addEventsToElement(spawnButton, {
     click: () => {
       MyApp.game.player.addPokemon(element.dataset.spawn as PokemonNameType);
+    },
+  });
+
+  gameControls.addEventsToElement(levelButton, {
+    click: () => {
+      const success: number = MyApp.game.player.addPokemonLevel(element.dataset.spawn as PokemonNameType);
+      if (success) {
+        cost.innerText = `$${MyApp.game.player.getPokemonCost(element.dataset.spawn)}`;
+        level.innerText = `Level ${MyApp.game.player.getPokemonLevel(element.dataset.spawn as PokemonNameType)}`;
+      }
     },
   });
 });
