@@ -1,3 +1,5 @@
+import { PokemonNameType } from "./PokemonNameType";
+
 /* eslint-disable max-len */
 export enum PokemonLevelType {
   'erratic',
@@ -54,8 +56,9 @@ export enum PokemonAction {
 }
 
 export type SpawnPosition = {
+  pokemon?: PokemonNameType;
+  level?: number,
   x: number,
   y: number,
   direction: PokemonDirection,
-  level?: number,
 };

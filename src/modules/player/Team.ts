@@ -34,7 +34,7 @@ export default class Team {
   loadBoss() {
     this.boss = new BossPokemon(
       this,
-      'Charizard',
+      this.map.boss.pokemon || 'Rattata',
       {
         x: this.map.boss.x,
         y: this.map.boss.y,

@@ -3,7 +3,7 @@ import PF from 'pathfinding';
 import { canvas } from './Canvas';
 import type Game from './Game';
 import { MAP_TILE_SIZE } from './GameConstants';
-import { PokemonDirection } from './pokemons/PokemonEnums';
+import { PokemonDirection, SpawnPosition } from './pokemons/PokemonEnums';
 import { loadImage } from './utilities/Functions';
 import { Settings } from './utilities/Settings';
 
@@ -48,24 +48,28 @@ export const Maps = {
           x: 0,
           y: 5,
           direction: PokemonDirection.right,
-        },
+        } as SpawnPosition,
         boss: {
+          pokemon: 'Pikachu',
+          level: 15,
           x: 4,
           y: 5,
           direction: PokemonDirection.right,
-        },
+        } as SpawnPosition,
       },
       {
         spawn: {
           x: 99,
           y: 5,
           direction: PokemonDirection.left,
-        },
+        } as SpawnPosition,
         boss: {
+          pokemon: 'Raticate',
+          level: 15,
           x: 95,
           y: 5,
           direction: PokemonDirection.left,
-        },
+        } as SpawnPosition,
       },
     ],
   },
@@ -143,13 +147,14 @@ export const Maps = {
           y: 24,
           direction: PokemonDirection.down,
           level: 15,
-        },
+        } as SpawnPosition,
         boss: {
+          pokemon: 'Pikachu',
+          level: 30,
           x: 86,
           y: 21,
           direction: PokemonDirection.left,
-          level: 30,
-        },
+        } as SpawnPosition,
       },
       {
         spawn: {
@@ -157,13 +162,14 @@ export const Maps = {
           y: 4,
           direction: PokemonDirection.down,
           level: 15,
-        },
+        } as SpawnPosition,
         boss: {
+          pokemon: 'Blastoise',
+          level: 30,
           x: 8,
           y: 8,
           direction: PokemonDirection.down,
-          level: 30,
-        },
+        } as SpawnPosition,
       },
     ],
   },
