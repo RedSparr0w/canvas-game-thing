@@ -4,6 +4,7 @@ import Menu from '../Menu';
 
 const gameControls = new Menu('gameControls');
 const template = document.querySelector('#template-spawn-pokemon') as HTMLTemplateElement;
+// TODO: we need to set these values when a map is loaded
 [...document.querySelectorAll('#gameControls [data-spawn]')].forEach((element: HTMLAnchorElement) => {
   const pokemon = pokemonMap[element.dataset.spawn];
   // Clone the new row and insert it into the table
