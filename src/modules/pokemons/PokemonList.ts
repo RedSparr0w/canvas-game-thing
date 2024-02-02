@@ -15,9 +15,8 @@ export type PokemonListData = {
     specialDefense: number;
     speed: number;
   };
-  levelType: PokemonLevelType; // TODO:
+  levelType: PokemonLevelType;
   exp: number;
-  // TODO: cost calculations
   cost: number;
   eggCycles: number;
   baby?: boolean;
@@ -25,6 +24,7 @@ export type PokemonListData = {
   evolution?: string;
 };
 
+// TODO: Evolutions
 export const pokemonList = [
   {
     id: 1,

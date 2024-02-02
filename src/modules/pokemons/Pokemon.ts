@@ -47,10 +47,10 @@ export default class Pokemon {
     name: PokemonNameType,
     public spawn: SpawnPosition
   ) {
+    this.pokemon = pokemonMap[name];
     this.paths.push([spawn.x, spawn.y]);
     this.currentPosition.x = spawn.x;
     this.currentPosition.y = spawn.y;
-    this.level = spawn.level || this.level;
 
     // eslint-disable-next-line default-case
     switch (spawn.direction) {
@@ -67,13 +67,13 @@ export default class Pokemon {
         this.currentPosition.y += 1;
         break;
     }
-    this.direction = spawn.direction;
 
-    this.pokemon = pokemonMap[name];
+    this.direction = spawn.direction;
     this.shiny = Rand.chance(20);
     this.loadImage();
     this.calcStats();
     this.nextLevel = PokemonLevelRequirements[this.pokemon.levelType][this.level] - PokemonLevelRequirements[this.pokemon.levelType][this.level - 1];
+    this.setLevel(spawn.level || this.level);
   }
 
   async loadImage() {
@@ -235,7 +235,7 @@ export default class Pokemon {
         // If the enemy is dead, remove them from the team
         if (this.enemy.stats.hitpoints <= 0) {
           this.enemy.team.pokemon.delete(this.enemy);
-          this.gainExp(this.enemy);
+          this.defeatEnemy(this.enemy);
           this.team.updateMoney(10);
           this.action = PokemonAction.idle;
           this.enemy = null;
@@ -356,13 +356,22 @@ export default class Pokemon {
     this.stats.hitpoints = Math.max(0, this.stats.hitpoints - amount);
   }
 
-  gainExp(enemy: Pokemon) {
+  setLevel(level: number): void {
+    const xp = PokemonLevelRequirements[this.pokemon.levelType][level - 1] - PokemonLevelRequirements[this.pokemon.levelType][this.level - 1];
+    this.gainExp(xp);
+  }
+
+  defeatEnemy(enemy: Pokemon) {
     let xp = enemy.pokemon.exp;
     xp *= enemy.level;
     // Killing a shiny will give more xp
     xp *= enemy.shiny ? 1.5 : 1;
     xp /= 7;
     xp = Math.max(1, Math.round(xp));
+    this.gainExp(xp);
+  }
+
+  gainExp(xp: number) {
     this.xp += xp;
 
     let evolve = false;
