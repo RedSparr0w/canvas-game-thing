@@ -225,7 +225,8 @@ export default class GameMap {
       // TODO: Move camera x/y if zoomed out too far showing no map
       // TODO: Zoom towards current mouse position
       const oldZ = Settings.camera.z;
-      Settings.camera.z = Math.max(0.3, Math.min(1, Settings.camera.z + movement));
+      const { width: w, height: h } = MyApp.game.map.collisionMap;
+      Settings.camera.z = Math.max(0.3, Math.min(w / 10, h / 10, Settings.camera.z + movement));
       // Don't "zoom" if same as previous value
       if (Settings.camera.z === oldZ) return;
       cameraZoom(Settings.camera.z);
@@ -239,6 +240,8 @@ export default class GameMap {
     this.current.image_top = await loadImage(`./assets/images/map/${map}_top.png`);
     Settings.camera.x = 0;
     Settings.camera.y = 0;
+    Settings.camera.z = 1;
+    cameraZoom(Settings.camera.z);
     this.updateCollisionMap();
   }
 
