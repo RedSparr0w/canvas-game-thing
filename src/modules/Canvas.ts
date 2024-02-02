@@ -28,3 +28,10 @@ window.addEventListener('resize', () => {
   // Draw temp canvas back to the current canvas
   context.drawImage(tempContext.canvas, 0, 0);
 });
+
+export const zoom = (distance: number) => {
+  canvas.height = 10 * (MAP_TILE_SIZE * distance) + 120;
+  // eslint-disable-next-line import/no-mutable-exports
+  scale = window.innerHeight / canvas.height;
+  canvas.width = Math.floor(window.innerWidth / scale);
+};

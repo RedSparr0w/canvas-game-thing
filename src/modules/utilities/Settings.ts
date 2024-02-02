@@ -1,5 +1,5 @@
-import { Pane } from 'tweakPane';
 import * as EssentialsPlugin from '@tweakPane/plugin-essentials';
+import { Pane } from 'tweakPane';
 
 // Our default settings
 export const Settings = {
@@ -10,6 +10,7 @@ export const Settings = {
   camera: {
     x: 0,
     y: 0,
+    z: 1,
   },
   // Display
   theme: 'united',
