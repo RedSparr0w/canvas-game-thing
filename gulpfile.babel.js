@@ -151,6 +151,12 @@ gulp.task('scripts', () => {
         vinylPath.relative.startsWith(osPathModulePrefix)
       );
     }))
+    .pipe(rename((vinylPath) => Object.assign(
+      {},
+      vinylPath,
+      // Strip '../src/modules' from the start of declaration vinylPaths
+      { dirname: vinylPath.dirname.replace(osPathModulePrefix, '.') }
+    )))
     .pipe(gulp.dest(dests.declarations));
 
   const compileModules = base

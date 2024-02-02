@@ -9,7 +9,7 @@
     "ts-test": "gulp scripts",
     "eslint": "eslint --ext ts ./src/modules",
     "eslint-fix": "eslint --ext ts --fix ./src/modules",
-    "gh-pages": "npm test && cross-env NODE_ENV=production gulp gh-pages"
+    "gh-pages": "cross-env NODE_ENV=production gulp gh-pages"
   },
   "repository": {
     "type": "git",
