@@ -1,5 +1,5 @@
 import endGameMenu from './items/endGameMenu';
-import gameControls from './items/gameControls';
+import { gameControls } from './items/gameControls';
 import mainMenu from './items/mainMenu';
 import mapSelectorMenu from './items/mapSelectorMenu';
 import settingsMenu from './items/settingsMenu';

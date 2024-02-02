@@ -14,6 +14,7 @@ export default class Team {
   map: { spawn: SpawnPosition, boss: SpawnPosition };
   boss: BossPokemon;
   pokemonLevel: Record<string, number> = {};
+  availablePokemon: Set<PokemonNameType> = new Set(['Caterpie', 'Weedle', 'Pidgey', 'Rattata']);
 
   constructor(public parent: Game) {}
 
