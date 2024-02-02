@@ -28,6 +28,7 @@ export default class Team {
     this.moneyTick = 0;
     this.money = 0;
     this.pokemon.clear();
+    this.pokemonLevel = {};
     this.loadBoss();
   }
 
