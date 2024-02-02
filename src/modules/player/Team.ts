@@ -110,6 +110,14 @@ export default class Team {
   }
 
   getPokemonCost(name: PokemonNameType) {
-    return pokemonMap[name].cost + (this.getPokemonLevel(name) * 10);
+    const baseCost = pokemonMap[name].cost;
+    const level = this.getPokemonLevel(name);
+    // Increase base cost based on level
+    let cost = baseCost + (level * 5);
+    // Power function to increase cost
+    cost **= 1 + (level / 100);
+    // Floor to the nearest 5
+    cost = Math.floor(cost / 5) * 5;
+    return cost;
   }
 }
