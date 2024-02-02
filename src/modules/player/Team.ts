@@ -98,6 +98,8 @@ export default class Team {
     // Charge costs to level up
     this.updateMoney(-this.getPokemonCost(name));
 
+    // TODO: Auto evolve if high enough level
+    // TODO: Cap at 100 or 99?
     this.pokemonLevel[name] = (this.pokemonLevel[name] ?? 0) + 1;
     return true;
   }

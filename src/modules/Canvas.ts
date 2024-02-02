@@ -30,7 +30,7 @@ window.addEventListener('resize', () => {
 });
 
 export const cameraZoom = (distance: number) => {
-  canvas.height = 10 * (MAP_TILE_SIZE * distance);
+  canvas.height = 10 * MAP_TILE_SIZE * distance;
   // eslint-disable-next-line import/no-mutable-exports
   scale = (window.innerHeight * 0.8) / canvas.height;
   canvas.width = Math.floor(window.innerWidth / scale);
