@@ -65,7 +65,7 @@ export default class Team {
     this.money += amount;
   }
 
-  canAddPokemon(name: PokemonNameType): boolean {
+  canAffordPokemon(name: PokemonNameType): boolean {
     // Too many pokemon on field already
     if (this.pokemon.size >= 50) return false;
 
@@ -76,7 +76,7 @@ export default class Team {
   }
 
   addPokemon(name: PokemonNameType) {
-    if (!this.canAddPokemon(name)) return;
+    if (!this.canAffordPokemon(name)) return;
 
     // Charge costs to summon pokemon
     this.updateMoney(-this.getPokemonCost(name));
@@ -94,13 +94,16 @@ export default class Team {
   }
 
   addPokemonLevel(name: PokemonNameType) {
-    if (!this.canAddPokemon(name)) return false;
+    // Check if we can afford the level up
+    if (!this.canAffordPokemon(name)) return false;
+
+    // Cap at level 99
+    if (this.getPokemonLevel(name) >= 99) return false;
 
     // Charge costs to level up
     this.updateMoney(-this.getPokemonCost(name));
 
     // TODO: Auto evolve if high enough level
-    // TODO: Cap at 100 or 99?
     this.pokemonLevel[name] = (this.pokemonLevel[name] ?? 0) + 1;
     return true;
   }

@@ -318,7 +318,7 @@ export default class Pokemon {
     // Critical chance?
     // Use move types (physical/special)
     const power = 10;
-    // let damage = (2 * this.level);
+    // TODO: Figure out a better formula?
     let damage = (2 * this.level);
     damage *= power;
     damage *= Math.max(this.stats.attack, this.stats.specialAttack) / Math.max(enemy.stats.defense, enemy.stats.specialDefense);
@@ -339,7 +339,7 @@ export default class Pokemon {
         this.stats[stat] = newMax;
         this.maxStats[stat] = newMax;
       } else {
-        // Calculte the difference of old max vs new max and heal the pokemonby the difference
+        // Calculate the difference of old max vs new max and heal the pokemon by the difference
         const healAmount = (newMax - this.maxStats[stat]);
         this.maxStats[stat] = newMax;
         this.heal(healAmount);
@@ -359,27 +359,30 @@ export default class Pokemon {
   gainExp(enemy: Pokemon) {
     let xp = enemy.pokemon.exp;
     xp *= enemy.level;
+    // Killing a shiny will give more xp
     xp *= enemy.shiny ? 1.5 : 1;
     xp /= 7;
     xp = Math.max(1, Math.round(xp));
     this.xp += xp;
 
-    // TODO: calculate levels etc
     let evolve = false;
+    // Max out at level 99
     while (this.xp >= this.nextLevel && this.level < 99) {
+      // We want to reset our xp to 0, but keep the remainder
       this.xp -= this.nextLevel;
-      // Increase attack?
-      this.nextLevel = this.pokemon.exp + ((this.pokemon.exp * this.level) * 0.5);
+
       // Update new level
       this.level += 1;
 
+      // TODO: Figure out evolutions
+      // Temp level 6 and 12
       // Evolve if we can
-      if (this.level === 3 && this.pokemon.evolution) {
+      if (this.level === 6 && this.pokemon.evolution) {
         this.pokemon = pokemonMap[this.pokemon.evolution];
         evolve = true;
       }
 
-      if (this.level === 6 && this.pokemon.evolution) {
+      if (this.level === 12 && this.pokemon.evolution) {
         this.pokemon = pokemonMap[this.pokemon.evolution];
         evolve = true;
       }
