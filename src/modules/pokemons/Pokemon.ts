@@ -332,12 +332,14 @@ export default class Pokemon {
       let newMax = 2 * this.pokemon.base[stat] * this.level;
       newMax /= 100;
       newMax += (stat === 'hitpoints' ? this.level + 10 : 5);
+      // Buff shinies by 10%
+      if (this.shiny) newMax *= 1.1;
       newMax = Math.round(newMax);
       if (stat !== 'hitpoints' || this.stats[stat] === undefined) {
         this.stats[stat] = newMax;
         this.maxStats[stat] = newMax;
       } else {
-        // Calculte the difference of old max vs new max
+        // Calculte the difference of old max vs new max and heal the pokemonby the difference
         const healAmount = (newMax - this.maxStats[stat]);
         this.maxStats[stat] = newMax;
         this.heal(healAmount);
