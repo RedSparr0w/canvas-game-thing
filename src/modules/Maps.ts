@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import PF from 'pathfinding';
-import { canvas, zoom } from './Canvas';
+import { cameraZoom, canvas } from './Canvas';
 import type Game from './Game';
 import { MAP_TILE_SIZE } from './GameConstants';
 import { PokemonDirection, SpawnPosition } from './pokemons/PokemonEnums';
@@ -221,10 +221,14 @@ export default class GameMap {
     document.addEventListener('wheel', (event) => {
       const movement = event.deltaY > 0 ? 0.1 : -0.1;
       if (!movement) return;
-      // TODO: calc max zoom distance based on current map size
+      // TODO: Calc max zoom distance based on current map size
       // TODO: Move camera x/y if zoomed out too far showing no map
-      Settings.camera.z = Math.max(0.1, Math.min(1, Settings.camera.z + movement));
-      zoom(Settings.camera.z);
+      // TODO: Zoom towards current mouse position
+      const oldZ = Settings.camera.z;
+      Settings.camera.z = Math.max(0.3, Math.min(1, Settings.camera.z + movement));
+      // Don't "zoom" if same as previous value
+      if (Settings.camera.z === oldZ) return;
+      cameraZoom(Settings.camera.z);
     });
   }
 

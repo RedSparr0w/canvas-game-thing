@@ -2,9 +2,9 @@ import { MAP_TILE_SIZE } from './GameConstants';
 
 export const canvas = document.querySelector('canvas');
 
-canvas.height = 10 * MAP_TILE_SIZE + 120;
+canvas.height = 10 * MAP_TILE_SIZE;
 // eslint-disable-next-line import/no-mutable-exports
-export let scale = window.innerHeight / canvas.height;
+export let scale = (window.innerHeight * 0.8) / canvas.height;
 canvas.width = Math.floor(window.innerWidth / scale);
 
 export const context = canvas.getContext('2d');
@@ -29,9 +29,9 @@ window.addEventListener('resize', () => {
   context.drawImage(tempContext.canvas, 0, 0);
 });
 
-export const zoom = (distance: number) => {
-  canvas.height = 10 * (MAP_TILE_SIZE * distance) + 120;
+export const cameraZoom = (distance: number) => {
+  canvas.height = 10 * (MAP_TILE_SIZE * distance);
   // eslint-disable-next-line import/no-mutable-exports
-  scale = window.innerHeight / canvas.height;
+  scale = (window.innerHeight * 0.8) / canvas.height;
   canvas.width = Math.floor(window.innerWidth / scale);
 };
