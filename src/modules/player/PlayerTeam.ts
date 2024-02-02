@@ -34,20 +34,28 @@ export default class PlayerTeam extends Team {
     if (this.parent.status === GameStatus.started) {
       // Check if enemy boss is dead (victory)
       if (this.parent.enemy.boss?.stats?.hitpoints <= 0) {
-        const endGameModal = document.getElementById('endGame');
-        endGameModal.querySelector('.victory-text').classList.toggle('d-none', false);
-        endGameModal.querySelector('.defeat-text').classList.toggle('d-none', true);
-        new Modal(endGameModal).show();
-        this.parent.status = GameStatus.ended;
+        this.win();
       }
       // Check if our boss is dead (defeat)
       if (this.boss?.stats?.hitpoints <= 0) {
-        const endGameModal = document.getElementById('endGame');
-        endGameModal.querySelector('.victory-text').classList.toggle('d-none', true);
-        endGameModal.querySelector('.defeat-text').classList.toggle('d-none', false);
-        new Modal(endGameModal).show();
-        this.parent.status = GameStatus.ended;
+        this.lose();
       }
     }
+  }
+
+  win() {
+    const endGameModal = document.getElementById('endGame');
+    endGameModal.querySelector('.victory-text').classList.toggle('d-none', false);
+    endGameModal.querySelector('.defeat-text').classList.toggle('d-none', true);
+    new Modal(endGameModal).show();
+    this.parent.status = GameStatus.ended;
+  }
+
+  lose() {
+    const endGameModal = document.getElementById('endGame');
+    endGameModal.querySelector('.victory-text').classList.toggle('d-none', true);
+    endGameModal.querySelector('.defeat-text').classList.toggle('d-none', false);
+    new Modal(endGameModal).show();
+    this.parent.status = GameStatus.ended;
   }
 }
