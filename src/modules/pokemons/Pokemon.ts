@@ -192,82 +192,102 @@ export default class Pokemon {
     }
 
     if (this.action === PokemonAction.attacking) {
-      const timePassed = this.frame - this.startAttackFrame;
-      if (timePassed >= this.speed) {
-        this.startAttackFrame = this.frame;
-        // If enemy already dead
-        if (!this.enemy?.stats?.hitpoints) {
-          this.action = PokemonAction.idle;
-          this.enemy = null;
-        } else {
-          // Attack
-          Attacks[0].Cut.use({ ...this.destination, direction: this.direction });
-          // TODO: Calculate damage (move, typing, level etc)
-          if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
-          // If enemy dies from your hit
-          if (this.enemy.stats.hitpoints <= 0) {
-            // TODO: Fixup xp gain, enemy death (fade into ground?), compute all this stuff on the enemy, rather than here?
-            this.enemy.team.pokemon.delete(this.enemy);
-            this.gainExp(this.enemy);
-            this.team.updateMoney(10);
-            this.action = PokemonAction.idle;
-            this.enemy = null;
-          }
-        }
-      }
+      this.handleAttack();
     }
 
-    // Check if we need to move
     if (this.paths.length) {
-      const timePassed = this.frame - this.startMovementFrame;
-      const [newX, newY] = this.paths[0];
-      if (this.currentPosition.x < newX) { // right
-        x += Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
-        this.direction = PokemonDirection.right;
-      } else if (this.currentPosition.x > newX) { // left
-        x -= Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
-        this.direction = PokemonDirection.left;
-      } else if (this.currentPosition.y < newY) { // down
-        y += Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
-        this.direction = PokemonDirection.down;
-      } else if (this.currentPosition.y > newY) { // up
-        y -= Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
-        this.direction = PokemonDirection.up;
-      }
-
-      // Update our current position
-      if (timePassed >= this.speed) {
-        this.startMovementFrame = this.frame;
-        this.currentPosition.x = newX;
-        this.currentPosition.y = newY;
-        this.paths.splice(0, 1);
-        if (!this.paths.length) {
-          this.action = PokemonAction.idle;
-        }
-      }
+      let { x: newX, y: newY} = this.movePokemon(x, y);
+      x = newX;
+      y = newY;
     }
 
     // Floor our values
     x = Math.floor(x);
     y = Math.floor(y);
 
-    // If pokemon out of frame, we don't need to draw it
-    if (x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width) return;
-    const column = Math.floor(this.frame / Math.max(150, this.speed / 4)) % 4;
-    context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
-    if (this.shiny) {
-      context.drawImage(MyApp.images.list.sparkle, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
+    if (this.isOutOfFrame(x)) return;
+
+    this.drawPokemon(x, y);
+    this.drawShinyPokemon(x, y);
+    this.drawPokemonBar(x, y);
+  }
+
+  handleAttack() {
+    const timePassed = this.frame - this.startAttackFrame;
+    if (timePassed >= this.speed) {
+      this.startAttackFrame = this.frame;
+      if (!this.enemy?.stats?.hitpoints) {
+        this.action = PokemonAction.idle;
+        this.enemy = null;
+      } else {
+        Attacks[0].Cut.use({ ...this.destination, direction: this.direction });
+        if (this.enemy.stats.hitpoints > 0) this.enemy.stats.hitpoints -= this.calcDamage(this.enemy);
+        if (this.enemy.stats.hitpoints <= 0) {
+          this.enemy.team.pokemon.delete(this.enemy);
+          this.gainExp(this.enemy);
+          this.team.updateMoney(10);
+          this.action = PokemonAction.idle;
+          this.enemy = null;
+        }
+      }
+    }
+  }
+
+  movePokemon(x, y) {
+    const timePassed = this.frame - this.startMovementFrame;
+    const [newX, newY] = this.paths[0];
+    if (this.currentPosition.x < newX) { // right
+      x += Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
+      this.direction = PokemonDirection.right;
+    } else if (this.currentPosition.x > newX) { // left
+      x -= Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
+      this.direction = PokemonDirection.left;
+    } else if (this.currentPosition.y < newY) { // down
+      y += Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
+      this.direction = PokemonDirection.down;
+    } else if (this.currentPosition.y > newY) { // up
+      y -= Math.min(MAP_TILE_SIZE, (timePassed / this.speed) * MAP_TILE_SIZE);
+      this.direction = PokemonDirection.up;
     }
 
+    if (timePassed >= this.speed) {
+      this.startMovementFrame = this.frame;
+      this.currentPosition.x = newX;
+      this.currentPosition.y = newY;
+      this.paths.splice(0, 1);
+      if (!this.paths.length) {
+        this.action = PokemonAction.idle;
+      }
+    }
+
+    return {x, y};
+  }
+
+  // TODO: Calculate Y out of frame too
+  isOutOfFrame(x) {
+    return x + POKEMON_TILE_SIZE <= 0 && x >= canvas.width;
+  }
+
+  drawPokemon(x, y) {
+    const column = Math.floor(this.frame / Math.max(150, this.speed / 4)) % 4;
+    context.drawImage(this.image, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
+  }
+
+  drawShinyPokemon(x, y) {
+    if (this.shiny) {
+      const column = Math.floor(this.frame / Math.max(150, this.speed / 4)) % 4;
+      context.drawImage(MyApp.images.list.sparkle, column * POKEMON_TILE_SIZE, this.direction * POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE, x, y, POKEMON_TILE_SIZE, POKEMON_TILE_SIZE);
+    }
+  }
+
+  drawPokemonBar(x, y) {
     const barX = x + (POKEMON_TILE_SIZE / 2) - 23;
     const barY = y + POKEMON_TILE_SIZE;
     context.drawImage(MyApp.images.list.pokemon_bar, barX, barY);
     const barsX = barX + 16;
     const barsSize = 28;
-    // Hit points
     context.fillStyle = 'tomato';
     context.fillRect(barsX, barY + 1, (this.stats.hitpoints / this.maxStats.hitpoints) * barsSize, 2);
-    // Experience
     if (this.level < 99) {
       context.fillStyle = 'deepskyblue';
       context.fillRect(barsX, barY + 4, Math.min(barsSize, (this.xp / this.nextLevel) * barsSize), 2);
@@ -277,6 +297,7 @@ export default class Pokemon {
     }
     CanvasTinyNumber.draw(this.level.toString().padStart(2, '0'), barX + 8, barY + 1);
   }
+
 
   calcDamage(enemy: Pokemon): number {
     // TODO:
