@@ -11,7 +11,6 @@ export default class Team {
   pokemon: Set<Pokemon> = new Set();
   money = 0;
   moneyTick = 0;
-  moneyEl = document.getElementById('player-money');
   map: { spawn: SpawnPosition, boss: SpawnPosition };
   boss: BossPokemon;
   pokemonLevel: Record<string, number> = {};

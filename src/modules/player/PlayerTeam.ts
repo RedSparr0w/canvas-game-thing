@@ -1,18 +1,32 @@
 import { Modal } from 'bootstrap';
 import { GameStatus } from '../GameConstants';
 import { SpawnPosition } from '../pokemons/PokemonEnums';
+import { PokemonNameType } from '../pokemons/PokemonNameType';
 import Team from './Team';
 
 export default class PlayerTeam extends Team {
+  moneyEl = document.getElementById('player-money');
+  pokemonEl = document.getElementById('player-pokemon');
+
   setup(mapData: { spawn: SpawnPosition, boss: SpawnPosition }) {
     super.setup(mapData);
-    // Update out displayed money
+    // Update our displayed values
     this.updateMoney(0);
+    this.updatePokemon();
   }
 
   updateMoney(amount: number) {
     super.updateMoney(amount);
     this.moneyEl.innerText = `Money: $${this.money}`;
+  }
+
+  updatePokemon() {
+    this.pokemonEl.innerText = `Pokemon: ${this.pokemon.size}/50`;
+  }
+
+  addPokemon(name: PokemonNameType): void {
+    super.addPokemon(name);
+    this.updatePokemon();
   }
 
   draw(delta: number) {
