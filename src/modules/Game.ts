@@ -53,7 +53,7 @@ export default class Game {
   draw(delta: number) {
     // If our game isn't running return
     if (this.status === GameStatus.stopped) return;
-    // If the game is paused, our delta should be 0
+    // If the game is paused, our delta should be 0 so nothing happens
     // eslint-disable-next-line no-param-reassign
     if (this.status === GameStatus.paused) delta = 0;
 
