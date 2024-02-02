@@ -45,6 +45,7 @@ export const Maps = {
     teams: [
       {
         spawn: {
+          level: 1,
           x: 0,
           y: 5,
           direction: PokemonDirection.right,
@@ -59,6 +60,7 @@ export const Maps = {
       },
       {
         spawn: {
+          level: 3,
           x: 99,
           y: 5,
           direction: PokemonDirection.left,
@@ -161,7 +163,7 @@ export const Maps = {
           x: 8,
           y: 4,
           direction: PokemonDirection.down,
-          level: 15,
+          level: 18,
         } as SpawnPosition,
         boss: {
           pokemon: 'Blastoise',
