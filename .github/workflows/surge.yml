@@ -14,6 +14,17 @@ jobs:
       pull-requests: write # allow surge-preview to create/update PR comments
     steps:
       - uses: actions/checkout@v2
+      
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies and Build
+        run:  |
+              npm ci
+              npm run build
+
       - name: Deploy to surge
         uses: afc163/surge-preview@v1
         id: preview_step
@@ -23,8 +34,7 @@ jobs:
           dist: build
           failOnError: 'true'
           teardown: 'true'
-          build: |
-            npm install
-            npm run build
+          build: echo "Deploying to surge"
+
       - name: Surge preview URL
         run: echo "url => ${{ steps.preview_step.outputs.preview_url }}"

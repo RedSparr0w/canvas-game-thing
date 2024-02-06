@@ -5,7 +5,7 @@ import Game from './Game';
 import Images from './Images';
 import Menus from './menu/Menus';
 import UI from './UI';
-import { fpsGraph, Settings } from './utilities/Settings';
+import { Settings } from './utilities/Settings';
 
 export default class App {
   // our standarad variables
@@ -44,7 +44,6 @@ export default class App {
       requestAnimationFrame(this.draw.bind(this));
       return;
     }
-    fpsGraph.begin();
 
     delta *= Settings.speed;
 
@@ -59,7 +58,6 @@ export default class App {
     // Draw our cursor last so it is on top of everything
     this.cursor.draw(delta);
 
-    fpsGraph.end();
     // start next frame
     requestAnimationFrame(this.draw.bind(this));
   }
