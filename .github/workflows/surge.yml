@@ -18,6 +18,7 @@ jobs:
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           dist: build
+          failOnError: 'true'
           teardown: 'true'
           build: |
             npm install
