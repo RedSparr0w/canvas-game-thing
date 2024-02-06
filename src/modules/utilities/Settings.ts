@@ -1,4 +1,3 @@
-import * as EssentialsPlugin from '@tweakPane/plugin-essentials';
 import { Pane } from 'tweakPane';
 
 // Our default settings
@@ -22,7 +21,6 @@ const SettingsPane = new Pane({
   title: 'Settings',
   expanded: true,
 });
-SettingsPane.registerPlugin(EssentialsPlugin);
 
 // Display
 const Display = SettingsPane.addFolder({
@@ -73,11 +71,6 @@ Performance.addInput(Settings, 'fps', {
   step: 1,
 }).on('change', (ev) => {
   Settings.mspf = Math.floor(1000 / ev.value) - 1;
-});
-export const fpsGraph: any = Performance.addBlade({
-  view: 'fpsgraph',
-  label: 'fps current',
-  lineCount: 3,
 });
 Performance.addInput(Settings, 'speed', {
   label: 'Game Speed',
