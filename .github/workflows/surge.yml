@@ -14,7 +14,9 @@ jobs:
       pull-requests: write # allow surge-preview to create/update PR comments
     steps:
       - uses: actions/checkout@v2
-      - uses: afc163/surge-preview@v1
+      - name: Deploy to surge
+        uses: afc163/surge-preview@v1
+        id: preview_step
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           dist: build
@@ -23,5 +25,5 @@ jobs:
           build: |
             npm install
             npm run build
-      - name: Get the preview_url
+      - name: Surge preview URL
         run: echo "url => ${{ steps.preview_step.outputs.preview_url }}"
