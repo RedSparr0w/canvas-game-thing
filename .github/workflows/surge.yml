@@ -24,7 +24,7 @@ jobs:
           failOnError: 'true'
           teardown: 'true'
           build: |
-            npm install
+            npm ci
             npm run build
       - name: Surge preview URL
         run: echo "url => ${{ steps.preview_step.outputs.preview_url }}"
